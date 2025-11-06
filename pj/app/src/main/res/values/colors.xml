@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Amber palette -->
+    <color name="amber_50">#FFFBF3</color>
+    <color name="amber_100">#FFEAD5</color>
+    <color name="amber_200">#FFDAB3</color>
+    <color name="amber_500">#FFBB48</color>
+    <color name="amber_600">#FFB300</color>
+    <color name="amber_700">#FFA700</color>
+
+    <!-- Neutrals -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_50">#FFFAFAF9</color>
+    <color name="gray_100">#FFF3F4F6</color>
+    <color name="gray_200">#FFE5E7EB</color>
+    <color name="gray_500">#FF6B7280</color>
+    <color name="gray_600">#FF4B5563</color>
+    <color name="gray_700">#FF374151</color>
+    <color name="gray_800">#FF1F2937</color>
+</resources>

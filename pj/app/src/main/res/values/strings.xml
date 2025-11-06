@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Bookish Bliss Haven</string>
+    <string name="home">Home</string>
+    <string name="catalog">Catalog</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <string name="discover_books">Discover Your Next Favorite Read</string>
+    <string name="explore_catalog">Explore Catalog</string>
+    <string name="join_community">Join Community</string>
+    <string name="featured_picks">Featured Picks</string>
+    <string name="view_all">View All</string>
+    <string name="why_choose_us">Why Choose Us</string>
+    <string name="customer_reviews">What Readers Say</string>
+</resources>
