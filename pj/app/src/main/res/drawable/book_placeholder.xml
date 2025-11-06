@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="300dp"
+    android:viewportWidth="200"
+    android:viewportHeight="300">
+    <!-- Background -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M0,0h200v300h-200z" />
+    <!-- Book icon -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M60,80 L60,220 L140,220 L140,80 Z" />
+    <path
+        android:fillColor="#BDBDBD"
+        android:pathData="M65,85 L65,215 L135,215 L135,85 Z" />
+    <!-- Bookmark -->
+    <path
+        android:fillColor="#5E35B1"
+        android:pathData="M95,85 L95,130 L100,125 L105,130 L105,85 Z" />
+    <!-- Text lines to simulate book cover -->
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M75,140 h50 v3 h-50 z
+                         M75,150 h50 v3 h-50 z
+                         M75,160 h50 v3 h-50 z" />
+</vector>
+

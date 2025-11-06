@@ -25,7 +25,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         holder.price.setText("$"+b.price);
         holder.rating.setRating((float)b.rating);
         holder.reviews.setText("("+b.reviews+")");
-        Glide.with(holder.image).load(b.coverImage).placeholder(R.drawable.ic_launcher_background).into(holder.image);
+
+        // Load image with Glide with better error handling
+        Glide.with(holder.image.getContext())
+            .load(b.coverImage)
+            .placeholder(R.drawable.book_placeholder)
+            .error(R.drawable.book_placeholder)
+            .centerCrop()
+            .into(holder.image);
     }
     public int getItemCount() { return books.size(); }
     public static class BookViewHolder extends RecyclerView.ViewHolder {
