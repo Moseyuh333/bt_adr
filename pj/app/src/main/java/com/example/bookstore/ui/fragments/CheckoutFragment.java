@@ -33,11 +33,13 @@ public class CheckoutFragment extends Fragment {
 
     private Cart cart;
     private EditText voucherCodeInput, nameInput, emailInput, phoneInput, addressInput;
+    private EditText cardNumberInput, cardNameInput, cardExpiryInput, cardCvvInput;
     private TextView subtotalText, taxText, discountText, shippingText, totalText, voucherAppliedText;
     private RadioGroup paymentMethodGroup;
     private RecyclerView itemsRecycler;
     private Button applyVoucherBtn, confirmOrderBtn;
     private SharedPreferences sharedPreferences;
+    private View cardInfoLayout;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +77,13 @@ public class CheckoutFragment extends Fragment {
             paymentMethodGroup = view.findViewById(R.id.payment_method_group);
             confirmOrderBtn = view.findViewById(R.id.confirm_order_btn);
 
+            // Card info fields
+            cardInfoLayout = view.findViewById(R.id.card_info_layout);
+            cardNumberInput = view.findViewById(R.id.card_number_input);
+            cardNameInput = view.findViewById(R.id.card_name_input);
+            cardExpiryInput = view.findViewById(R.id.card_expiry_input);
+            cardCvvInput = view.findViewById(R.id.card_cvv_input);
+
             // Set up cart items recycler
             itemsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             itemsRecycler.setAdapter(new CartAdapter(cart.getItems(), this::updateCheckoutSummary));
@@ -90,6 +99,15 @@ public class CheckoutFragment extends Fragment {
 
             // Apply voucher button
             applyVoucherBtn.setOnClickListener(v -> applyVoucher());
+
+            // Payment method listener to show/hide card info
+            paymentMethodGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                if (checkedId == R.id.payment_online) {
+                    cardInfoLayout.setVisibility(View.VISIBLE);
+                } else {
+                    cardInfoLayout.setVisibility(View.GONE);
+                }
+            });
 
             // Confirm order button
             confirmOrderBtn.setOnClickListener(v -> confirmOrder(view));
@@ -179,6 +197,31 @@ public class CheckoutFragment extends Fragment {
             RadioButton selectedPayment = view.findViewById(selectedPaymentId);
             String paymentMethod = selectedPayment.getText().toString();
 
+            // Validate card info if online payment selected
+            if (selectedPaymentId == R.id.payment_online) {
+                String cardNumber = cardNumberInput.getText().toString().trim();
+                String cardName = cardNameInput.getText().toString().trim();
+                String cardExpiry = cardExpiryInput.getText().toString().trim();
+                String cardCvv = cardCvvInput.getText().toString().trim();
+
+                if (cardNumber.isEmpty() || cardName.isEmpty() || cardExpiry.isEmpty() || cardCvv.isEmpty()) {
+                    Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin thẻ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Basic card number validation (16 digits)
+                if (cardNumber.length() < 13 || cardNumber.length() > 19) {
+                    Toast.makeText(getContext(), "Số thẻ không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // CVV validation (3-4 digits)
+                if (cardCvv.length() < 3 || cardCvv.length() > 4) {
+                    Toast.makeText(getContext(), "CVV không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
             // Create order
             Order order = new Order();
             order.items = cart.getItems();
@@ -216,7 +259,10 @@ public class CheckoutFragment extends Fragment {
 
     private void saveOrder(Order order) {
         try {
-            // Save order details to SharedPreferences (for demo)
+            // Save order using OrderManager
+            com.example.bookstore.utils.OrderManager.getInstance(getContext()).saveOrder(order);
+
+            // Also save to SharedPreferences for backward compatibility
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("last_order_date", order.orderDate);
             editor.putString("last_order_total", String.valueOf(order.total));

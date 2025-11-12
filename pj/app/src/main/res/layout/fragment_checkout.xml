@@ -326,25 +326,128 @@
                 android:layout_marginBottom="16dp">
 
                 <RadioButton
+                    android:id="@+id/payment_cod"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Cash on Delivery"
+                    android:text="Thanh toán khi nhận hàng (COD)"
                     android:textSize="14sp"
                     android:layout_marginBottom="8dp" />
 
                 <RadioButton
+                    android:id="@+id/payment_card"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Credit/Debit Card"
+                    android:text="Thẻ tín dụng/Ghi nợ"
                     android:textSize="14sp"
                     android:layout_marginBottom="8dp" />
 
                 <RadioButton
+                    android:id="@+id/payment_online"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:text="Online Banking"
+                    android:text="Thanh toán online"
                     android:textSize="14sp" />
             </RadioGroup>
+
+            <!-- Card Information (Hidden by default) -->
+            <LinearLayout
+                android:id="@+id/card_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:padding="16dp"
+                android:background="#F5F5F5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thông Tin Thẻ"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Card Number -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/card_number_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Số thẻ (16 số)"
+                        android:inputType="number"
+                        android:maxLength="19"
+                        android:textSize="14sp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Cardholder Name -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp">
+
+                    <EditText
+                        android:id="@+id/card_name_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="Tên chủ thẻ"
+                        android:inputType="textCapWords"
+                        android:textSize="14sp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Expiry and CVV -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp">
+
+                        <EditText
+                            android:id="@+id/card_expiry_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="MM/YY"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:textSize="14sp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp">
+
+                        <EditText
+                            android:id="@+id/card_cvv_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="CVV"
+                            android:inputType="numberPassword"
+                            android:maxLength="4"
+                            android:textSize="14sp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

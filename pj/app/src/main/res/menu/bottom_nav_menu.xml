@@ -5,9 +5,13 @@
         android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
-        android:id="@+id/catalogFragment"
+        android:id="@+id/searchFragment"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search" />
+    <item
+        android:id="@+id/categoryFragment"
         android:icon="@drawable/ic_catalog"
-        android:title="Catalog" />
+        android:title="Categories" />
     <item
         android:id="@+id/cartFragment"
         android:icon="@drawable/ic_cart"

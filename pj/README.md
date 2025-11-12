@@ -11,6 +11,12 @@
 - Đăng xuất an toàn
 - Lưu phiên đăng nhập
 
+### 🔍 Tìm Kiếm & Phân Loại
+- **Tìm kiếm real-time** theo tên sách, tác giả, thể loại
+- **17 danh mục** để lọc sách (Fiction, Romance, Fantasy, v.v.)
+- Cuộn ngang để chọn category
+- Hiển thị số lượng sách mỗi category
+
 ### 📚 40+ Cuốn Sách
 - **Tiểu thuyết** (10 cuốn): The Great Gatsby, 1984, v.v.
 - **Lãng mạn** (5 cuốn): Pride and Prejudice, Outlander, v.v.
@@ -45,6 +51,22 @@
 - **FLAT50K**: Giảm 50,000₫ (đơn tối thiểu 200,000₫)
 - **WELCOME**: Giảm 10,000₫
 - **FIRSTORDER**: Giảm 15% đơn đầu tiên
+
+### 📦 Quản Lý Đơn Hàng
+- **Lịch sử đơn hàng** trong Profile
+- **5 trạng thái** với màu sắc: Pending, Confirmed, Shipped, Delivered, Cancelled
+- **Chi tiết đơn hàng**: Sản phẩm, thông tin khách hàng, thanh toán
+- Theo dõi mã voucher đã sử dụng
+
+### 💳 Thanh Toán Đa Dạng
+- Cash on Delivery (COD)
+- Thẻ tín dụng/Ghi nợ
+- **Thanh toán online** với form nhập thẻ:
+  - Số thẻ (13-19 chữ số)
+  - Tên chủ thẻ
+  - Ngày hết hạn (MM/YY)
+  - CVV (3-4 chữ số)
+  - Validation đầy đủ
 
 - **Book Management**
   - Browse 40+ books across multiple categories

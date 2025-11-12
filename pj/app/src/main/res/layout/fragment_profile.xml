@@ -77,9 +77,18 @@
             android:text="Save"
             android:visibility="gone" />
         <Button
+            android:id="@+id/view_orders_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xem Đơn Hàng"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/amber_600" />
+        <Button
             android:id="@+id/logout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout" />
+            android:text="Logout"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 </ScrollView>
+
