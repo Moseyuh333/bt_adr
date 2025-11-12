@@ -1,11 +1,13 @@
 package com.example.bookstore.adapters;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.bookstore.R;
@@ -22,7 +24,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
         Book b = books.get(position);
         holder.title.setText(b.title);
         holder.author.setText(b.author);
-        holder.price.setText("$"+b.price);
+        holder.price.setText(String.format("%,.0f₫", b.price));
         holder.rating.setRating((float)b.rating);
         holder.reviews.setText("("+b.reviews+")");
 
@@ -33,6 +35,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookViewHolder
             .error(R.drawable.book_placeholder)
             .centerCrop()
             .into(holder.image);
+
+        // Click listener to open book details
+        holder.itemView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("book", b);
+            Navigation.findNavController(v).navigate(R.id.bookDetailFragment, bundle);
+        });
     }
     public int getItemCount() { return books.size(); }
     public static class BookViewHolder extends RecyclerView.ViewHolder {
