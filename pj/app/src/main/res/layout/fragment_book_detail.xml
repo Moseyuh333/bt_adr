@@ -137,16 +137,44 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
-            <EditText
-                android:id="@+id/quantity_input"
-                android:layout_width="100dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:hint="1"
-                android:inputType="number"
-                android:gravity="center"
-                android:textSize="16sp"
+                android:orientation="horizontal"
+                android:background="@drawable/book_placeholder"
                 android:layout_marginBottom="16dp"
-                android:background="@drawable/book_placeholder" />
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/decrease_quantity_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="-"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:textColor="@color/amber_600" />
+
+                <TextView
+                    android:id="@+id/quantity_text"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="1"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:background="#EEEEEE" />
+
+                <Button
+                    android:id="@+id/increase_quantity_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="+"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:textColor="@color/amber_600" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

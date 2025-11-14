@@ -23,10 +23,14 @@ import com.example.bookstore.R;
 import com.example.bookstore.adapters.CartAdapter;
 import com.example.bookstore.models.Cart;
 import com.example.bookstore.models.Order;
+import com.example.bookstore.ui.fragments.AddressFragment;
 import androidx.navigation.Navigation;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CheckoutFragment extends Fragment {
@@ -92,7 +96,14 @@ public class CheckoutFragment extends Fragment {
             nameInput.setText(sharedPreferences.getString("user_name", ""));
             emailInput.setText(sharedPreferences.getString("user_email", ""));
             phoneInput.setText(sharedPreferences.getString("user_phone", ""));
-            addressInput.setText(sharedPreferences.getString("user_address", ""));
+
+            // Load default address from saved addresses or fallback
+            String defaultAddress = loadDefaultAddress();
+            if (defaultAddress != null && !defaultAddress.isEmpty()) {
+                addressInput.setText(defaultAddress);
+            } else {
+                addressInput.setText(sharedPreferences.getString("user_address", ""));
+            }
 
             // Update summary
             updateCheckoutSummary();
@@ -248,8 +259,8 @@ public class CheckoutFragment extends Fragment {
             // Clear cart
             cart.clear();
 
-            // Navigate back to home
-            Navigation.findNavController(view).navigate(R.id.homeFragment);
+            // Navigate back to cart (not home)
+            Navigation.findNavController(view).navigate(R.id.action_checkoutFragment_to_cartFragment);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,6 +282,34 @@ public class CheckoutFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private String loadDefaultAddress() {
+        try {
+            String json = sharedPreferences.getString("user_addresses", "");
+            if (json.isEmpty()) {
+                return null;
+            }
+
+            Gson gson = new Gson();
+            List<AddressFragment.Address> addresses = gson.fromJson(json,
+                new TypeToken<List<AddressFragment.Address>>() {}.getType());
+
+            if (addresses != null) {
+                for (AddressFragment.Address addr : addresses) {
+                    if (addr.isDefault) {
+                        return addr.address;
+                    }
+                }
+                // If no default found, return first address
+                if (!addresses.isEmpty()) {
+                    return addresses.get(0).address;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 

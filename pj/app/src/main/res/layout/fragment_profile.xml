@@ -84,6 +84,13 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/amber_600" />
         <Button
+            android:id="@+id/manage_addresses_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quản lý địa chỉ"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/amber_600" />
+        <Button
             android:id="@+id/logout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

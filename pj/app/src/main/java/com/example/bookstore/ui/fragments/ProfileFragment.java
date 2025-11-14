@@ -15,7 +15,7 @@ import com.example.bookstore.models.User;
 
 public class ProfileFragment extends Fragment {
     private EditText nameEdit, emailEdit, phoneEdit, addressEdit;
-    private Button editBtn, saveBtn, logoutBtn, viewOrdersBtn;
+    private Button editBtn, saveBtn, logoutBtn, viewOrdersBtn, manageAddressesBtn;
     private User user;
     private SharedPreferences sharedPreferences;
 
@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
             saveBtn = view.findViewById(R.id.save_btn);
             logoutBtn = view.findViewById(R.id.logout_btn);
             viewOrdersBtn = view.findViewById(R.id.view_orders_btn);
+            manageAddressesBtn = view.findViewById(R.id.manage_addresses_btn);
 
             if (nameEdit != null && editBtn != null && saveBtn != null) {
                 // Load user data from SharedPreferences
@@ -76,6 +77,13 @@ public class ProfileFragment extends Fragment {
                 if (viewOrdersBtn != null) {
                     viewOrdersBtn.setOnClickListener(v -> {
                         Navigation.findNavController(v).navigate(R.id.ordersFragment);
+                    });
+                }
+
+                // Manage Addresses button
+                if (manageAddressesBtn != null) {
+                    manageAddressesBtn.setOnClickListener(v -> {
+                        Navigation.findNavController(v).navigate(R.id.addressFragment);
                     });
                 }
 

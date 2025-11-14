@@ -24,12 +24,13 @@ import com.example.bookstore.models.Cart;
 public class BookDetailFragment extends Fragment {
 
     private Book book;
-    private EditText quantityInput;
+    private TextView quantityText;
     private TextView priceText, ratingText, reviewsText, descriptionText, authorText, categoryText;
     private ImageView bookImage;
     private RatingBar ratingBar;
-    private Button addToCartBtn;
+    private Button addToCartBtn, decreaseBtn, increaseBtn;
     private Cart cart;
+    private int currentQuantity = 1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +65,9 @@ public class BookDetailFragment extends Fragment {
             reviewsText = view.findViewById(R.id.detail_reviews_count);
             descriptionText = view.findViewById(R.id.detail_book_description);
             categoryText = view.findViewById(R.id.detail_book_category);
-            quantityInput = view.findViewById(R.id.quantity_input);
+            quantityText = view.findViewById(R.id.quantity_text);
+            decreaseBtn = view.findViewById(R.id.decrease_quantity_btn);
+            increaseBtn = view.findViewById(R.id.increase_quantity_btn);
             addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
 
             // Set book details
@@ -88,7 +91,26 @@ public class BookDetailFragment extends Fragment {
             }
 
             // Set default quantity
-            quantityInput.setText("1");
+            currentQuantity = 1;
+            updateQuantityDisplay();
+
+            // Decrease quantity button
+            if (decreaseBtn != null) {
+                decreaseBtn.setOnClickListener(v -> {
+                    if (currentQuantity > 1) {
+                        currentQuantity--;
+                        updateQuantityDisplay();
+                    }
+                });
+            }
+
+            // Increase quantity button
+            if (increaseBtn != null) {
+                increaseBtn.setOnClickListener(v -> {
+                    currentQuantity++;
+                    updateQuantityDisplay();
+                });
+            }
 
             // Add to cart button
             addToCartBtn.setOnClickListener(v -> handleAddToCart(view));
@@ -101,14 +123,7 @@ public class BookDetailFragment extends Fragment {
 
     private void handleAddToCart(View view) {
         try {
-            String quantityStr = quantityInput.getText().toString().trim();
-            if (quantityStr.isEmpty()) {
-                Toast.makeText(getContext(), "Please enter quantity", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            int quantity = Integer.parseInt(quantityStr);
-            if (quantity <= 0) {
+            if (currentQuantity <= 0) {
                 Toast.makeText(getContext(), "Quantity must be greater than 0", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -118,14 +133,20 @@ public class BookDetailFragment extends Fragment {
                 return;
             }
 
-            cart.addItem(book, quantity);
-            Toast.makeText(getContext(), quantity + " copy(ies) added to cart", Toast.LENGTH_SHORT).show();
+            cart.addItem(book, currentQuantity);
+            Toast.makeText(getContext(), currentQuantity + " copy(ies) added to cart", Toast.LENGTH_SHORT).show();
 
             // Go back to previous screen
             Navigation.findNavController(view).popBackStack();
 
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Invalid quantity", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error adding to cart", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateQuantityDisplay() {
+        if (quantityText != null) {
+            quantityText.setText(String.valueOf(currentQuantity));
         }
     }
 }
