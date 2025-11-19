@@ -20,15 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.bookstore.R;
+import com.example.bookstore.adapters.BookAdapter;
 import com.example.bookstore.adapters.ReviewAdapter;
 import com.example.bookstore.models.Book;
 import com.example.bookstore.models.Cart;
 import com.example.bookstore.models.Review;
+import com.example.bookstore.utils.BookDataLoader;
 import com.example.bookstore.utils.FavoritesManager;
 import com.example.bookstore.utils.RecentlyViewedManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookDetailFragment extends Fragment {
 
@@ -38,7 +41,7 @@ public class BookDetailFragment extends Fragment {
     private ImageView bookImage;
     private RatingBar ratingBar;
     private Button addToCartBtn, decreaseBtn, increaseBtn, buyNowBtn, favoriteBtn;
-    private RecyclerView reviewsRecycler;
+    private RecyclerView reviewsRecycler, relatedBooksRecycler;
     private Cart cart;
     private FavoritesManager favoritesManager;
     private RecentlyViewedManager recentlyViewedManager;
@@ -90,6 +93,7 @@ public class BookDetailFragment extends Fragment {
             buyNowBtn = view.findViewById(R.id.buy_now_btn);
             favoriteBtn = view.findViewById(R.id.favorite_btn);
             reviewsRecycler = view.findViewById(R.id.reviews_recycler);
+            relatedBooksRecycler = view.findViewById(R.id.related_books_recycler);
 
             // Set book details
             titleText.setText(book.title);
@@ -214,6 +218,9 @@ public class BookDetailFragment extends Fragment {
 
         // Load reviews
         loadReviews();
+
+        // Load related books
+        loadRelatedBooks();
     }
 
     private void loadReviews() {
@@ -221,6 +228,32 @@ public class BookDetailFragment extends Fragment {
             List<Review> reviews = generateSampleReviews();
             reviewsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             reviewsRecycler.setAdapter(new ReviewAdapter(reviews));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadRelatedBooks() {
+        try {
+            List<Book> allBooks = BookDataLoader.getAllBooks();
+            List<Book> relatedBooks = new ArrayList<>();
+
+            // Filter books with same category, excluding current book
+            for (Book b : allBooks) {
+                if (b.category.equals(book.category) && b.id != book.id) {
+                    relatedBooks.add(b);
+                }
+            }
+
+            // Limit to 6 related books
+            if (relatedBooks.size() > 6) {
+                relatedBooks = relatedBooks.subList(0, 6);
+            }
+
+            if (!relatedBooks.isEmpty()) {
+                relatedBooksRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                relatedBooksRecycler.setAdapter(new BookAdapter(relatedBooks));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

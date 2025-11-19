@@ -56,19 +56,36 @@ public class LoginFragment extends Fragment {
             return;
         }
 
+        // Check for admin credentials
+        if (email.equals("admin") && password.equals("admin")) {
+            sharedPreferences.edit()
+                .putBoolean("is_logged_in", true)
+                .putBoolean("is_admin", true)
+                .putString("user_email", "admin@bookstore.com")
+                .putString("user_name", "Admin")
+                .apply();
+            Toast.makeText(getContext(), "Chào mừng Admin!", Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(requireView()).navigate(R.id.adminDashboardFragment);
+            return;
+        }
+
         // Kiểm tra thông tin đăng nhập (demo - kiểm tra với dữ liệu đã lưu)
         String savedEmail = sharedPreferences.getString("user_email", "");
         String savedPassword = sharedPreferences.getString("user_password", "");
 
         if (email.equals(savedEmail) && password.equals(savedPassword)) {
             // Đăng nhập thành công
-            sharedPreferences.edit().putBoolean("is_logged_in", true).apply();
+            sharedPreferences.edit()
+                .putBoolean("is_logged_in", true)
+                .putBoolean("is_admin", false)
+                .apply();
             Toast.makeText(getContext(), "Login successful!", Toast.LENGTH_SHORT).show();
             Navigation.findNavController(requireView()).navigate(R.id.homeFragment);
         } else if (email.equals("demo@bookstore.com") && password.equals("demo123")) {
             // Tài khoản demo
             sharedPreferences.edit()
                 .putBoolean("is_logged_in", true)
+                .putBoolean("is_admin", false)
                 .putString("user_email", email)
                 .putString("user_name", "Demo User")
                 .apply();

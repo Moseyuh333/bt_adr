@@ -1,4 +1,4 @@
-﻿﻿﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -18,6 +18,11 @@
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminDashboardFragment"
+            app:destination="@id/adminDashboardFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -128,4 +133,62 @@
         android:id="@+id/orderDetailFragment"
         android:name="com.example.bookstore.ui.fragments.OrderDetailFragment"
         android:label="Order Details" />
+
+    <!-- Admin Fragments -->
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminDashboardFragment"
+        android:label="Admin Dashboard">
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminProductsFragment"
+            app:destination="@id/adminProductsFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminOrdersFragment"
+            app:destination="@id/adminOrdersFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminCustomersFragment"
+            app:destination="@id/adminCustomersFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/adminDashboardFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminProductsFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminProductsFragment"
+        android:label="Product Management">
+        <action
+            android:id="@+id/action_adminProductsFragment_to_adminEditProductFragment"
+            app:destination="@id/adminEditProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminEditProductFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminEditProductFragment"
+        android:label="Edit Product" />
+
+    <fragment
+        android:id="@+id/adminOrdersFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminOrdersFragment"
+        android:label="Order Management">
+        <action
+            android:id="@+id/action_adminOrdersFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminCustomersFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminCustomersFragment"
+        android:label="Customer Management">
+        <action
+            android:id="@+id/action_adminCustomersFragment_to_adminCustomerDetailFragment"
+            app:destination="@id/adminCustomerDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/adminCustomerDetailFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminCustomerDetailFragment"
+        android:label="Customer Details" />
 </navigation>
