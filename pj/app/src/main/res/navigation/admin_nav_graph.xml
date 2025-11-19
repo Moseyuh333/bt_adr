@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/adminDashboardFragment">
+
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminDashboardFragment"
+        android:label="Admin Dashboard" />
+
+    <fragment
+        android:id="@+id/adminProductsFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminProductsFragment"
+        android:label="Quản lý sản phẩm" />
+
+    <fragment
+        android:id="@+id/adminOrdersFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminOrdersFragment"
+        android:label="Quản lý đơn hàng" />
+
+    <fragment
+        android:id="@+id/adminCustomersFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminCustomersFragment"
+        android:label="Quản lý khách hàng" />
+
+    <fragment
+        android:id="@+id/adminCustomerDetailFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminCustomerDetailFragment"
+        android:label="Chi tiết khách hàng" />
+
+    <fragment
+        android:id="@+id/adminEditProductFragment"
+        android:name="com.example.bookstore.ui.fragments.AdminEditProductFragment"
+        android:label="Sửa sản phẩm" />
+
+</navigation>

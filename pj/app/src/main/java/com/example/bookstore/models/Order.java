@@ -1,62 +1,39 @@
 package com.example.bookstore.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Order {
-    public int id;
-    public List<CartItem> items;
-    public String orderDate;
-    public String deliveryDate;
-    public String status; // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED, RETURNED
-    public double subtotal;
-    public double tax;
-    public double discount;
-    public double shippingFee;
-    public double total;
-    public String voucherCode;
-    public String customerName;
-    public String customerEmail;
-    public String customerPhone;
-    public String deliveryAddress;
-    public String paymentMethod; // CASH, CARD, ONLINE
+    private String id;
+    private String customerId;
+    private String customerName;
+    private String shippingAddress;
+    private String status;
+    private double totalAmount;
+    private String orderDate;
 
-    // New fields for order tracking
-    public String cancelReason;
-    public String returnReason;
-    public List<String> returnMediaUrls; // URLs for images/videos
-    public boolean isConfirmedReceived; // User confirmed receiving the order
-    public String confirmedReceivedDate;
-    public OrderReview review;
-
-    public Order() {
-        this.items = new ArrayList<>();
-        this.status = "PENDING";
-        this.tax = 0;
-        this.discount = 0;
-        this.shippingFee = 0;
-        this.returnMediaUrls = new ArrayList<>();
-        this.isConfirmedReceived = false;
+    public Order(String id, String customerId, String customerName, String shippingAddress, String status, double totalAmount, String orderDate) {
+        this.id = id;
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.shippingAddress = shippingAddress;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.orderDate = orderDate;
     }
 
-    public double calculateTotal() {
-        this.subtotal = 0;
-        for (CartItem item : items) {
-            this.subtotal += item.getTotalPrice();
-        }
-        this.tax = 0; // No tax for VND
-        this.total = this.subtotal + this.tax + this.shippingFee - this.discount;
-        return this.total;
-    }
+    // Getters
+    public String getId() { return id; }
+    public String getCustomerId() { return customerId; }
+    public String getCustomerName() { return customerName; }
+    public String getShippingAddress() { return shippingAddress; }
+    public String getStatus() { return status; }
+    public double getTotalAmount() { return totalAmount; }
+    public String getOrderDate() { return orderDate; }
 
-    public void applyDiscount(double discountAmount) {
-        this.discount = discountAmount;
-        calculateTotal();
-    }
-
-    public void setShippingFee(double fee) {
-        this.shippingFee = fee;
-        calculateTotal();
-    }
+    // Setters
+    public void setId(String id) { this.id = id; }
+    public void setCustomerId(String customerId) { this.customerId = customerId; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public void setShippingAddress(String shippingAddress) { this.shippingAddress = shippingAddress; }
+    public void setStatus(String status) { this.status = status; }
+    public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
+    public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
 }
-

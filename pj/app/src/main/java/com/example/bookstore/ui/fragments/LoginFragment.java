@@ -1,6 +1,7 @@
 package com.example.bookstore.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import com.example.bookstore.AdminActivity;
 import com.example.bookstore.R;
 
 public class LoginFragment extends Fragment {
@@ -65,7 +67,11 @@ public class LoginFragment extends Fragment {
                 .putString("user_name", "Admin")
                 .apply();
             Toast.makeText(getContext(), "Chào mừng Admin!", Toast.LENGTH_SHORT).show();
-            Navigation.findNavController(requireView()).navigate(R.id.adminDashboardFragment);
+
+            // Chuyển sang AdminActivity thay vì dùng nav graph của user
+            Intent intent = new Intent(requireActivity(), AdminActivity.class);
+            startActivity(intent);
+            requireActivity().finish();
             return;
         }
 
@@ -96,4 +102,3 @@ public class LoginFragment extends Fragment {
         }
     }
 }
-

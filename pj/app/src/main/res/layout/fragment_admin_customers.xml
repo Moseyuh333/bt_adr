@@ -11,21 +11,10 @@
         android:layout_height="wrap_content"
         android:background="@color/amber_600"
         android:padding="16dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <Button
-            android:id="@+id/back_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="←"
-            android:textSize="24sp"
-            android:textColor="@color/white"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="👥 Quản Lý Khách Hàng"
             android:textSize="24sp"
@@ -33,25 +22,14 @@
             android:textColor="@color/white"
             android:textAlignment="center" />
 
-        <View
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-    </LinearLayout>
-
-    <!-- Search -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:background="@color/white">
-
-        <EditText
-            android:id="@+id/search_customer_input"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Tìm kiếm khách hàng..."
-            android:padding="12dp"
-            android:background="#F5F5F5" />
+            android:layout_height="wrap_content"
+            android:text="Xem, sửa, khóa tài khoản khách hàng"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 
     <!-- Customers List -->
@@ -60,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:clipToPadding="false" />
 
 </LinearLayout>
-

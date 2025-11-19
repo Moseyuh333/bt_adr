@@ -17,6 +17,21 @@ public class Book implements Serializable {
     public boolean inStock;
     public int quantity; // Số lượng tồn kho
 
+    // Constructor cho admin (với String id)
+    public Book(String id, String title, String author, double price, String coverImage, String description, String category, double rating, int stock) {
+        this.id = Integer.parseInt(id);
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.description = description;
+        this.coverImage = coverImage;
+        this.rating = rating;
+        this.reviews = 0;
+        this.category = category;
+        this.quantity = stock;
+        this.inStock = stock > 0;
+    }
+
     public Book(int id, String title, String author, double price, String description,
                 String coverImage, double rating, int reviews, String category, boolean inStock) {
         this.id = id;
@@ -58,5 +73,6 @@ public class Book implements Serializable {
     public int getReviews() { return reviews; }
     public String getCategory() { return category; }
     public boolean isInStock() { return inStock; }
+    public int getStock() { return quantity; }
+    public int getQuantity() { return quantity; }
 }
-
