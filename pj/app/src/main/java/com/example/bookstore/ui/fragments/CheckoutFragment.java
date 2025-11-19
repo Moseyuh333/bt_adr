@@ -41,7 +41,7 @@ public class CheckoutFragment extends Fragment {
     private TextView subtotalText, taxText, discountText, shippingText, totalText, voucherAppliedText;
     private RadioGroup paymentMethodGroup;
     private RecyclerView itemsRecycler;
-    private Button applyVoucherBtn, confirmOrderBtn;
+    private Button applyVoucherBtn, confirmOrderBtn, selectAddressBtn;
     private SharedPreferences sharedPreferences;
     private View cardInfoLayout;
 
@@ -79,6 +79,7 @@ public class CheckoutFragment extends Fragment {
             phoneInput = view.findViewById(R.id.checkout_phone);
             addressInput = view.findViewById(R.id.checkout_address);
             paymentMethodGroup = view.findViewById(R.id.payment_method_group);
+            selectAddressBtn = view.findViewById(R.id.select_saved_address_btn);
             confirmOrderBtn = view.findViewById(R.id.confirm_order_btn);
 
             // Card info fields
@@ -110,6 +111,9 @@ public class CheckoutFragment extends Fragment {
 
             // Apply voucher button
             applyVoucherBtn.setOnClickListener(v -> applyVoucher());
+
+            // Select saved address button
+            selectAddressBtn.setOnClickListener(v -> showSavedAddresses());
 
             // Payment method listener to show/hide card info
             paymentMethodGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -310,6 +314,46 @@ public class CheckoutFragment extends Fragment {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void showSavedAddresses() {
+        try {
+            String json = sharedPreferences.getString("user_addresses", "");
+            if (json.isEmpty()) {
+                Toast.makeText(getContext(), "Chưa có địa chỉ nào được lưu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Gson gson = new Gson();
+            List<AddressFragment.Address> addresses = gson.fromJson(json,
+                new TypeToken<List<AddressFragment.Address>>() {}.getType());
+
+            if (addresses == null || addresses.isEmpty()) {
+                Toast.makeText(getContext(), "Chưa có địa chỉ nào được lưu", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Create array of address strings
+            String[] addressArray = new String[addresses.size()];
+            for (int i = 0; i < addresses.size(); i++) {
+                AddressFragment.Address addr = addresses.get(i);
+                addressArray[i] = addr.description + ": " + addr.address;
+            }
+
+            // Show dialog with address options
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+            builder.setTitle("Chọn địa chỉ giao hàng");
+            builder.setItems(addressArray, (dialog, which) -> {
+                addressInput.setText(addresses.get(which).address);
+                Toast.makeText(getContext(), "Địa chỉ đã được chọn", Toast.LENGTH_SHORT).show();
+            });
+            builder.setNegativeButton("Hủy", null);
+            builder.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Lỗi khi tải địa chỉ", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

@@ -128,20 +128,46 @@
                 android:layout_marginBottom="16dp"
                 android:lineSpacingExtra="4dp" />
 
+            <!-- Stock Availability -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                android:background="#F5F5F5">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tình trạng kho:"
+                    android:textSize="14sp"
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:id="@+id/stock_status_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Còn 100 cuốn"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#4CAF50" />
+            </LinearLayout>
+
             <!-- Quantity Selection -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Quantity"
+                android:text="Số lượng"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@drawable/book_placeholder"
                 android:layout_marginBottom="16dp"
                 android:gravity="center_vertical">
 
@@ -150,31 +176,58 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:text="-"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:textColor="@color/amber_600" />
+                    android:background="#E0E0E0"
+                    android:textColor="#424242" />
 
                 <TextView
                     android:id="@+id/quantity_text"
-                    android:layout_width="48dp"
+                    android:layout_width="80dp"
                     android:layout_height="48dp"
                     android:text="1"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:background="#EEEEEE" />
+                    android:background="#FFFFFF"
+                    android:textColor="#212121"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp" />
 
                 <Button
                     android:id="@+id/increase_quantity_btn"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:text="+"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:textColor="@color/amber_600" />
+                    android:background="#FF6F00"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Customer Reviews Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đánh giá khách hàng"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviews_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="16dp" />
 
         </LinearLayout>
     </ScrollView>

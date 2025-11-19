@@ -15,6 +15,7 @@ public class Book implements Serializable {
     public double rating;
     public int reviews;
     public boolean inStock;
+    public int quantity; // Số lượng tồn kho
 
     public Book(int id, String title, String author, double price, String description,
                 String coverImage, double rating, int reviews, String category, boolean inStock) {
@@ -28,6 +29,22 @@ public class Book implements Serializable {
         this.reviews = reviews;
         this.category = category;
         this.inStock = inStock;
+        this.quantity = inStock ? 100 : 0; // Mặc định 100 cái nếu có sẵn, 0 nếu hết
+    }
+
+    public Book(int id, String title, String author, double price, String description,
+                String coverImage, double rating, int reviews, String category, boolean inStock, int quantity) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.description = description;
+        this.coverImage = coverImage;
+        this.rating = rating;
+        this.reviews = reviews;
+        this.category = category;
+        this.inStock = inStock;
+        this.quantity = quantity;
     }
 
     // Getters
