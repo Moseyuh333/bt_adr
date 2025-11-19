@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/white">
+    android:background="#F5F5F5">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/amber_600"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🛒 Thanh Toán"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hoàn tất đơn hàng của bạn"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:alpha="0.9"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,38 +41,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Order Items -->
-            <TextView
+            <!-- Order Items Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sản phẩm đặt hàng"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/checkout_items_recycler"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📦 Sản phẩm đặt hàng"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="12dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/checkout_items_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Voucher Section Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <!-- Voucher Section -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mã giảm giá"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="🎫 Mã giảm giá"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,31 +125,39 @@
                     android:textColor="@color/white" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/voucher_applied_text"
+                    <TextView
+                        android:id="@+id/voucher_applied_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✓ Voucher applied: SAVE10"
+                        android:textSize="14sp"
+                        android:textColor="#4CAF50"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Order Summary Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="✓ Voucher applied: SAVE10"
-                android:textSize="14sp"
-                android:textColor="#4CAF50"
-                android:visibility="gone"
-                android:layout_marginBottom="16dp" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <!-- Order Summary -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tổng đơn hàng"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="💰 Tổng đơn hàng"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="12dp" />
 
             <!-- Subtotal -->
             <LinearLayout
@@ -222,134 +280,160 @@
                     android:textStyle="bold"
                     android:textColor="#FF6F00"
                     android:paddingEnd="12dp" />
-            </LinearLayout>
+                </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Delivery Information -->
-            <TextView
+            <!-- Delivery Information Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thông tin giao hàng"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="16dp">
 
-            <!-- Name -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp">
-
-                <EditText
-                    android:id="@+id/checkout_name"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Full Name"
-                    android:inputType="text"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Email -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp">
-
-                <EditText
-                    android:id="@+id/checkout_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Phone -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp">
-
-                <EditText
-                    android:id="@+id/checkout_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:hint="Phone Number"
-                    android:inputType="phone"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Address -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Địa chỉ giao hàng"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <Button
-                    android:id="@+id/select_saved_address_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:text="Chọn địa chỉ đã lưu"
-                    android:textSize="12sp"
-                    android:background="@color/amber_600"
-                    android:textColor="@color/white"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📍 Thông tin giao hàng"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="12dp" />
 
-            <com.google.android.material.textfield.TextInputLayout
+                    <!-- Name -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="Họ và Tên"
+                        app:hintEnabled="true"
+                        app:hintAnimationEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/checkout_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Email -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="Email"
+                        app:hintEnabled="true"
+                        app:hintAnimationEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/checkout_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Phone -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="Số Điện Thoại"
+                        app:hintEnabled="true"
+                        app:hintAnimationEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/checkout_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Address -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Địa chỉ giao hàng"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#424242" />
+
+                        <Button
+                            android:id="@+id/select_saved_address_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="📍 Chọn địa chỉ"
+                            android:textSize="11sp"
+                            android:background="@color/amber_600"
+                            android:textColor="@color/white"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Địa chỉ giao hàng"
+                        app:hintEnabled="true"
+                        app:hintAnimationEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/checkout_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="80dp"
+                            android:inputType="textMultiLine"
+                            android:gravity="top|start"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Payment Method Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
                 android:layout_marginBottom="16dp">
 
-                <EditText
-                    android:id="@+id/checkout_address"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="96dp"
-                    android:hint="Delivery Address"
-                    android:inputType="textMultiLine"
-                    android:gravity="top"
-                    android:textSize="14sp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="8dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <!-- Payment Method -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Phương thức thanh toán"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="💳 Phương thức thanh toán"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="12dp" />
 
-            <RadioGroup
-                android:id="@+id/payment_method_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                    <RadioGroup
+                        android:id="@+id/payment_method_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
 
                 <RadioButton
                     android:id="@+id/payment_cod"
@@ -370,125 +454,133 @@
                 <RadioButton
                     android:id="@+id/payment_online"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:text="Thanh toán online"
-                    android:textSize="14sp" />
-            </RadioGroup>
-
-            <!-- Card Information (Hidden by default) -->
-            <LinearLayout
-                android:id="@+id/card_info_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:padding="16dp"
-                android:background="#F5F5F5">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Thông Tin Thẻ"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Card Number -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp">
-
-                    <EditText
-                        android:id="@+id/card_number_input"
-                        android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:hint="Số thẻ (16 số)"
-                        android:inputType="number"
-                        android:maxLength="19"
-                        android:textSize="14sp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:text="Thanh toán online"
+                        android:textSize="14sp" />
+                    </RadioGroup>
 
-                <!-- Cardholder Name -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp">
-
-                    <EditText
-                        android:id="@+id/card_name_input"
+                    <!-- Card Information (Hidden by default) -->
+                    <LinearLayout
+                        android:id="@+id/card_info_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:hint="Tên chủ thẻ"
-                        android:inputType="textCapWords"
-                        android:textSize="14sp"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Expiry and CVV -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="8dp">
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:layout_marginTop="8dp"
+                        android:padding="16dp"
+                        android:background="#F5F5F5">
 
-                        <EditText
-                            android:id="@+id/card_expiry_input"
+                        <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:hint="MM/YY"
-                            android:inputType="number"
-                            android:maxLength="5"
-                            android:textSize="14sp"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="wrap_content"
+                            android:text="Thông Tin Thẻ"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="8dp">
-
-                        <EditText
-                            android:id="@+id/card_cvv_input"
+                        <!-- Card Number -->
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:hint="CVV"
-                            android:inputType="numberPassword"
-                            android:maxLength="4"
-                            android:textSize="14sp"
-                            android:paddingStart="12dp"
-                            android:paddingEnd="12dp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp">
+
+                            <EditText
+                                android:id="@+id/card_number_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Số thẻ (16 số)"
+                                android:inputType="number"
+                                android:maxLength="19"
+                                android:textSize="14sp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Cardholder Name -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp">
+
+                            <EditText
+                                android:id="@+id/card_name_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:hint="Tên chủ thẻ"
+                                android:inputType="textCapWords"
+                                android:textSize="14sp"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Expiry and CVV -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="8dp">
+
+                                <EditText
+                                    android:id="@+id/card_expiry_input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:hint="MM/YY"
+                                    android:inputType="number"
+                                    android:maxLength="5"
+                                    android:textSize="14sp"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp">
+
+                                <EditText
+                                    android:id="@+id/card_cvv_input"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:hint="CVV"
+                                    android:inputType="numberPassword"
+                                    android:maxLength="4"
+                                    android:textSize="14sp"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp" />
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
 
     <!-- Confirm Order Button -->
-    <Button
-        android:id="@+id/confirm_order_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Confirm Order"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:background="@color/amber_600"
-        android:layout_marginTop="8dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="16dp"
+        android:elevation="8dp">
+
+        <Button
+            android:id="@+id/confirm_order_btn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="✅ Xác Nhận Đặt Hàng"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@color/amber_600" />
+    </LinearLayout>
 
 </LinearLayout>
 

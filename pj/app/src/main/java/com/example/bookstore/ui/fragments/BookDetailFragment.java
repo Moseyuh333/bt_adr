@@ -24,6 +24,8 @@ import com.example.bookstore.adapters.ReviewAdapter;
 import com.example.bookstore.models.Book;
 import com.example.bookstore.models.Cart;
 import com.example.bookstore.models.Review;
+import com.example.bookstore.utils.FavoritesManager;
+import com.example.bookstore.utils.RecentlyViewedManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +37,11 @@ public class BookDetailFragment extends Fragment {
     private TextView priceText, ratingText, reviewsText, descriptionText, authorText, categoryText;
     private ImageView bookImage;
     private RatingBar ratingBar;
-    private Button addToCartBtn, decreaseBtn, increaseBtn;
+    private Button addToCartBtn, decreaseBtn, increaseBtn, buyNowBtn, favoriteBtn;
     private RecyclerView reviewsRecycler;
     private Cart cart;
+    private FavoritesManager favoritesManager;
+    private RecentlyViewedManager recentlyViewedManager;
     private int currentQuantity = 1;
 
     @Override
@@ -51,6 +55,8 @@ public class BookDetailFragment extends Fragment {
 
         try {
             cart = Cart.getInstance();
+            favoritesManager = FavoritesManager.getInstance(requireContext());
+            recentlyViewedManager = RecentlyViewedManager.getInstance(requireContext());
 
             // Get book from arguments
             if (getArguments() != null) {
@@ -62,6 +68,9 @@ public class BookDetailFragment extends Fragment {
                 Navigation.findNavController(view).popBackStack();
                 return;
             }
+
+            // Add to recently viewed
+            recentlyViewedManager.addRecentlyViewed(book);
 
             // Initialize views
             bookImage = view.findViewById(R.id.detail_book_image);
@@ -78,6 +87,8 @@ public class BookDetailFragment extends Fragment {
             decreaseBtn = view.findViewById(R.id.decrease_quantity_btn);
             increaseBtn = view.findViewById(R.id.increase_quantity_btn);
             addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
+            buyNowBtn = view.findViewById(R.id.buy_now_btn);
+            favoriteBtn = view.findViewById(R.id.favorite_btn);
             reviewsRecycler = view.findViewById(R.id.reviews_recycler);
 
             // Set book details
@@ -133,6 +144,13 @@ public class BookDetailFragment extends Fragment {
 
             // Add to cart button
             addToCartBtn.setOnClickListener(v -> handleAddToCart(view));
+
+            // Buy now button
+            buyNowBtn.setOnClickListener(v -> handleBuyNow(view));
+
+            // Favorite button
+            updateFavoriteButton();
+            favoriteBtn.setOnClickListener(v -> handleToggleFavorite());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,6 +248,70 @@ public class BookDetailFragment extends Fragment {
         }
 
         return reviews;
+    }
+
+    private void handleBuyNow(View view) {
+        try {
+            if (currentQuantity <= 0) {
+                Toast.makeText(getContext(), "Số lượng phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!book.inStock || book.quantity <= 0) {
+                Toast.makeText(getContext(), "Sản phẩm hết hàng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (currentQuantity > book.quantity) {
+                Toast.makeText(getContext(),
+                    String.format("Chỉ còn %d cuốn trong kho", book.quantity),
+                    Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Clear cart and add only this book
+            cart.clear();
+            cart.addItem(book, currentQuantity);
+
+            // Navigate to checkout
+            Navigation.findNavController(view).navigate(R.id.checkoutFragment);
+
+            Toast.makeText(getContext(), "Chuyển đến thanh toán...", Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Lỗi khi mua hàng", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void handleToggleFavorite() {
+        try {
+            favoritesManager.toggleFavorite(book);
+            updateFavoriteButton();
+
+            if (favoritesManager.isFavorite(book.id)) {
+                Toast.makeText(getContext(), "❤️ Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "💔 Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Lỗi", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    private void updateFavoriteButton() {
+        try {
+            if (favoritesManager.isFavorite(book.id)) {
+                favoriteBtn.setText("❤️ Đã yêu thích");
+                favoriteBtn.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+            } else {
+                favoriteBtn.setText("🤍 Thêm vào yêu thích");
+                favoriteBtn.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -16,6 +16,7 @@ import com.example.bookstore.models.User;
 public class ProfileFragment extends Fragment {
     private EditText nameEdit, emailEdit, phoneEdit, addressEdit;
     private Button editBtn, saveBtn, logoutBtn, viewOrdersBtn, manageAddressesBtn;
+    private Button viewFavoritesBtn, viewRecentlyViewedBtn;
     private User user;
     private SharedPreferences sharedPreferences;
 
@@ -40,6 +41,24 @@ public class ProfileFragment extends Fragment {
             logoutBtn = view.findViewById(R.id.logout_btn);
             viewOrdersBtn = view.findViewById(R.id.view_orders_btn);
             manageAddressesBtn = view.findViewById(R.id.manage_addresses_btn);
+            viewFavoritesBtn = view.findViewById(R.id.view_favorites_btn);
+            viewRecentlyViewedBtn = view.findViewById(R.id.view_recently_viewed_btn);
+
+            // View Favorites button
+            if (viewFavoritesBtn != null) {
+                viewFavoritesBtn.setOnClickListener(v -> {
+                    // Navigate to home and scroll to favorites (or create dedicated fragment)
+                    Navigation.findNavController(v).navigate(R.id.homeFragment);
+                });
+            }
+
+            // View Recently Viewed button
+            if (viewRecentlyViewedBtn != null) {
+                viewRecentlyViewedBtn.setOnClickListener(v -> {
+                    // Navigate to home and scroll to recently viewed
+                    Navigation.findNavController(v).navigate(R.id.homeFragment);
+                });
+            }
 
             if (nameEdit != null && editBtn != null && saveBtn != null) {
                 // Load user data from SharedPreferences

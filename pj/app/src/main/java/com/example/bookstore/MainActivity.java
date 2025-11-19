@@ -29,7 +29,48 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav = findViewById(R.id.bottom_navigation);
 
                 if (bottomNav != null) {
-                    NavigationUI.setupWithNavController(bottomNav, navController);
+                    // Custom listener để xử lý navigation đúng cách
+                    bottomNav.setOnItemSelectedListener(item -> {
+                        int itemId = item.getItemId();
+                        NavDestination currentDestination = navController.getCurrentDestination();
+
+                        // Nếu đã ở destination đó rồi, không làm gì
+                        if (currentDestination != null && currentDestination.getId() == itemId) {
+                            return true;
+                        }
+
+                        if (itemId == R.id.homeFragment) {
+                            // Click Home: clear back stack và về home
+                            navController.popBackStack(R.id.homeFragment, true);
+                            navController.navigate(R.id.homeFragment);
+                            return true;
+                        } else if (itemId == R.id.searchFragment) {
+                            // Click Search
+                            navController.popBackStack(R.id.homeFragment, false);
+                            navController.navigate(R.id.searchFragment);
+                            return true;
+                        } else if (itemId == R.id.categoryFragment) {
+                            // Click Categories: clear back stack trước khi navigate
+                            navController.popBackStack(R.id.homeFragment, false);
+                            navController.navigate(R.id.categoryFragment);
+                            return true;
+                        } else if (itemId == R.id.catalogFragment) {
+                            // Click Catalog
+                            navController.popBackStack(R.id.homeFragment, false);
+                            navController.navigate(R.id.catalogFragment);
+                            return true;
+                        } else if (itemId == R.id.cartFragment) {
+                            // Click Cart
+                            navController.navigate(R.id.cartFragment);
+                            return true;
+                        } else if (itemId == R.id.profileFragment) {
+                            // Click Profile
+                            navController.navigate(R.id.profileFragment);
+                            return true;
+                        }
+
+                        return false;
+                    });
 
                     // Ẩn/hiện bottom navigation dựa trên destination
                     navController.addOnDestinationChangedListener((controller, destination, arguments) -> {

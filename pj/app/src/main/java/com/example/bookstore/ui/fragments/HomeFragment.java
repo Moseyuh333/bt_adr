@@ -14,6 +14,8 @@ import com.example.bookstore.adapters.BookAdapter;
 import com.example.bookstore.adapters.CategoryAdapter;
 import com.example.bookstore.models.Book;
 import com.example.bookstore.utils.BookDataLoader;
+import com.example.bookstore.utils.FavoritesManager;
+import com.example.bookstore.utils.RecentlyViewedManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,15 +31,42 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         try {
             List<Book> allBooks = BookDataLoader.getAllBooks();
+            FavoritesManager favoritesManager = FavoritesManager.getInstance(requireContext());
+            RecentlyViewedManager recentlyViewedManager = RecentlyViewedManager.getInstance(requireContext());
 
-            // Explore button
+            // Favorites Section
+            View favoritesSection = view.findViewById(R.id.favorites_section);
+            RecyclerView favoritesRecycler = view.findViewById(R.id.favorites_recycler);
+            List<Book> favorites = favoritesManager.getFavorites();
+            if (!favorites.isEmpty()) {
+                favoritesSection.setVisibility(View.VISIBLE);
+                favoritesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                favoritesRecycler.setAdapter(new BookAdapter(favorites));
+            }
+
+            // Recently Viewed Section
+            View recentlyViewedSection = view.findViewById(R.id.recently_viewed_section);
+            RecyclerView recentlyViewedRecycler = view.findViewById(R.id.recently_viewed_recycler);
+            List<Book> recentlyViewed = recentlyViewedManager.getRecentlyViewed();
+            if (!recentlyViewed.isEmpty()) {
+                recentlyViewedSection.setVisibility(View.VISIBLE);
+                recentlyViewedRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                recentlyViewedRecycler.setAdapter(new BookAdapter(recentlyViewed));
+            }
+
+            // Explore button - Navigate to Categories
             Button exploreCatalogBtn = view.findViewById(R.id.explore_catalog_btn);
             if (exploreCatalogBtn != null) {
                 exploreCatalogBtn.setOnClickListener(v -> {
                     try {
-                        Navigation.findNavController(v).navigate(R.id.catalogFragment);
+                        Navigation.findNavController(v).navigate(R.id.categoryFragment);
                     } catch (Exception e) {
-                        // Handle navigation error
+                        // Fallback to catalog if category not available
+                        try {
+                            Navigation.findNavController(v).navigate(R.id.catalogFragment);
+                        } catch (Exception ex) {
+                            // Handle navigation error
+                        }
                     }
                 });
             }

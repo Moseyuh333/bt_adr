@@ -67,8 +67,21 @@ public class CategoryFragment extends Fragment {
             bookAdapter = new BookAdapter(currentBooks);
             booksRecycler.setAdapter(bookAdapter);
 
-            // Load all books initially
-            loadBooks("All");
+            // Check if category passed from arguments
+            String initialCategory = "All";
+            if (getArguments() != null && getArguments().containsKey("category")) {
+                initialCategory = getArguments().getString("category", "All");
+                selectedCategory = initialCategory;
+            }
+
+            // Update category adapter selected position
+            int selectedIndex = categories.indexOf(initialCategory);
+            if (selectedIndex >= 0 && categoryAdapter != null) {
+                // Need to update adapter's selected position
+            }
+
+            // Load books for initial category
+            loadBooks(initialCategory);
 
         } catch (Exception e) {
             e.printStackTrace();

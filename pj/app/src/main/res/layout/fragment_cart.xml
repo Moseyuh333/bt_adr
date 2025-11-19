@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="#F5F5F5">
 
     <!-- Header -->
     <LinearLayout
@@ -12,27 +13,71 @@
         android:background="@color/amber_600"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="16dp">
+        android:padding="24dp"
+        android:elevation="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🛒"
+            android:textSize="48sp"
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shopping Cart"
-            android:textSize="28sp"
+            android:text="Giỏ Hàng"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/cart_item_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0 sản phẩm"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:alpha="0.9"
+            android:textAlignment="center"
+            android:layout_marginTop="4dp" />
     </LinearLayout>
 
     <!-- Empty Cart Message -->
-    <TextView
-        android:id="@+id/empty_cart_text"
+    <LinearLayout
+        android:id="@+id/empty_cart_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Your cart is empty"
+        android:orientation="vertical"
         android:gravity="center"
-        android:textSize="18sp"
-        android:textColor="#999999"
-        android:visibility="gone" />
+        android:padding="32dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🛒"
+            android:textSize="72sp"
+            android:alpha="0.3"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giỏ hàng trống"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#424242"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hãy thêm sản phẩm vào giỏ hàng"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+    </LinearLayout>
 
     <!-- Cart Items -->
     <androidx.recyclerview.widget.RecyclerView
@@ -40,17 +85,23 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="12dp" />
+        android:padding="16dp" />
 
     <!-- Cart Summary -->
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/cart_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#F5F5F5"
-        android:padding="16dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
         android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="16dp">
 
         <!-- Subtotal -->
         <LinearLayout
@@ -145,34 +196,37 @@
                 android:textColor="@color/amber_600" />
         </LinearLayout>
 
-        <!-- Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <Button
-                android:id="@+id/continue_shopping_btn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Continue Shopping"
-                android:textSize="14sp"
-                android:layout_marginEnd="8dp"
-                android:textColor="@color/white" />
+                <Button
+                    android:id="@+id/continue_shopping_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:text="🏪 Mua Thêm"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="4dp"
+                    android:background="#E0E0E0"
+                    android:textColor="#424242" />
 
-            <Button
-                android:id="@+id/checkout_btn"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:text="Checkout"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:background="@color/amber_600"
-                android:textColor="@color/white" />
+                <Button
+                    android:id="@+id/checkout_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_weight="1"
+                    android:text="💳 Thanh Toán"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:background="@color/amber_600"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
 

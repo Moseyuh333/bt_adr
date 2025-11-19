@@ -55,15 +55,16 @@
 
                 <Button
                     android:id="@+id/explore_catalog_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:text="Khám Phá Ngay"
+                    android:layout_width="220dp"
+                    android:layout_height="56dp"
+                    android:text="🚀 KHÁM PHÁ NGAY"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/amber_600"
-                    android:background="@color/white"
-                    android:paddingStart="32dp"
-                    android:paddingEnd="32dp" />
+                    android:background="@drawable/button_white_rounded"
+                    android:elevation="6dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -89,6 +90,58 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
+        </LinearLayout>
+
+        <!-- Favorites Section -->
+        <LinearLayout
+            android:id="@+id/favorites_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="❤️ Sách Yêu Thích"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favorites_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Recently Viewed Section -->
+        <LinearLayout
+            android:id="@+id/recently_viewed_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="👁️ Đã Xem Gần Đây"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recently_viewed_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- Featured Books Section -->
@@ -137,6 +190,84 @@
                 android:id="@+id/new_books_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/amber_600"
+            android:padding="24dp"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📚 HIỆU SÁCH TRỰC TUYẾN"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:layout_marginBottom="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 Địa chỉ: 123 Đường Sách, Quận 1, TP.HCM"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📞 Hotline: 1900-xxxx"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✉️ Email: contact@bookstore.vn"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🕐 Giờ làm việc: 8:00 - 22:00 (Cả tuần)"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9"
+                    android:layout_marginBottom="16dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white"
+                    android:alpha="0.3"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="© 2025 Bookstore. All rights reserved."
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.7" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>

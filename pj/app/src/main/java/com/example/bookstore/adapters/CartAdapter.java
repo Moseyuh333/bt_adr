@@ -32,10 +32,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         try {
             CartItem item = items.get(pos);
             holder.title.setText(item.book.title);
-            holder.author.setText("By: " + item.book.author);
-            holder.price.setText(String.format("%,.0f₫", item.book.price));
+            holder.author.setText("Tác giả: " + item.book.author);
+            holder.price.setText(String.format("%,.0f₫ × %d", item.book.price, item.quantity));
             holder.qty.setText(String.valueOf(item.quantity));
-            holder.totalPrice.setText(String.format("%,.0f₫", item.getTotalPrice()));
 
             Glide.with(holder.image.getContext())
                 .load(item.book.coverImage)
@@ -48,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.inc.setOnClickListener(v -> {
                 item.quantity++;
                 holder.qty.setText(String.valueOf(item.quantity));
-                holder.totalPrice.setText(String.format("$%.2f", item.getTotalPrice()));
+                holder.price.setText(String.format("%,.0f₫ × %d", item.book.price, item.quantity));
                 cart.updateQuantity(item.book.id, item.quantity);
                 onUpdate.run();
             });
@@ -58,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 if (item.quantity > 1) {
                     item.quantity--;
                     holder.qty.setText(String.valueOf(item.quantity));
-                    holder.totalPrice.setText(String.format("$%.2f", item.getTotalPrice()));
+                    holder.price.setText(String.format("%,.0f₫ × %d", item.book.price, item.quantity));
                     cart.updateQuantity(item.book.id, item.quantity);
                     onUpdate.run();
                 }
@@ -82,7 +81,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
-        public TextView title, author, price, qty, totalPrice;
+        public TextView title, author, price, qty;
         public Button inc, dec, rem;
 
         public CartViewHolder(View v) {
@@ -92,7 +91,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             author = v.findViewById(R.id.cart_book_author);
             price = v.findViewById(R.id.cart_item_price);
             qty = v.findViewById(R.id.quantity);
-            totalPrice = v.findViewById(R.id.cart_item_total);
             inc = v.findViewById(R.id.increase_btn);
             dec = v.findViewById(R.id.decrease_btn);
             rem = v.findViewById(R.id.remove_btn);

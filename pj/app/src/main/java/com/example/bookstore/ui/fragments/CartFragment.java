@@ -17,8 +17,9 @@ import com.example.bookstore.models.Cart;
 
 public class CartFragment extends Fragment {
     private Cart cart;
-    private TextView subtotalText, taxText, shippingText, totalText, emptyCartText;
-    private LinearLayout cartSummary;
+    private TextView subtotalText, taxText, shippingText, totalText, emptyCartText, cartItemCount;
+    private View emptyCartLayout;
+    private View cartSummary;
     private Button checkoutBtn, continueShopping;
     private RecyclerView cartRecycler;
 
@@ -35,8 +36,9 @@ public class CartFragment extends Fragment {
 
             // Initialize views
             cartRecycler = view.findViewById(R.id.cart_recycler);
-            emptyCartText = view.findViewById(R.id.empty_cart_text);
+            emptyCartLayout = view.findViewById(R.id.empty_cart_layout);
             cartSummary = view.findViewById(R.id.cart_summary);
+            cartItemCount = view.findViewById(R.id.cart_item_count);
             subtotalText = view.findViewById(R.id.cart_subtotal);
             taxText = view.findViewById(R.id.cart_tax);
             shippingText = view.findViewById(R.id.cart_shipping);
@@ -75,12 +77,18 @@ public class CartFragment extends Fragment {
 
     private void updateCartSummary() {
         try {
+            // Update item count
+            int itemCount = cart.getItems().size();
+            if (cartItemCount != null) {
+                cartItemCount.setText(itemCount + " sản phẩm");
+            }
+
             if (cart.isEmpty()) {
-                emptyCartText.setVisibility(View.VISIBLE);
+                if (emptyCartLayout != null) emptyCartLayout.setVisibility(View.VISIBLE);
                 cartSummary.setVisibility(View.GONE);
                 cartRecycler.setVisibility(View.GONE);
             } else {
-                emptyCartText.setVisibility(View.GONE);
+                if (emptyCartLayout != null) emptyCartLayout.setVisibility(View.GONE);
                 cartSummary.setVisibility(View.VISIBLE);
                 cartRecycler.setVisibility(View.VISIBLE);
 
