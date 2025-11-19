@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hoàn Trả Đơn Hàng"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vui lòng cho chúng tôi biết lý do bạn muốn hoàn trả"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Reason Options -->
+    <RadioGroup
+        android:id="@+id/return_reasons_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/reason_defective"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm bị lỗi/hư hỏng"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_wrong_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm không đúng mô tả"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_missing_parts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm bị thiếu phụ kiện"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_wrong_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sản phẩm không đúng với đơn đặt hàng"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_poor_quality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chất lượng sản phẩm không tốt"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_return_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lý do khác"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+    </RadioGroup>
+
+    <!-- Custom Reason Input (hidden by default) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/custom_return_reason_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lý do của bạn"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/custom_return_reason_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:maxLines="5"
+            android:gravity="top|start"
+            android:padding="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Media Upload Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm ảnh/video chứng minh (tùy chọn)"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/add_media_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📷 Thêm Ảnh/Video"
+        android:textColor="@color/amber_600"
+        android:background="?attr/selectableItemBackground"
+        android:drawableStart="@android:drawable/ic_menu_camera"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"
+        style="?attr/borderlessButtonStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/cancel_return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đóng"
+            android:textColor="#666666"
+            android:background="?attr/selectableItemBackground"
+            android:minWidth="100dp"
+            android:layout_marginEnd="8dp"
+            style="?attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/confirm_return_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xác Nhận Hoàn Trả"
+            android:textColor="@color/white"
+            android:background="@android:color/holo_orange_dark"
+            android:minWidth="140dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

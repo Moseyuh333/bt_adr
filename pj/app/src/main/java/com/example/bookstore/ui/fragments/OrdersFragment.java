@@ -18,14 +18,18 @@ import com.example.bookstore.R;
 import com.example.bookstore.adapters.OrderAdapter;
 import com.example.bookstore.models.Order;
 import com.example.bookstore.utils.OrderManager;
+import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersFragment extends Fragment {
 
     private RecyclerView ordersRecycler;
     private TextView emptyOrdersText;
+    private TabLayout statusTabs;
     private OrderAdapter adapter;
+    private String currentStatus = "ALL";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -40,8 +44,12 @@ public class OrdersFragment extends Fragment {
         try {
             ordersRecycler = view.findViewById(R.id.orders_recycler);
             emptyOrdersText = view.findViewById(R.id.empty_orders_text);
+            statusTabs = view.findViewById(R.id.order_status_tabs);
 
             ordersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            // Setup tabs
+            setupTabs();
 
             loadOrders();
 
@@ -50,12 +58,49 @@ public class OrdersFragment extends Fragment {
         }
     }
 
+    private void setupTabs() {
+        statusTabs.addTab(statusTabs.newTab().setText("Tất cả"));
+        statusTabs.addTab(statusTabs.newTab().setText("Chờ xác nhận"));
+        statusTabs.addTab(statusTabs.newTab().setText("Đã xác nhận"));
+        statusTabs.addTab(statusTabs.newTab().setText("Đang giao"));
+        statusTabs.addTab(statusTabs.newTab().setText("Đã giao"));
+        statusTabs.addTab(statusTabs.newTab().setText("Đã hủy"));
+        statusTabs.addTab(statusTabs.newTab().setText("Đã hoàn"));
+
+        statusTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0: currentStatus = "ALL"; break;
+                    case 1: currentStatus = "PENDING"; break;
+                    case 2: currentStatus = "CONFIRMED"; break;
+                    case 3: currentStatus = "SHIPPED"; break;
+                    case 4: currentStatus = "DELIVERED"; break;
+                    case 5: currentStatus = "CANCELLED"; break;
+                    case 6: currentStatus = "RETURNED"; break;
+                }
+                loadOrders();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+    }
+
     private void loadOrders() {
         try {
             SharedPreferences prefs = requireActivity().getSharedPreferences("BookstorePrefs", Context.MODE_PRIVATE);
             String userEmail = prefs.getString("user_email", "");
 
-            List<Order> orders = OrderManager.getInstance(getContext()).getOrdersByUser(userEmail);
+            List<Order> orders;
+            if (currentStatus.equals("ALL")) {
+                orders = OrderManager.getInstance(getContext()).getOrdersByUser(userEmail);
+            } else {
+                orders = OrderManager.getInstance(getContext()).getOrdersByStatus(userEmail, currentStatus);
+            }
 
             if (orders.isEmpty()) {
                 emptyOrdersText.setVisibility(View.VISIBLE);
@@ -63,7 +108,7 @@ public class OrdersFragment extends Fragment {
             } else {
                 emptyOrdersText.setVisibility(View.GONE);
                 ordersRecycler.setVisibility(View.VISIBLE);
-                adapter = new OrderAdapter(orders);
+                adapter = new OrderAdapter(orders, () -> loadOrders());
                 ordersRecycler.setAdapter(adapter);
             }
 

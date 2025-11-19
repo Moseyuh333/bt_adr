@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hủy Đơn Hàng"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Vui lòng cho chúng tôi biết lý do bạn muốn hủy đơn hàng"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Reason Options -->
+    <RadioGroup
+        android:id="@+id/cancel_reasons_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/reason_change_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tôi muốn thay đổi địa chỉ giao hàng"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_change_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tôi muốn thay đổi sản phẩm trong đơn hàng"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_better_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tôi tìm thấy giá tốt hơn ở nơi khác"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_no_need"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tôi không còn nhu cầu mua nữa"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_long_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thời gian giao hàng quá lâu"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+        <RadioButton
+            android:id="@+id/reason_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lý do khác"
+            android:textSize="14sp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackground" />
+
+    </RadioGroup>
+
+    <!-- Custom Reason Input (hidden by default) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/custom_reason_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập lý do của bạn"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/custom_reason_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:maxLines="5"
+            android:gravity="top|start"
+            android:padding="12dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đóng"
+            android:textColor="#666666"
+            android:background="?attr/selectableItemBackground"
+            android:minWidth="100dp"
+            android:layout_marginEnd="8dp"
+            style="?attr/borderlessButtonStyle" />
+
+        <Button
+            android:id="@+id/confirm_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xác Nhận Hủy"
+            android:textColor="@color/white"
+            android:background="@android:color/holo_red_dark"
+            android:minWidth="120dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

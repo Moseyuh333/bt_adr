@@ -8,7 +8,7 @@ public class Order {
     public List<CartItem> items;
     public String orderDate;
     public String deliveryDate;
-    public String status; // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+    public String status; // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED, RETURNED
     public double subtotal;
     public double tax;
     public double discount;
@@ -21,12 +21,22 @@ public class Order {
     public String deliveryAddress;
     public String paymentMethod; // CASH, CARD, ONLINE
 
+    // New fields for order tracking
+    public String cancelReason;
+    public String returnReason;
+    public List<String> returnMediaUrls; // URLs for images/videos
+    public boolean isConfirmedReceived; // User confirmed receiving the order
+    public String confirmedReceivedDate;
+    public OrderReview review;
+
     public Order() {
         this.items = new ArrayList<>();
         this.status = "PENDING";
         this.tax = 0;
         this.discount = 0;
         this.shippingFee = 0;
+        this.returnMediaUrls = new ArrayList<>();
+        this.isConfirmedReceived = false;
     }
 
     public double calculateTotal() {

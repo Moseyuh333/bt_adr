@@ -92,5 +92,58 @@ public class OrderManager {
             e.printStackTrace();
         }
     }
+
+    public void updateOrder(Order updatedOrder) {
+        try {
+            List<Order> orders = getAllOrders();
+            for (int i = 0; i < orders.size(); i++) {
+                if (orders.get(i).id == updatedOrder.id) {
+                    orders.set(i, updatedOrder);
+                    break;
+                }
+            }
+
+            String json = gson.toJson(orders);
+            prefs.edit().putString(ORDERS_KEY, json).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean canCancelOrder(Order order) {
+        // Can only cancel if status is PENDING or CONFIRMED (before SHIPPED)
+        return order.status.equals("PENDING") || order.status.equals("CONFIRMED");
+    }
+
+    public boolean canReturnOrder(Order order) {
+        // Can only return if status is DELIVERED and not already RETURNED and user confirmed receipt
+        return order.status.equals("DELIVERED") && order.isConfirmedReceived && !order.status.equals("RETURNED");
+    }
+
+    public boolean canConfirmReceipt(Order order) {
+        // Can only confirm if DELIVERED and not yet confirmed
+        return order.status.equals("DELIVERED") && !order.isConfirmedReceived;
+    }
+
+    public boolean canReview(Order order) {
+        // Can only review if DELIVERED, confirmed receipt, and not returned
+        return order.status.equals("DELIVERED") &&
+               order.isConfirmedReceived &&
+               order.review == null &&
+               !order.status.equals("RETURNED");
+    }
+
+    public List<Order> getOrdersByStatus(String userEmail, String status) {
+        List<Order> userOrders = getOrdersByUser(userEmail);
+        List<Order> filteredOrders = new ArrayList<>();
+
+        for (Order order : userOrders) {
+            if (order.status.equals(status)) {
+                filteredOrders.add(order);
+            }
+        }
+
+        return filteredOrders;
+    }
 }
 

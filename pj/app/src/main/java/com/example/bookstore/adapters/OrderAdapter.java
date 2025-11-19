@@ -18,9 +18,15 @@ import java.util.List;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private List<Order> orders;
+    private Runnable onRefreshCallback;
 
     public OrderAdapter(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public OrderAdapter(List<Order> orders, Runnable onRefreshCallback) {
+        this.orders = orders;
+        this.onRefreshCallback = onRefreshCallback;
     }
 
     @NonNull
@@ -59,6 +65,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             case "CANCELLED":
                 statusColor = holder.itemView.getContext().getResources().getColor(android.R.color.holo_red_dark);
                 break;
+            case "RETURNED":
+                statusColor = holder.itemView.getContext().getResources().getColor(android.R.color.holo_orange_light);
+                break;
             default:
                 statusColor = holder.itemView.getContext().getResources().getColor(android.R.color.darker_gray);
         }
@@ -78,6 +87,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             case "SHIPPED": return "Đang giao";
             case "DELIVERED": return "Đã giao";
             case "CANCELLED": return "Đã hủy";
+            case "RETURNED": return "Đã hoàn";
             default: return status;
         }
     }

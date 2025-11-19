@@ -274,6 +274,117 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Cancel Reason (if order is cancelled) -->
+        <LinearLayout
+            android:id="@+id/cancel_reason_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#FFEBEE"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/cancel_reason_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lý do hủy: ..."
+                android:textSize="14sp"
+                android:textColor="@android:color/holo_red_dark" />
+        </LinearLayout>
+
+        <!-- Return Reason (if order is returned) -->
+        <LinearLayout
+            android:id="@+id/return_reason_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#FFF3E0"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/return_reason_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lý do hoàn trả: ..."
+                android:textSize="14sp"
+                android:textColor="@android:color/holo_orange_dark" />
+        </LinearLayout>
+
+        <!-- Review Section (if order has review) -->
+        <LinearLayout
+            android:id="@+id/review_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="#E8F5E9"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đánh Giá"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+            <TextView
+                android:id="@+id/review_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="..."
+                android:textSize="14sp"
+                android:textColor="@android:color/holo_green_dark" />
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:id="@+id/action_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/confirm_receipt_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Xác Nhận Đã Nhận Hàng"
+                android:background="@color/amber_600"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/review_order_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đánh Giá Đơn Hàng"
+                android:background="@android:color/holo_green_dark"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/return_order_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hoàn Trả Đơn Hàng"
+                android:background="@android:color/holo_orange_dark"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/cancel_order_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hủy Đơn Hàng"
+                android:background="@android:color/holo_red_dark"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
 
