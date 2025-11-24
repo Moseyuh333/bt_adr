@@ -12,12 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
+import com.example.bookstore.utils.DataManager;
 
 public class AdminDashboardFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
+    private DataManager dataManager;
 
     @Nullable
     @Override
@@ -25,23 +28,34 @@ public class AdminDashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_admin_dashboard, container, false);
 
         sharedPreferences = requireActivity().getSharedPreferences("BookstorePrefs", requireContext().MODE_PRIVATE);
+        dataManager = DataManager.getInstance(requireContext());
 
-        // Thống kê (mock data)
+        // Thống kê (thực tế từ DataManager)
         TextView totalOrdersText = view.findViewById(R.id.total_orders_text);
         TextView totalUsersText = view.findViewById(R.id.total_users_text);
         TextView totalProductsText = view.findViewById(R.id.total_products_text);
         TextView totalRevenueText = view.findViewById(R.id.total_revenue_text);
 
-        if (totalOrdersText != null) totalOrdersText.setText("127");
-        if (totalUsersText != null) totalUsersText.setText("45");
-        if (totalProductsText != null) totalProductsText.setText("89");
-        if (totalRevenueText != null) totalRevenueText.setText("2.5M₫");
+        if (totalOrdersText != null) totalOrdersText.setText(String.valueOf(dataManager.getAllOrders().size()));
+        if (totalUsersText != null) totalUsersText.setText(String.valueOf(dataManager.getAllUsers().size()));
+        if (totalProductsText != null) totalProductsText.setText(String.valueOf(dataManager.getAllBooks().size()));
+
+        // Tính tổng doanh thu
+        double totalRevenue = 0;
+        for (var order : dataManager.getAllOrders()) {
+            if (!order.getStatus().equals("Cancelled")) {
+                totalRevenue += order.getTotalAmount();
+            }
+        }
+        if (totalRevenueText != null) {
+            totalRevenueText.setText(String.format("%.1fM₫", totalRevenue / 1000000));
+        }
 
         // Card quản lý sản phẩm
         View manageProductsCard = view.findViewById(R.id.manage_products_card);
         if (manageProductsCard != null) {
             manageProductsCard.setOnClickListener(v ->
-                Toast.makeText(getContext(), "📚 Quản lý sản phẩm: Thêm, sửa, xóa sách", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(v).navigate(R.id.action_adminDashboardFragment_to_adminProductsFragment)
             );
         }
 
@@ -49,7 +63,7 @@ public class AdminDashboardFragment extends Fragment {
         View manageOrdersCard = view.findViewById(R.id.manage_orders_card);
         if (manageOrdersCard != null) {
             manageOrdersCard.setOnClickListener(v ->
-                Toast.makeText(getContext(), "📦 Quản lý đơn hàng: Thay đổi trạng thái, hủy đơn", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(v).navigate(R.id.action_adminDashboardFragment_to_adminOrdersFragment)
             );
         }
 
@@ -57,7 +71,7 @@ public class AdminDashboardFragment extends Fragment {
         View manageCustomersCard = view.findViewById(R.id.manage_customers_card);
         if (manageCustomersCard != null) {
             manageCustomersCard.setOnClickListener(v ->
-                Toast.makeText(getContext(), "👥 Quản lý khách hàng: Xem profile, khóa tài khoản", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(v).navigate(R.id.action_adminDashboardFragment_to_adminCustomersFragment)
             );
         }
 

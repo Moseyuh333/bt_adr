@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,131 +13,82 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Order Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/admin_order_id"
+                android:id="@+id/order_id_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="#ORD001"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#212121" />
-
-            <TextView
-                android:id="@+id/admin_order_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chờ xử lý"
-                android:textSize="12sp"
-                android:textColor="#FF9800"
-                android:background="#FFF3E0"
-                android:padding="6dp"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- Customer Info -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="👤 "
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/admin_customer_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nguyễn Văn A"
-                android:textSize="16sp"
-                android:textColor="#212121" />
-
-            <TextView
-                android:id="@+id/admin_order_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2024-01-15"
-                android:textSize="14sp"
-                android:textColor="#757575" />
-        </LinearLayout>
-
-        <!-- Total Amount -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="💰 Tổng tiền: "
-                android:textSize="14sp"
-                android:textColor="#757575" />
-
-            <TextView
-                android:id="@+id/admin_order_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="450,000₫"
+                android:text="Mã: ORD001"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/amber_600" />
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/order_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⏳ Chờ xử lý"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:background="@drawable/status_pending_bg" />
         </LinearLayout>
 
-        <!-- Action Buttons -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/order_customer_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp">
+            android:text="👤 Nguyễn Văn A"
+            android:textSize="14sp"
+            android:textColor="#424242"
+            android:layout_marginTop="8dp" />
 
-            <Button
-                android:id="@+id/admin_change_status_btn"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:text="🔄 Đổi TT"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:background="@color/amber_600"
-                android:layout_marginEnd="4dp" />
+        <TextView
+            android:id="@+id/order_address_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 123 Đường ABC, Q1, HCM"
+            android:textSize="13sp"
+            android:textColor="#616161"
+            android:layout_marginTop="4dp" />
 
-            <Button
-                android:id="@+id/admin_view_details_btn"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:text="👁️ Chi tiết"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:background="#2196F3"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp" />
+        <TextView
+            android:id="@+id/order_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📅 24/11/2025"
+            android:textSize="13sp"
+            android:textColor="#757575"
+            android:layout_marginTop="4dp" />
 
-            <Button
-                android:id="@+id/admin_cancel_order_btn"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:text="❌ Hủy"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:background="#F44336"
-                android:layout_marginStart="4dp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/order_amount_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="450,000₫"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/amber_700"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btn_change_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔄 Thay đổi trạng thái"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/amber_600"
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
+

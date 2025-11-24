@@ -6,12 +6,26 @@
     <fragment
         android:id="@+id/adminDashboardFragment"
         android:name="com.example.bookstore.ui.fragments.AdminDashboardFragment"
-        android:label="Admin Dashboard" />
+        android:label="Admin Dashboard">
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminProductsFragment"
+            app:destination="@id/adminProductsFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminOrdersFragment"
+            app:destination="@id/adminOrdersFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_adminCustomersFragment"
+            app:destination="@id/adminCustomersFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/adminProductsFragment"
         android:name="com.example.bookstore.ui.fragments.AdminProductsFragment"
-        android:label="Quản lý sản phẩm" />
+        android:label="Quản lý sản phẩm">
+        <action
+            android:id="@+id/action_adminProductsFragment_to_adminEditProductFragment"
+            app:destination="@id/adminEditProductFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/adminOrdersFragment"
@@ -21,7 +35,11 @@
     <fragment
         android:id="@+id/adminCustomersFragment"
         android:name="com.example.bookstore.ui.fragments.AdminCustomersFragment"
-        android:label="Quản lý khách hàng" />
+        android:label="Quản lý khách hàng">
+        <action
+            android:id="@+id/action_adminCustomersFragment_to_adminCustomerDetailFragment"
+            app:destination="@id/adminCustomerDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/adminCustomerDetailFragment"

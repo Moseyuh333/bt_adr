@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,85 +13,55 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Customer Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/admin_customer_name"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nguyễn Văn A"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#212121" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/customer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nguyễn Văn A"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/customer_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="📧 email@example.com"
+                    android:textSize="14sp"
+                    android:textColor="#616161"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/customer_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤 Khách hàng"
+                    android:textSize="13sp"
+                    android:textColor="#757575"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/admin_customer_status"
+                android:id="@+id/customer_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="✅ Hoạt động"
-                android:textSize="12sp"
-                android:textColor="#4CAF50"
-                android:background="#E8F5E8"
-                android:padding="6dp"
-                android:layout_marginStart="8dp" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
-        <!-- Customer Info -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/admin_customer_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📧 email@example.com"
-                android:textSize="14sp"
-                android:textColor="#757575"
-                android:layout_marginBottom="4dp" />
-
-            <TextView
-                android:id="@+id/admin_customer_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="📱 0123456789"
-                android:textSize="14sp"
-                android:textColor="#757575"
-                android:layout_marginBottom="4dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/admin_customer_orders"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="🛒 5 đơn hàng"
-                    android:textSize="14sp"
-                    android:textColor="#4CAF50" />
-
-                <TextView
-                    android:id="@+id/admin_customer_reg_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đăng ký: 2024-01-10"
-                    android:textSize="12sp"
-                    android:textColor="#9E9E9E" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,39 +69,38 @@
             android:layout_marginTop="12dp">
 
             <Button
-                android:id="@+id/admin_view_customer_btn"
+                android:id="@+id/btn_view_customer"
                 android:layout_width="0dp"
-                android:layout_height="36dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="👁️ Chi tiết"
-                android:textSize="11sp"
+                android:text="👁️ Xem"
                 android:textColor="@color/white"
-                android:background="@color/amber_600"
-                android:layout_marginEnd="3dp" />
+                android:backgroundTint="@color/amber_600"
+                android:layout_marginEnd="4dp" />
 
             <Button
-                android:id="@+id/admin_ban_customer_btn"
+                android:id="@+id/btn_edit_customer"
                 android:layout_width="0dp"
-                android:layout_height="36dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="✏️ Sửa"
+                android:textColor="@color/white"
+                android:backgroundTint="#2196F3"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/btn_ban_customer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="🚫 Khóa"
-                android:textSize="11sp"
                 android:textColor="@color/white"
-                android:background="#F44336"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp" />
-
-            <Button
-                android:id="@+id/admin_delete_customer_btn"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:text="🗑️ Xóa"
-                android:textSize="11sp"
-                android:textColor="@color/white"
-                android:background="#9E9E9E"
-                android:layout_marginStart="3dp" />
+                android:backgroundTint="#F44336"
+                android:layout_marginStart="4dp" />
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
+
