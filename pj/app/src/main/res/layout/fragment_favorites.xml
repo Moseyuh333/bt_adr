@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="#F5F5F5">
 
-    <!-- Header with gradient effect -->
+    <!-- Header -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,48 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/amber_600"
-            android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="12dp">
+            android:padding="20dp"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📦 Đơn Hàng Của Tôi"
+                android:text="❤️ Sách Yêu Thích"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:paddingBottom="12dp" />
-
-            <!-- Status Tabs with better styling -->
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/order_status_tabs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    app:tabMode="scrollable"
-                    app:tabTextColor="#E0E0E0"
-                    app:tabSelectedTextColor="@color/white"
-                    app:tabIndicatorColor="@color/white"
-                    app:tabIndicatorHeight="4dp"
-                    app:tabTextAppearance="@style/TabTextStyle"
-                    app:tabPaddingStart="12dp"
-                    app:tabPaddingEnd="12dp" />
-            </HorizontalScrollView>
+                android:textColor="@color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Empty State with icon -->
+    <!-- Empty State -->
     <LinearLayout
-        android:id="@+id/empty_orders_layout"
+        android:id="@+id/empty_favorites_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -69,15 +43,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="📭"
-            android:textSize="64sp"
+            android:text="💔"
+            android:textSize="72sp"
             android:layout_marginBottom="16dp" />
 
         <TextView
-            android:id="@+id/empty_orders_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chưa có đơn hàng nào"
+            android:text="Chưa có sách yêu thích"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#757575"
@@ -86,14 +59,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hãy khám phá và đặt hàng ngay!"
+            android:text="Hãy thêm sách yêu thích để xem lại sau!"
             android:textSize="14sp"
-            android:textColor="#9E9E9E" />
+            android:textColor="#9E9E9E"
+            android:textAlignment="center" />
     </LinearLayout>
 
-    <!-- Orders List with better spacing -->
+    <!-- Favorites List -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/orders_recycler"
+        android:id="@+id/favorites_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"

@@ -40,13 +40,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         String category = categories.get(position);
         holder.categoryName.setText(category);
 
+        // Set icon based on category
+        String icon = getCategoryIcon(category);
+        holder.categoryIcon.setText(icon);
+
         // Highlight selected category
         if (position == selectedPosition) {
-            holder.categoryName.setBackgroundResource(R.color.amber_600);
+            holder.itemView.setBackgroundResource(R.color.amber_600);
             holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
+            holder.categoryIcon.setAlpha(1.0f);
         } else {
-            holder.categoryName.setBackgroundResource(R.color.gray_200);
-            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.black));
+            holder.itemView.setBackgroundResource(R.color.amber_50);
+            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.amber_800));
+            holder.categoryIcon.setAlpha(0.8f);
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -58,17 +64,36 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         });
     }
 
+    private String getCategoryIcon(String category) {
+        switch (category.toLowerCase()) {
+            case "văn học": return "📖";
+            case "khoa học": return "🔬";
+            case "kinh tế": return "💰";
+            case "lịch sử": return "🏛️";
+            case "thiếu nhi": return "🧸";
+            case "kỹ năng": return "💡";
+            case "tâm lý": return "🧠";
+            case "giáo dục": return "🎓";
+            case "nghệ thuật": return "🎨";
+            case "công nghệ": return "💻";
+            case "y học": return "⚕️";
+            case "du lịch": return "✈️";
+            default: return "📚";
+        }
+    }
+
     @Override
     public int getItemCount() {
         return categories.size();
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-        TextView categoryName;
+        TextView categoryName, categoryIcon;
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryName = itemView.findViewById(R.id.category_name);
+            categoryIcon = itemView.findViewById(R.id.category_icon);
         }
     }
 }

@@ -7,6 +7,7 @@
     <color name="amber_500">#FFBB48</color>
     <color name="amber_600">#FFB300</color>
     <color name="amber_700">#FFA700</color>
+    <color name="amber_800">#FF8A0000</color>
 
     <!-- Neutrals -->
     <color name="black">#FF000000</color>

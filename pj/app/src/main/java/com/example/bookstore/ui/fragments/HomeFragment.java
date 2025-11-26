@@ -37,21 +37,45 @@ public class HomeFragment extends Fragment {
             // Favorites Section
             View favoritesSection = view.findViewById(R.id.favorites_section);
             RecyclerView favoritesRecycler = view.findViewById(R.id.favorites_recycler);
+            View seeAllFavoritesBtn = view.findViewById(R.id.see_all_favorites_btn);
             List<Book> favorites = favoritesManager.getFavorites();
             if (!favorites.isEmpty()) {
                 favoritesSection.setVisibility(View.VISIBLE);
                 favoritesRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 favoritesRecycler.setAdapter(new BookAdapter(favorites));
+
+                // See All Favorites button
+                if (seeAllFavoritesBtn != null) {
+                    seeAllFavoritesBtn.setOnClickListener(v -> {
+                        try {
+                            Navigation.findNavController(v).navigate(R.id.favoritesFragment);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
             }
 
             // Recently Viewed Section
             View recentlyViewedSection = view.findViewById(R.id.recently_viewed_section);
             RecyclerView recentlyViewedRecycler = view.findViewById(R.id.recently_viewed_recycler);
+            View seeAllRecentlyViewedBtn = view.findViewById(R.id.see_all_recently_viewed_btn);
             List<Book> recentlyViewed = recentlyViewedManager.getRecentlyViewed();
             if (!recentlyViewed.isEmpty()) {
                 recentlyViewedSection.setVisibility(View.VISIBLE);
                 recentlyViewedRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 recentlyViewedRecycler.setAdapter(new BookAdapter(recentlyViewed));
+
+                // See All Recently Viewed button
+                if (seeAllRecentlyViewedBtn != null) {
+                    seeAllRecentlyViewedBtn.setOnClickListener(v -> {
+                        try {
+                            Navigation.findNavController(v).navigate(R.id.recentlyViewedFragment);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
             }
 
             // Explore button - Navigate to Categories

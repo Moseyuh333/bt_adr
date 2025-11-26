@@ -130,6 +130,16 @@
         android:label="Categories" />
 
     <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.bookstore.ui.fragments.FavoritesFragment"
+        android:label="Favorites" />
+
+    <fragment
+        android:id="@+id/recentlyViewedFragment"
+        android:name="com.example.bookstore.ui.fragments.RecentlyViewedFragment"
+        android:label="Recently Viewed" />
+
+    <fragment
         android:id="@+id/ordersFragment"
         android:name="com.example.bookstore.ui.fragments.OrdersFragment"
         android:label="My Orders">

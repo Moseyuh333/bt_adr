@@ -26,6 +26,7 @@ import java.util.List;
 public class OrdersFragment extends Fragment {
 
     private RecyclerView ordersRecycler;
+    private View emptyOrdersLayout;
     private TextView emptyOrdersText;
     private TabLayout statusTabs;
     private OrderAdapter adapter;
@@ -43,6 +44,7 @@ public class OrdersFragment extends Fragment {
 
         try {
             ordersRecycler = view.findViewById(R.id.orders_recycler);
+            emptyOrdersLayout = view.findViewById(R.id.empty_orders_layout);
             emptyOrdersText = view.findViewById(R.id.empty_orders_text);
             statusTabs = view.findViewById(R.id.order_status_tabs);
 
@@ -103,10 +105,10 @@ public class OrdersFragment extends Fragment {
             }
 
             if (orders.isEmpty()) {
-                emptyOrdersText.setVisibility(View.VISIBLE);
+                if (emptyOrdersLayout != null) emptyOrdersLayout.setVisibility(View.VISIBLE);
                 ordersRecycler.setVisibility(View.GONE);
             } else {
-                emptyOrdersText.setVisibility(View.GONE);
+                if (emptyOrdersLayout != null) emptyOrdersLayout.setVisibility(View.GONE);
                 ordersRecycler.setVisibility(View.VISIBLE);
                 adapter = new OrderAdapter(orders);
                 ordersRecycler.setAdapter(adapter);
