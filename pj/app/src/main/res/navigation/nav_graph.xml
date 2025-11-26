@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿﻿﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
@@ -68,7 +68,11 @@
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.example.bookstore.ui.fragments.BookDetailFragment"
-        android:label="Book Details" />
+        android:label="Book Details">
+        <action
+            android:id="@+id/action_bookDetailFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/cartFragment"
@@ -91,6 +95,11 @@
             app:destination="@id/cartFragment"
             app:popUpTo="@id/cartFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
