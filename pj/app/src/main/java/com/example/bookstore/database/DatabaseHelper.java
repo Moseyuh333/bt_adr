@@ -91,107 +91,131 @@ public class DatabaseHelper {
         }
     }
 
-    // Demo books data - clean and validated with proper categories and titles
+    // Demo books data - BRAND NEW with Vietnamese titles and clear categories
     private static List<Book> getDemoBooks() {
         List<Book> books = new ArrayList<>();
 
-        // Văn học - Fiction
-        books.add(createBook(1, "1984", "George Orwell", 95000,
-            "Tiểu thuyết viễn tưởng kinh điển về xã hội độc tài và kiểm soát tuyệt đối", "Văn học"));
-        books.add(createBook(2, "The Great Gatsby", "F. Scott Fitzgerald", 85000,
-            "Tiểu thuyết cổ điển Mỹ về tình yêu, giàu có và giấc mơ Mỹ", "Văn học"));
-        books.add(createBook(3, "The Alchemist", "Paulo Coelho", 89000,
-            "Triết lý sống về việc theo đuổi giấc mơ và khám phá bản thân", "Văn học"));
-        books.add(createBook(4, "Animal Farm", "George Orwell", 72000,
-            "Tiểu thuyết châm biếm về cách mạng và sự tham vọng quyền lực", "Văn học"));
-        books.add(createBook(5, "To Kill a Mockingbird", "Harper Lee", 99000,
-            "Tác phẩm kinh điển về công lý, nhân quyền và sự trưởng thành", "Văn học"));
+        // === DANH MỤC: Văn học (10 sách) ===
+        books.add(createBook(1, "Số Đỏ", "Vũ Trọng Phụng", 85000,
+            "Tác phẩm nổi tiếng về cuộc sống Hà Nội xưa", "Văn học"));
+        books.add(createBook(2, "Truyện Kiều", "Nguyễn Du", 120000,
+            "Kiệt tác văn học cổ điển Việt Nam", "Văn học"));
+        books.add(createBook(3, "Chí Phèo", "Nam Cao", 65000,
+            "Chân dung người nông dân nghèo khổ", "Văn học"));
+        books.add(createBook(4, "Tắt Đèn", "Ngô Tất Tố", 75000,
+            "Bi kịch xã hội nông thôn Việt Nam", "Văn học"));
+        books.add(createBook(5, "Vợ Nhặt", "Kim Lân", 55000,
+            "Chuyện tình yêu thương giữa hoàn cảnh khó khăn", "Văn học"));
+        books.add(createBook(6, "Lão Hạc", "Nam Cao", 60000,
+            "Số phận người nghèo trong xã hội cũ", "Văn học"));
+        books.add(createBook(7, "Chiếc Lược Ngà", "Nguyễn Quang Sáng", 70000,
+            "Chuyện tình cảm động về tình cha con", "Văn học"));
+        books.add(createBook(8, "Rừng Xà Nu", "Nguyễn Trung Thành", 95000,
+            "Cuộc sống vùng rừng núi phía Bắc", "Văn học"));
+        books.add(createBook(9, "Những Ngôi Sao Xa Xôi", "Lê Minh Khuê", 88000,
+            "Chuyện chiến tranh và hòa bình", "Văn học"));
+        books.add(createBook(10, "Vang Bóng Một Thời", "Nguyễn Tuân", 78000,
+            "Hồi ức về Hà Nội xưa", "Văn học"));
 
-        // Lịch sử - History
-        books.add(createBook(6, "Sapiens", "Yuval Noah Harari", 150000,
-            "Hành trình từ động vật hoang dã đến chủ nhân thế giới - Lịch sử loài người", "Lịch sử"));
-        books.add(createBook(7, "21 Bài Học Cho Thế Kỷ 21", "Yuval Noah Harari", 135000,
-            "Những thách thức lớn nhất của thế giới hiện đại", "Lịch sử"));
-        books.add(createBook(8, "Việt Nam Sử Lược", "Trần Trọng Kim", 120000,
-            "Lịch sử Việt Nam từ thời cổ đại đến hiện đại", "Lịch sử"));
+        // === DANH MỤC: Kỹ năng (8 sách) ===
+        books.add(createBook(11, "Đắc Nhân Tâm", "Dale Carnegie", 89000,
+            "Nghệ thuật giao tiếp và ứng xử", "Kỹ năng"));
+        books.add(createBook(12, "Quẳng Gánh Lo Đi Và Vui Sống", "Dale Carnegie", 95000,
+            "Cách vượt qua lo lắng trong cuộc sống", "Kỹ năng"));
+        books.add(createBook(13, "Nghĩ Giàu Và Làm Giàu", "Napoleon Hill", 120000,
+            "Bí quyết thành công từ suy nghĩ tích cực", "Kỹ năng"));
+        books.add(createBook(14, "Không Diệt Không Sinh Đừng Sợ Hãi", "Thích Nhất Hạnh", 105000,
+            "Sống an lạc trong hiện tại", "Kỹ năng"));
+        books.add(createBook(15, "Đời Ngắn Đừng Ngủ Dài", "Robin Sharma", 98000,
+            "Tối ưu hóa thời gian và năng suất", "Kỹ năng"));
+        books.add(createBook(16, "Tuổi Trẻ Đáng Giá Bao Nhiêu", "Rosie Nguyễn", 85000,
+            "Truyền cảm hứng cho giới trẻ", "Kỹ năng"));
+        books.add(createBook(17, "Bạn Đắt Giá Bao Nhiêu", "Vãn Tình", 92000,
+            "Nâng cao giá trị bản thân", "Kỹ năng"));
+        books.add(createBook(18, "Cà Phê Cùng Tony", "Tony Buổi Sáng", 88000,
+            "Bài học kinh doanh và cuộc sống", "Kỹ năng"));
 
-        // Khoa học viễn tưởng - Science Fiction
-        books.add(createBook(9, "Dune", "Frank Herbert", 125000,
-            "Tác phẩm kinh điển sci-fi về hành tinh sa mạc bí ẩn và cuộc chiến giành quyền lực", "Khoa học"));
-        books.add(createBook(10, "Foundation", "Isaac Asimov", 105000,
-            "Tác phẩm kinh điển sci-fi về việc xây dựng lại nền văn minh", "Khoa học"));
-        books.add(createBook(11, "Neuromancer", "William Gibson", 98000,
-            "Khởi đầu của thể loại cyberpunk - Tương lai điểm tối của công nghệ", "Khoa học"));
+        // === DANH MỤC: Thiếu nhi (8 sách) ===
+        books.add(createBook(19, "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", 45000,
+            "Cuộc phiêu lưu của chú dế mèn", "Thiếu nhi"));
+        books.add(createBook(20, "Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", 79000,
+            "Tuổi thơ dữ dội ở nông thôn", "Thiếu nhi"));
+        books.add(createBook(21, "Mắt Biếc", "Nguyễn Nhật Ánh", 85000,
+            "Chuyện tình đầu ngọt ngào", "Thiếu nhi"));
+        books.add(createBook(22, "Cho Tôi Xin Một Vé Đi Tuổi Thơ", "Nguyễn Nhật Ánh", 82000,
+            "Hồi ức tuổi thơ đẹp đẽ", "Thiếu nhi"));
+        books.add(createBook(23, "Cô Bé Quàng Khăn Đỏ", "Grimm", 35000,
+            "Truyện cổ tích kinh điển", "Thiếu nhi"));
+        books.add(createBook(24, "Nàng Bạch Tuyết", "Grimm", 35000,
+            "Câu chuyện về công chúa và bảy chú lùn", "Thiếu nhi"));
+        books.add(createBook(25, "Cậu Bé Rừng Xanh", "Nhiều Tác Giả", 42000,
+            "Truyện phiêu lưu cho trẻ em", "Thiếu nhi"));
+        books.add(createBook(26, "Những Cuộc Phiêu Lưu Của Tom Sawyer", "Mark Twain", 68000,
+            "Hành trình mạo hiểm của cậu bé Tom", "Thiếu nhi"));
 
-        // Lãng mạn - Romance
-        books.add(createBook(12, "Pride and Prejudice", "Jane Austen", 79000,
-            "Tiểu thuyết tình cảm vĩ đại của Jane Austen - Tình yêu và thành kiến xã hội", "Kinh tế"));
-        books.add(createBook(13, "The Notebook", "Nicholas Sparks", 85000,
-            "Câu chuyện tình yêu đẹp và đau thương xuyên suốt thời gian", "Kinh tế"));
-        books.add(createBook(14, "Outlander", "Diana Gabaldon", 135000,
-            "Hành trình xuyên thời gian kết hợp lãng mạn, phiêu lưu và lịch sử", "Kinh tế"));
+        // === DANH MỤC: Kinh tế (7 sách) ===
+        books.add(createBook(27, "Dạy Con Làm Giàu", "Robert Kiyosaki", 125000,
+            "Tư duy tài chính cho người Việt", "Kinh tế"));
+        books.add(createBook(28, "Nhà Đầu Tư Thông Minh", "Benjamin Graham", 150000,
+            "Bí quyết đầu tư chứng khoán", "Kinh tế"));
+        books.add(createBook(29, "Tư Duy Nhanh Và Chậm", "Daniel Kahneman", 135000,
+            "Tâm lý học trong quyết định kinh tế", "Kinh tế"));
+        books.add(createBook(30, "Nghệ Thuật Bán Hàng", "Brian Tracy", 98000,
+            "Kỹ năng bán hàng chuyên nghiệp", "Kinh tế"));
+        books.add(createBook(31, "Khởi Nghiệp Bán Lẻ", "Trần Thanh Phong", 110000,
+            "Hướng dẫn mở cửa hàng kinh doanh", "Kinh tế"));
+        books.add(createBook(32, "Marketing 4.0", "Philip Kotler", 145000,
+            "Chiến lược marketing thời đại số", "Kinh tế"));
+        books.add(createBook(33, "Chiến Lược Đại Dương Xanh", "W. Chan Kim", 155000,
+            "Tạo không gian thị trường mới", "Kinh tế"));
 
-        // Kỹ năng - Self-Help
-        books.add(createBook(15, "Atomic Habits", "James Clear", 139000,
-            "Những thói quen nhỏ, những kết quả phi thường - Cách xây dựng cuộc sống tốt hơn", "Kỹ năng"));
-        books.add(createBook(16, "Đắc Nhân Tâm", "Dale Carnegie", 89000,
-            "Nghệ thuật giao tiếp và ứng xử thành công", "Kỹ năng"));
-        books.add(createBook(17, "7 Thói Quen Hiệu Quả", "Stephen Covey", 120000,
-            "Bảy thói quen của người thành đạt", "Kỹ năng"));
+        // === DANH MỤC: Tâm lý (6 sách) ===
+        books.add(createBook(34, "Hiểu Về Trái Tim", "Minh Niệm", 92000,
+            "Hành trình tìm hiểu bản thân", "Tâm lý"));
+        books.add(createBook(35, "Đời Ngắn Đừng Ngủ Dài", "Robin Sharma", 98000,
+            "Sống trọn vẹn từng ngày", "Tâm lý"));
+        books.add(createBook(36, "Nghĩ Đơn Giản Sống Đơn Giản", "Tolly Burkan", 85000,
+            "Hạnh phúc từ sự giản đơn", "Tâm lý"));
+        books.add(createBook(37, "Tâm Lý Học Tội Phạm", "Diệp Hồng Vũ", 115000,
+            "Phân tích hành vi tội phạm", "Tâm lý"));
+        books.add(createBook(38, "Người Khôn Ngoan Có Trái Tim", "Erich Fromm", 105000,
+            "Nghệ thuật yêu thương", "Tâm lý"));
+        books.add(createBook(39, "Tuổi 20 Đừng Mơ Mộng", "Nhiều Tác Giả", 88000,
+            "Định hướng cho giới trẻ", "Tâm lý"));
 
-        // Tiểu sử - Biography
-        books.add(createBook(18, "Educated", "Tara Westover", 119000,
-            "Hành trình giáo dục từ gia đình bí truyền đến Đại học Yale", "Tâm lý"));
-        books.add(createBook(19, "Becoming", "Michelle Obama", 145000,
-            "Tự truyện của cựu Đệ nhất phu nhân - Câu chuyện về sự kiên trì và phấn đấu", "Tâm lý"));
-        books.add(createBook(20, "Steve Jobs", "Walter Isaacson", 155000,
-            "Tiểu sử chính thức của Steve Jobs", "Tâm lý"));
+        // === DANH MỤC: Lịch sử (5 sách) ===
+        books.add(createBook(40, "Lịch Sử Việt Nam", "Nhiều Tác Giả", 180000,
+            "Bộ sử Việt Nam đầy đủ", "Lịch sử"));
+        books.add(createBook(41, "Việt Nam Sử Lược", "Trần Trọng Kim", 120000,
+            "Tóm tắt lịch sử dân tộc", "Lịch sử"));
+        books.add(createBook(42, "Đại Việt Sử Ký Toàn Thư", "Ngô Sĩ Liên", 250000,
+            "Biên niên sử triều đại", "Lịch sử"));
+        books.add(createBook(43, "Bác Hồ Với Thanh Niên", "Nhiều Tác Giả", 75000,
+            "Lời dạy của Bác về thế hệ trẻ", "Lịch sử"));
+        books.add(createBook(44, "Chiến Thắng Điện Biên Phủ", "Võ Nguyên Giáp", 135000,
+            "Hồi ức về chiến dịch lịch sử", "Lịch sử"));
 
-        // Giáo dục - Fantasy
-        books.add(createBook(21, "The Hobbit", "J.R.R. Tolkien", 119000,
-            "Cuộc phiêu lưu huyền thoại của Bilbo Baggins vào thế giới Trung Địa", "Giáo dục"));
-        books.add(createBook(22, "Harry Potter và Hòn Đá Phù Thủy", "J.K. Rowling", 129000,
-            "Khởi đầu của loạt tiểu thuyết phép thuật được yêu thích nhất thế giới", "Giáo dục"));
-        books.add(createBook(23, "The Name of the Wind", "Patrick Rothfuss", 129000,
-            "Tiểu thuyết fantasy huyền thoại về một pháp sư trẻ tài năng", "Giáo dục"));
-        books.add(createBook(24, "A Game of Thrones", "George R.R. Martin", 145000,
-            "Trò chơi vương quyền - Cuộc chiến giành ngai vàng", "Giáo dục"));
+        // === DANH MỤC: Khoa học (5 sách) ===
+        books.add(createBook(45, "Vũ Trụ Trong Vỏ Hạt Dẻ", "Stephen Hawking", 145000,
+            "Khám phá vũ trụ và thời gian", "Khoa học"));
+        books.add(createBook(46, "Lược Sử Thời Gian", "Stephen Hawking", 155000,
+            "Từ Big Bang đến hố đen", "Khoa học"));
+        books.add(createBook(47, "Sapiens", "Yuval Noah Harari", 168000,
+            "Lịch sử loài người", "Khoa học"));
+        books.add(createBook(48, "Trí Tuệ Nhân Tạo", "Kai-Fu Lee", 135000,
+            "Tương lai của AI", "Khoa học"));
+        books.add(createBook(49, "Sinh Vật Kỳ Diệu", "David Attenborough", 125000,
+            "Thế giới động vật hoang dã", "Khoa học"));
 
-        // Nghệ thuật - Thriller/Mystery
-        books.add(createBook(25, "Gone Girl", "Gillian Flynn", 99000,
-            "Thriller tâm lý căng thẳng về vụ mất tích bí ẩn và những bí mật hôn nhân", "Nghệ thuật"));
-        books.add(createBook(26, "The Da Vinci Code", "Dan Brown", 110000,
-            "Bí ẩn và âm mưu xoay quanh tác phẩm nổi tiếng của Leonardo da Vinci", "Nghệ thuật"));
-        books.add(createBook(27, "The Girl with the Dragon Tattoo", "Stieg Larsson", 119000,
-            "Bí ẩn tội phạm Thụy Điển - Nhà báo và hacker tài ba", "Nghệ thuật"));
-        books.add(createBook(28, "And Then There Were None", "Agatha Christie", 79000,
-            "Tiểu thuyết bí ẩn kinh điển - Mười nhân vật và một bí mật chết chóc", "Nghệ thuật"));
-
-        // Công nghệ - Psychology
-        books.add(createBook(29, "Thinking, Fast and Slow", "Daniel Kahneman", 125000,
-            "Khám phá cách hoạt động của tâm trí và những sai lầm trong quyết định", "Công nghệ"));
-        books.add(createBook(30, "Tư Duy Nhanh và Chậm", "Daniel Kahneman", 125000,
-            "Hai hệ thống tư duy và cách chúng định hình quyết định của chúng ta", "Công nghệ"));
-
-        // Thiếu nhi - Children
-        books.add(createBook(31, "Dế Mèn Phiêu Lưu Ký", "Tô Hoài", 45000,
-            "Cuộc phiêu lưu của chú dế mèn trong thế giới côn trùng", "Thiếu nhi"));
-        books.add(createBook(32, "Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", 79000,
-            "Tuổi thơ dữ dội và những ký ức không thể quên", "Thiếu nhi"));
-        books.add(createBook(33, "Mắt Biếc", "Nguyễn Nhật Ánh", 85000,
-            "Chuyện tình đầu ngọt ngào và day dứt", "Thiếu nhi"));
-
-        // Du lịch - Travel
-        books.add(createBook(34, "Việt Nam - Đất Nước Con Người", "National Geographic", 180000,
-            "Khám phá vẻ đẹp thiên nhiên và văn hóa Việt Nam", "Du lịch"));
-        books.add(createBook(35, "50 Điểm Đến Đẹp Nhất Thế Giới", "Various Authors", 220000,
-            "Cẩm nang du lịch toàn cầu", "Du lịch"));
-
-        // Y học - Health
-        books.add(createBook(36, "Tự Chữa Lành", "Deepak Chopra", 95000,
-            "Sức khỏe toàn diện từ tâm trí đến cơ thể", "Y học"));
-        books.add(createBook(37, "Ăn Uống Lành Mạnh", "Nhiều Tác Giả", 89000,
-            "Hướng dẫn dinh dưỡng khoa học", "Y học"));
+        // === DANH MỤC: Công nghệ (4 sách) ===
+        books.add(createBook(50, "Lập Trình Java Cơ Bản", "Phạm Hữu Khang", 98000,
+            "Học Java từ con số 0", "Công nghệ"));
+        books.add(createBook(51, "Python Cho Người Mới", "Đỗ Minh Tuấn", 89000,
+            "Học Python dễ dàng", "Công nghệ"));
+        books.add(createBook(52, "Blockchain Và Tiền Điện Tử", "Andreas M.", 145000,
+            "Công nghệ blockchain explained", "Công nghệ"));
+        books.add(createBook(53, "Machine Learning", "Andrew Ng", 185000,
+            "Học máy và ứng dụng", "Công nghệ"));
 
         return books;
     }

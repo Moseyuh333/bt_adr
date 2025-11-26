@@ -24,12 +24,16 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("BookstorePrefs", MODE_PRIVATE);
 
-        // Initialize database
+        // FORCE CLEAR old data to load new books with proper titles and categories
+        // This ensures database v2 loads with brand new Vietnamese book data
+        clearOldDataIfNeeded();
+
+        // Initialize database with NEW data
         DatabaseHelper.initializeDatabase(this, success -> {
             runOnUiThread(() -> {
                 if (success) {
-                    Toast.makeText(this, "Database ready!", Toast.LENGTH_SHORT).show();
-                    // Ensure sample orders exist for testing
+                    Toast.makeText(this, "✅ Đã tải 53 sách mới!", Toast.LENGTH_SHORT).show();
+                    // Create sample orders with new books
                     com.example.bookstore.utils.OrderManager.getInstance(MainActivity.this)
                         .createSampleOrdersIfNeeded(MainActivity.this);
                 }
@@ -110,6 +114,28 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Clear old data one time to ensure new books load properly
+     * This fixes the issue where old data prevents new titles/categories from showing
+     */
+    private void clearOldDataIfNeeded() {
+        SharedPreferences prefs = getSharedPreferences("AppState", MODE_PRIVATE);
+        boolean hasCleared = prefs.getBoolean("cleared_for_v2", false);
+
+        if (!hasCleared) {
+            // Clear OrderManager data (stored in SharedPreferences)
+            getSharedPreferences("OrderPrefs", MODE_PRIVATE).edit().clear().apply();
+
+            // Clear app state
+            getSharedPreferences("BookstorePrefs", MODE_PRIVATE).edit().clear().apply();
+
+            // Mark as cleared
+            prefs.edit().putBoolean("cleared_for_v2", true).apply();
+
+            Toast.makeText(this, "🔄 Đang cập nhật dữ liệu mới...", Toast.LENGTH_SHORT).show();
         }
     }
 }
