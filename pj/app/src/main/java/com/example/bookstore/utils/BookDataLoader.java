@@ -175,6 +175,9 @@ public class BookDataLoader {
             "Chiến thuật quân sự cổ đại vẫn áp dụng được trong kinh doanh hiện đại",
             "https://picsum.photos/seed/book40/200/300", 4.6, 1200, "Philosophy", true));
 
+        // Ensure all books have complete display fields
+        BookConverter.ensureDisplayFields(books);
+
         return books;
     }
 

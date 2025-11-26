@@ -45,25 +45,42 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Book book = books.get(position);
+        try {
+            Book book = books.get(position);
+            if (book == null) return;
 
-        holder.titleText.setText(book.title);
-        holder.authorText.setText("Tác giả: " + book.author);
-        holder.categoryText.setText("📚 " + book.category);
+            // title = tên sách (Book name/title)
+            String title = (book.title != null && !book.title.isEmpty()) ? book.title : "Sách không tên";
+            holder.titleText.setText(title);
 
-        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-        holder.priceText.setText(formatter.format(book.price) + "₫");
+            // author = tác giả (Author name)
+            String author = (book.author != null && !book.author.isEmpty()) ? book.author : "Tác giả";
+            holder.authorText.setText("Tác giả: " + author);
 
-        holder.stockText.setText("Tồn kho: " + book.quantity);
-        holder.stockText.setTextColor(book.quantity > 10 ? 0xFF4CAF50 : 0xFFF44336);
+            // category = danh mục (Category name)
+            String category = (book.category != null && !book.category.isEmpty()) ? book.category : "Sách";
+            category = category.replaceAll("<[^>]*>", "").trim(); // Clean HTML tags
+            if (category.length() > 30) {
+                category = category.substring(0, 27) + "...";
+            }
+            holder.categoryText.setText("📚 " + category);
 
-        holder.editBtn.setOnClickListener(v -> {
-            if (listener != null) listener.onEdit(book);
-        });
+            NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+            holder.priceText.setText(formatter.format(book.price) + "₫");
 
-        holder.deleteBtn.setOnClickListener(v -> {
-            if (listener != null) listener.onDelete(book);
-        });
+            holder.stockText.setText("Tồn kho: " + book.quantity);
+            holder.stockText.setTextColor(book.quantity > 10 ? 0xFF4CAF50 : 0xFFF44336);
+
+            holder.editBtn.setOnClickListener(v -> {
+                if (listener != null) listener.onEdit(book);
+            });
+
+            holder.deleteBtn.setOnClickListener(v -> {
+                if (listener != null) listener.onDelete(book);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

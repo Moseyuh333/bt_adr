@@ -6,63 +6,127 @@
     android:orientation="vertical"
     android:padding="8dp">
     <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="240dp"
+        android:layout_width="160dp"
+        android:layout_height="300dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
-                android:id="@+id/book_image"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scaleType="centerCrop" />
+                android:layout_height="180dp">
+                <ImageView
+                    android:id="@+id/book_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Book Cover" />
+                <!-- Discount Badge -->
+                <TextView
+                    android:id="@+id/discount_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="6dp"
+                    android:background="#FFEB3B"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="-20%"
+                    android:textColor="#D32F2F"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </FrameLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:background="@android:color/white">
                 <TextView
                     android:id="@+id/book_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Book"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:text="Book Title"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:lineSpacingExtra="2dp" />
                 <TextView
                     android:id="@+id/book_author"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Author"
-                    android:textSize="10sp"
-                    android:textColor="@color/gray_500" />
-                <TextView
-                    android:id="@+id/book_price"
+                    android:textSize="11sp"
+                    android:textColor="@color/gray_500"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_marginTop="2dp" />
+                <!-- Price with Original Price -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="\.99"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/amber_600" />
-                <RatingBar
-                    android:id="@+id/book_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:isIndicator="true"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5" />
-                <TextView
-                    android:id="@+id/review_count"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <TextView
+                        android:id="@+id/book_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="99,000₫"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/amber_600" />
+                    <TextView
+                        android:id="@+id/original_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="120,000₫"
+                        android:textSize="11sp"
+                        android:textColor="@color/gray_500"
+                        android:layout_marginStart="6dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+                <!-- Rating and Sold Count -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Reviews"
-                    android:textSize="8sp"
-                    android:textColor="@color/gray_500" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp">
+                    <RatingBar
+                        android:id="@+id/book_rating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:isIndicator="true"
+                        android:stepSize="0.5" />
+                    <TextView
+                        android:id="@+id/review_count"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="(0)"
+                        android:textSize="10sp"
+                        android:textColor="@color/gray_500"
+                        android:layout_marginStart="4dp" />
+                    <TextView
+                        android:id="@+id/sold_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Đã bán 100"
+                        android:textSize="9sp"
+                        android:textColor="@color/gray_500" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
+

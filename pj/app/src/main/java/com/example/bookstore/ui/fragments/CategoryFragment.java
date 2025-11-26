@@ -64,7 +64,19 @@ public class CategoryFragment extends Fragment {
             List<String> dbCategories = database.bookDao().getAllCategories();
             List<String> categories = new ArrayList<>();
             categories.add("All");
-            categories.addAll(dbCategories);
+
+            // Filter and clean categories - only add valid, reasonable length categories
+            if (dbCategories != null) {
+                for (String cat : dbCategories) {
+                    if (cat != null && !cat.isEmpty() && cat.length() <= 50 && !cat.contains("<") && !cat.contains(">")) {
+                        // Remove any HTML or special characters
+                        String cleanCat = cat.replaceAll("<[^>]*>", "").trim();
+                        if (!cleanCat.isEmpty() && !categories.contains(cleanCat)) {
+                            categories.add(cleanCat);
+                        }
+                    }
+                }
+            }
 
             requireActivity().runOnUiThread(() -> {
                 categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -186,21 +198,6 @@ public class CategoryFragment extends Fragment {
     }
 
     private List<com.example.bookstore.models.Book> convertToOldBookList(List<com.example.bookstore.database.entities.Book> dbBooks) {
-        List<com.example.bookstore.models.Book> oldBooks = new ArrayList<>();
-        for (com.example.bookstore.database.entities.Book db : dbBooks) {
-            com.example.bookstore.models.Book book = new com.example.bookstore.models.Book(
-                String.valueOf(db.getId()),
-                db.getTitle(),
-                db.getAuthor(),
-                db.getPrice(),
-                db.getImageUrl(),
-                db.getDescription(),
-                db.getCategory(),
-                0.0,
-                db.getStock()
-            );
-            oldBooks.add(book);
-        }
-        return oldBooks;
+        return com.example.bookstore.utils.BookConverter.convertToDisplayBooks(dbBooks);
     }
 }

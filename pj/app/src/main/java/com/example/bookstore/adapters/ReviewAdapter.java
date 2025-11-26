@@ -37,6 +37,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         holder.reviewRating.setRating(review.rating);
         holder.reviewDate.setText(review.date);
         holder.reviewContent.setText(review.content);
+
+        // Set avatar with first letter of name
+        if (review.reviewerName != null && !review.reviewerName.isEmpty()) {
+            String firstLetter = review.reviewerName.substring(0, 1).toUpperCase();
+            holder.reviewerAvatar.setText(firstLetter);
+        } else {
+            holder.reviewerAvatar.setText("?");
+        }
+
+        // Set random helpful count for demo
+        int helpfulCount = (int)(Math.random() * 30) + 1;
+        holder.helpfulButton.setText("👍 Hữu ích (" + helpfulCount + ")");
     }
 
     @Override
@@ -45,15 +57,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
     }
 
     static class ReviewViewHolder extends RecyclerView.ViewHolder {
-        TextView reviewerName, reviewDate, reviewContent;
+        TextView reviewerName, reviewDate, reviewContent, reviewerAvatar, helpfulButton;
         RatingBar reviewRating;
 
         public ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
+            reviewerAvatar = itemView.findViewById(R.id.reviewer_avatar);
             reviewerName = itemView.findViewById(R.id.reviewer_name);
             reviewRating = itemView.findViewById(R.id.review_rating);
             reviewDate = itemView.findViewById(R.id.review_date);
             reviewContent = itemView.findViewById(R.id.review_content);
+            helpfulButton = itemView.findViewById(R.id.helpful_button);
         }
     }
 }

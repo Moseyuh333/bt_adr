@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bookstore.R;
-import com.example.bookstore.adapters.CartAdapter;
+import com.example.bookstore.adapters.OrderItemAdapter;
 import com.example.bookstore.models.Order;
 import com.example.bookstore.models.OrderReview;
 import com.example.bookstore.utils.OrderManager;
@@ -57,6 +57,10 @@ public class OrderDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
+            if (getContext() == null) {
+                return;
+            }
+
             orderManager = OrderManager.getInstance(getContext());
 
             // Get order ID from arguments
@@ -66,14 +70,16 @@ public class OrderDetailFragment extends Fragment {
             }
 
             // Try to load order from OrderManager first
-            order = orderManager.getOrderById(orderId);
+            if (orderManager != null) {
+                order = orderManager.getOrderById(orderId);
+            }
 
             if (order == null) {
                 // If not found, create a placeholder to prevent crash
                 order = new Order();
                 order.id = "ORD" + orderId;
                 order.orderDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                order.status = "Pending";
+                order.status = "PENDING";
                 order.customerName = "Khách hàng";
                 order.customerPhone = "Đang cập nhật";
                 order.deliveryAddress = "Đang cập nhật";
@@ -85,10 +91,15 @@ public class OrderDetailFragment extends Fragment {
                 order.total = 0;
                 order.items = new ArrayList<>();
 
-                Toast.makeText(getContext(), "Đang tải thông tin đơn hàng...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Không tìm thấy thông tin đơn hàng", Toast.LENGTH_SHORT).show();
             }
 
-            // Initialize views
+            // Ensure items is never null
+            if (order.items == null) {
+                order.items = new ArrayList<>();
+            }
+
+            // Initialize views with null checks
             orderIdText = view.findViewById(R.id.order_detail_id);
             orderDateText = view.findViewById(R.id.order_detail_date);
             orderStatusText = view.findViewById(R.id.order_detail_status);
@@ -119,67 +130,91 @@ public class OrderDetailFragment extends Fragment {
             reviewLayout = view.findViewById(R.id.review_layout);
             reviewSectionText = view.findViewById(R.id.review_text);
 
-            // Set order data
-            orderIdText.setText("Đơn hàng #" + order.id);
-            orderDateText.setText(order.orderDate);
-            orderStatusText.setText(getStatusText(order.status));
-            customerNameText.setText(order.customerName);
-            customerPhoneText.setText(order.customerPhone);
-            customerAddressText.setText(order.deliveryAddress);
-            subtotalText.setText(String.format("%,.0f₫", order.subtotal));
-            taxText.setText(String.format("%,.0f₫", order.tax));
-            discountText.setText(String.format("-%,.0f₫", order.discount));
-            shippingText.setText(String.format("%,.0f₫", order.shippingFee));
-            totalText.setText(String.format("%,.0f₫", order.total));
-            paymentMethodText.setText(order.paymentMethod);
-
-            if (order.voucherCode != null && !order.voucherCode.isEmpty()) {
-                voucherCodeText.setText("Mã: " + order.voucherCode);
-                voucherCodeText.setVisibility(View.VISIBLE);
-            } else {
-                voucherCodeText.setVisibility(View.GONE);
+            // Check if critical views are null
+            if (orderIdText == null || orderStatusText == null || itemsRecycler == null) {
+                Toast.makeText(getContext(), "Lỗi tải giao diện đơn hàng", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            // Set status color
-            orderStatusText.setTextColor(getStatusColor(order.status));
+            // Set order data with null checks
+            if (orderIdText != null) orderIdText.setText("Đơn hàng #" + (order.id != null ? order.id : "N/A"));
+            if (orderDateText != null) orderDateText.setText(order.orderDate != null ? order.orderDate : "");
+            if (orderStatusText != null) {
+                orderStatusText.setText(getStatusText(order.status));
+                orderStatusText.setTextColor(getStatusColor(order.status));
+            }
+            if (customerNameText != null) customerNameText.setText(order.customerName != null ? order.customerName : "");
+            if (customerPhoneText != null) customerPhoneText.setText(order.customerPhone != null ? order.customerPhone : "");
+            if (customerAddressText != null) customerAddressText.setText(order.deliveryAddress != null ? order.deliveryAddress : "");
+            if (subtotalText != null) subtotalText.setText(String.format("%,.0f₫", order.subtotal));
+            if (taxText != null) taxText.setText(String.format("%,.0f₫", order.tax));
+            if (discountText != null) discountText.setText(String.format("-%,.0f₫", order.discount));
+            if (shippingText != null) shippingText.setText(String.format("%,.0f₫", order.shippingFee));
+            if (totalText != null) totalText.setText(String.format("%,.0f₫", order.total));
+            if (paymentMethodText != null) paymentMethodText.setText(order.paymentMethod != null ? order.paymentMethod : "COD");
 
-            // Setup items recycler
-            itemsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-            itemsRecycler.setAdapter(new CartAdapter(order.items, () -> {}));
+            if (voucherCodeText != null) {
+                if (order.voucherCode != null && !order.voucherCode.isEmpty()) {
+                    voucherCodeText.setText("Mã: " + order.voucherCode);
+                    voucherCodeText.setVisibility(View.VISIBLE);
+                } else {
+                    voucherCodeText.setVisibility(View.GONE);
+                }
+            }
+
+            // Setup items recycler with null checks
+            if (itemsRecycler != null && getContext() != null) {
+                itemsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+                // Create empty list if items is null
+                List<?> itemsToDisplay = (order.items != null && !order.items.isEmpty())
+                    ? order.items
+                    : new ArrayList<>();
+                // Sử dụng OrderItemAdapter thay vì CartAdapter để hiển thị order items
+                itemsRecycler.setAdapter(new OrderItemAdapter(itemsToDisplay));
+            }
 
             // Setup action buttons based on order status
             setupActionButtons();
 
             // Display cancel reason if exists
-            if (order.cancelReason != null && !order.cancelReason.isEmpty()) {
-                cancelReasonLayout.setVisibility(View.VISIBLE);
-                cancelReasonText.setText("Lý do hủy: " + order.cancelReason);
-            } else {
-                cancelReasonLayout.setVisibility(View.GONE);
+            if (cancelReasonLayout != null && cancelReasonText != null) {
+                if (order.cancelReason != null && !order.cancelReason.isEmpty()) {
+                    cancelReasonLayout.setVisibility(View.VISIBLE);
+                    cancelReasonText.setText("Lý do hủy: " + order.cancelReason);
+                } else {
+                    cancelReasonLayout.setVisibility(View.GONE);
+                }
             }
 
             // Display return reason if exists
-            if (order.returnReason != null && !order.returnReason.isEmpty()) {
-                returnReasonLayout.setVisibility(View.VISIBLE);
-                returnReasonText.setText("Lý do hoàn trả: " + order.returnReason);
-            } else {
-                returnReasonLayout.setVisibility(View.GONE);
+            if (returnReasonLayout != null && returnReasonText != null) {
+                if (order.returnReason != null && !order.returnReason.isEmpty()) {
+                    returnReasonLayout.setVisibility(View.VISIBLE);
+                    returnReasonText.setText("Lý do hoàn trả: " + order.returnReason);
+                } else {
+                    returnReasonLayout.setVisibility(View.GONE);
+                }
             }
 
             // Display review if exists
-            if (order.review != null) {
-                reviewLayout.setVisibility(View.VISIBLE);
-                reviewSectionText.setText(
-                    "Đánh giá: " + order.review.rating + "⭐\n" +
-                    "Nhận xét: " + order.review.comment + "\n" +
-                    "Ngày: " + order.review.reviewDate
-                );
-            } else {
-                reviewLayout.setVisibility(View.GONE);
+            if (reviewLayout != null && reviewSectionText != null) {
+                if (order.review != null) {
+                    reviewLayout.setVisibility(View.VISIBLE);
+                    reviewSectionText.setText(
+                        "Đánh giá: " + order.review.rating + "⭐\n" +
+                        "Nhận xét: " + order.review.comment + "\n" +
+                        "Ngày: " + order.review.reviewDate
+                    );
+                } else {
+                    reviewLayout.setVisibility(View.GONE);
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Lỗi hiển thị chi tiết đơn hàng: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -215,43 +250,54 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void setupActionButtons() {
+        if (orderManager == null || order == null) return;
+
         // Show/hide buttons based on order status and permissions
-        if (orderManager.canCancelOrder(order)) {
-            cancelOrderBtn.setVisibility(View.VISIBLE);
-            cancelOrderBtn.setOnClickListener(v -> showCancelDialog());
-        } else {
-            cancelOrderBtn.setVisibility(View.GONE);
+        if (cancelOrderBtn != null) {
+            if (orderManager.canCancelOrder(order)) {
+                cancelOrderBtn.setVisibility(View.VISIBLE);
+                cancelOrderBtn.setOnClickListener(v -> showCancelDialog());
+            } else {
+                cancelOrderBtn.setVisibility(View.GONE);
+            }
         }
 
-        if (orderManager.canConfirmReceipt(order)) {
-            confirmReceiptBtn.setVisibility(View.VISIBLE);
-            confirmReceiptBtn.setOnClickListener(v -> confirmReceipt());
-        } else {
-            confirmReceiptBtn.setVisibility(View.GONE);
+        if (confirmReceiptBtn != null) {
+            if (orderManager.canConfirmReceipt(order)) {
+                confirmReceiptBtn.setVisibility(View.VISIBLE);
+                confirmReceiptBtn.setOnClickListener(v -> confirmReceipt());
+            } else {
+                confirmReceiptBtn.setVisibility(View.GONE);
+            }
         }
 
-        if (orderManager.canReturnOrder(order)) {
-            returnOrderBtn.setVisibility(View.VISIBLE);
-            returnOrderBtn.setOnClickListener(v -> showReturnDialog());
-        } else {
-            returnOrderBtn.setVisibility(View.GONE);
+        if (returnOrderBtn != null) {
+            if (orderManager.canReturnOrder(order)) {
+                returnOrderBtn.setVisibility(View.VISIBLE);
+                returnOrderBtn.setOnClickListener(v -> showReturnDialog());
+            } else {
+                returnOrderBtn.setVisibility(View.GONE);
+            }
         }
 
-        if (orderManager.canReview(order)) {
-            reviewOrderBtn.setVisibility(View.VISIBLE);
-            reviewOrderBtn.setOnClickListener(v -> showReviewDialog());
-        } else {
-            reviewOrderBtn.setVisibility(View.GONE);
+        if (reviewOrderBtn != null) {
+            if (orderManager.canReview(order)) {
+                reviewOrderBtn.setVisibility(View.VISIBLE);
+                reviewOrderBtn.setOnClickListener(v -> showReviewDialog());
+            } else {
+                reviewOrderBtn.setVisibility(View.GONE);
+            }
         }
 
         // Hide action buttons layout if no buttons are visible
-        if (cancelOrderBtn.getVisibility() == View.GONE &&
-            confirmReceiptBtn.getVisibility() == View.GONE &&
-            returnOrderBtn.getVisibility() == View.GONE &&
-            reviewOrderBtn.getVisibility() == View.GONE) {
-            actionButtonsLayout.setVisibility(View.GONE);
-        } else {
-            actionButtonsLayout.setVisibility(View.VISIBLE);
+        if (actionButtonsLayout != null) {
+            boolean hasVisibleButton = false;
+            if (cancelOrderBtn != null && cancelOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+            if (confirmReceiptBtn != null && confirmReceiptBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+            if (returnOrderBtn != null && returnOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+            if (reviewOrderBtn != null && reviewOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+
+            actionButtonsLayout.setVisibility(hasVisibleButton ? View.VISIBLE : View.GONE);
         }
     }
 

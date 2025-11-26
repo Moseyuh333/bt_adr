@@ -129,11 +129,20 @@ public class HomeFragment extends Fragment {
                     List<String> dbCategories = database.bookDao().getAllCategories();
                     List<String> categories = new ArrayList<>();
                     if (dbCategories != null && !dbCategories.isEmpty()) {
-                        // Limit to first 6 categories for display
-                        int limit = Math.min(6, dbCategories.size());
-                        categories.addAll(dbCategories.subList(0, limit));
-                    } else {
-                        // Fallback to hardcoded categories if database is empty
+                        // Filter and clean categories - only add valid ones
+                        for (String cat : dbCategories) {
+                            if (cat != null && !cat.isEmpty() && cat.length() <= 50 && !cat.contains("<") && !cat.contains(">")) {
+                                String cleanCat = cat.replaceAll("<[^>]*>", "").trim();
+                                if (!cleanCat.isEmpty() && !categories.contains(cleanCat)) {
+                                    categories.add(cleanCat);
+                                    if (categories.size() >= 6) break; // Limit to 6 categories
+                                }
+                            }
+                        }
+                    }
+
+                    // Fallback if no valid categories found
+                    if (categories.isEmpty()) {
                         categories = Arrays.asList("Fiction", "Fantasy", "Science Fiction", "Romance", "Mystery", "Thriller");
                     }
                     
@@ -183,21 +192,6 @@ public class HomeFragment extends Fragment {
     }
 
     private List<Book> convertToOldBookList(List<com.example.bookstore.database.entities.Book> dbBooks) {
-        List<Book> oldBooks = new ArrayList<>();
-        for (com.example.bookstore.database.entities.Book db : dbBooks) {
-            Book book = new Book(
-                String.valueOf(db.getId()),
-                db.getTitle(),
-                db.getAuthor(),
-                db.getPrice(),
-                db.getImageUrl(),
-                db.getDescription(),
-                db.getCategory(),
-                4.5,
-                db.getStock()
-            );
-            oldBooks.add(book);
-        }
-        return oldBooks;
+        return com.example.bookstore.utils.BookConverter.convertToDisplayBooks(dbBooks);
     }
 }

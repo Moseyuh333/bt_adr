@@ -37,35 +37,56 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-        String category = categories.get(position);
-        holder.categoryName.setText(category);
+        try {
+            String category = categories.get(position);
 
-        // Set icon based on category
-        String icon = getCategoryIcon(category);
-        holder.categoryIcon.setText(icon);
+            // Validate category - clean and ensure it's valid
+            if (category == null || category.isEmpty()) {
+                category = "Sách";
+            }
 
-        // Highlight selected category
-        if (position == selectedPosition) {
-            holder.itemView.setBackgroundResource(R.color.amber_600);
-            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.black));
-            holder.categoryIcon.setAlpha(1.0f);
-        } else {
-            holder.itemView.setBackgroundResource(R.color.amber_50);
-            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.amber_800));
-            holder.categoryIcon.setAlpha(0.8f);
+            // category = danh mục (Category name) - hiển thị tên danh mục rõ ràng
+            String cleanCategory = category.replaceAll("<[^>]*>", "").trim();
+            if (cleanCategory.isEmpty()) {
+                cleanCategory = "Sách";
+            }
+            if (cleanCategory.length() > 50) {
+                cleanCategory = cleanCategory.substring(0, 47) + "...";
+            }
+
+            holder.categoryName.setText(cleanCategory);
+
+            // Set icon based on category
+            String icon = getCategoryIcon(category);
+            holder.categoryIcon.setText(icon);
+
+            // Highlight selected category
+            if (position == selectedPosition) {
+                holder.itemView.setBackgroundResource(R.color.amber_600);
+                holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.black));
+                holder.categoryIcon.setAlpha(1.0f);
+            } else {
+                holder.itemView.setBackgroundResource(R.color.amber_50);
+                holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.amber_800));
+                holder.categoryIcon.setAlpha(0.8f);
+            }
+
+            final String finalCategory = category; // Make final for lambda use
+            holder.itemView.setOnClickListener(v -> {
+                int oldPosition = selectedPosition;
+                selectedPosition = holder.getAdapterPosition();
+                notifyItemChanged(oldPosition);
+                notifyItemChanged(selectedPosition);
+                listener.onCategoryClick(finalCategory);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        holder.itemView.setOnClickListener(v -> {
-            int oldPosition = selectedPosition;
-            selectedPosition = holder.getAdapterPosition();
-            notifyItemChanged(oldPosition);
-            notifyItemChanged(selectedPosition);
-            listener.onCategoryClick(category);
-        });
     }
 
     private String getCategoryIcon(String category) {
         switch (category.toLowerCase()) {
+            // Vietnamese categories
             case "văn học": return "📖";
             case "khoa học": return "🔬";
             case "kinh tế": return "💰";
@@ -78,6 +99,68 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             case "công nghệ": return "💻";
             case "y học": return "⚕️";
             case "du lịch": return "✈️";
+
+            // English categories
+            case "all":
+            case "tất cả": return "📚";
+            case "fiction":
+            case "tiểu thuyết": return "📖";
+            case "fantasy":
+            case "kỳ ảo": return "🧙";
+            case "science fiction":
+            case "sci-fi":
+            case "khoa học viễn tưởng": return "🚀";
+            case "romance":
+            case "lãng mạn": return "💕";
+            case "mystery":
+            case "bí ẩn": return "🔍";
+            case "thriller":
+            case "giật gân": return "😱";
+            case "horror":
+            case "kinh dị": return "👻";
+            case "biography":
+            case "tiểu sử": return "👤";
+            case "history":
+            case "historical": return "🏛️";
+            case "self-help":
+            case "tự trợ": return "💪";
+            case "business":
+            case "kinh doanh": return "💼";
+            case "finance":
+            case "tài chính": return "💰";
+            case "psychology": return "🧠";
+            case "philosophy":
+            case "triết học": return "🤔";
+            case "religion":
+            case "tôn giáo": return "⛪";
+            case "science": return "🔬";
+            case "technology": return "💻";
+            case "cooking":
+            case "nấu ăn": return "🍳";
+            case "travel": return "✈️";
+            case "art": return "🎨";
+            case "music":
+            case "âm nhạc": return "🎵";
+            case "sports":
+            case "thể thao": return "⚽";
+            case "health":
+            case "sức khỏe": return "🏥";
+            case "children": return "🧸";
+            case "young adult":
+            case "thanh thiếu niên": return "👦";
+            case "poetry":
+            case "thơ ca": return "✍️";
+            case "drama":
+            case "kịch": return "🎭";
+            case "comics":
+            case "manga":
+            case "truyện tranh": return "📰";
+            case "education": return "🎓";
+            case "reference":
+            case "tham khảo": return "📚";
+            case "dystopian": return "🌆";
+            case "gothic": return "🏰";
+
             default: return "📚";
         }
     }
