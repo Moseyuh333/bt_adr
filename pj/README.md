@@ -1,468 +1,849 @@
-# 📚 Bookish Bliss Heaven - Ứng Dụng Nhà Sách Android
+# 📚 Bookish Bliss Haven - Android Bookstore Application
 
-Ứng dụng nhà sách Android đầy đủ tính năng với 40+ cuốn sách, giỏ hàng, thanh toán và hệ thống voucher hoàn chỉnh.
+![Android](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white)
+![Java](https://img.shields.io/badge/Language-Java-007396?logo=java&logoColor=white)
+![Room](https://img.shields.io/badge/Database-Room-4285F4?logo=android&logoColor=white)
+![API](https://img.shields.io/badge/Min%20SDK-24-brightgreen)
+![Version](https://img.shields.io/badge/Version-1.0-blue)
 
-## 🎯 Tính Năng Chính
+## 📖 Giới thiệu
 
-### 🔐 Xác Thực Người Dùng
-- Đăng nhập với email và password
-- Đăng ký tài khoản mới
-- Quên mật khẩu
-- Đăng xuất an toàn
-- Lưu phiên đăng nhập
+**Bookish Bliss Haven** là một ứng dụng bán sách Android hiện đại với giao diện thân thiện và đầy đủ tính năng quản lý. Ứng dụng hỗ trợ hai chế độ: **Khách hàng** và **Quản trị viên**, mang đến trải nghiệm mua sắm sách trực tuyến hoàn chỉnh.
 
-### 🔍 Tìm Kiếm & Phân Loại
-- **Tìm kiếm real-time** theo tên sách, tác giả, thể loại
-- **17 danh mục** để lọc sách (Fiction, Romance, Fantasy, v.v.)
-- Cuộn ngang để chọn category
-- Hiển thị số lượng sách mỗi category
+### ✨ Tính năng nổi bật
 
-### 📚 40+ Cuốn Sách
-- **Tiểu thuyết** (10 cuốn): The Great Gatsby, 1984, v.v.
-- **Lãng mạn** (5 cuốn): Pride and Prejudice, Outlander, v.v.
-- **Fantasy** (5 cuốn): The Hobbit, Harry Potter, v.v.
-- **Sci-Fi** (5 cuốn): Dune, Foundation, v.v.
-- **Mystery** (5 cuốn): Gone Girl, The Da Vinci Code, v.v.
-- **Non-Fiction** (10 cuốn): Sapiens, Atomic Habits, v.v.
+#### 👥 Dành cho Khách hàng
+- 🔐 Đăng ký, đăng nhập và quản lý tài khoản
+- 📚 Duyệt và tìm kiếm sách theo danh mục
+- 🔍 Xem chi tiết sách với mô tả đầy đủ
+- 🛒 Thêm sách vào giỏ hàng và quản lý giỏ hàng
+- 💳 Đặt hàng với nhiều phương thức thanh toán
+- 📦 Theo dõi đơn hàng và lịch sử mua hàng
+- 📍 Quản lý địa chỉ giao hàng
+- ⭐ Đánh giá và nhận xét sách
+- ❤️ Yêu thích và xem sách đã xem gần đây
 
-### 📖 Trang Chi Tiết Sách
-- Hình ảnh bìa sách chất lượng cao
-- Thông tin đầy đủ: Tác giả, Giá, Mô tả
-- Đánh giá và số lượng reviews
-- Chọn số lượng mua
-- Thêm vào giỏ hàng
+#### 👨‍💼 Dành cho Quản trị viên
+- 📊 Dashboard tổng quan hệ thống
+- 📖 Quản lý sách (CRUD - Thêm, Sửa, Xóa)
+- 👥 Quản lý khách hàng
+- 📦 Quản lý đơn hàng (xác nhận, giao hàng, hủy)
+- 📈 Thống kê doanh thu và báo cáo
 
-### 🛒 Giỏ Hàng Hoàn Chỉnh
-- Danh sách sách đã chọn
-- Thay đổi số lượng (+/-)
-- Xóa sách khỏi giỏ
-- Tính toán tự động (Tổng tiền, Giảm giá, Phí ship)
-- Hiển thị giá VND đúng định dạng
+---
 
-### 💳 Thanh Toán Đầy Đủ
-- Nhập thông tin giao hàng
-- Áp dụng mã giảm giá (voucher)
-- Chọn phương thức thanh toán
-- Xác nhận đơn hàng
+## 🏗️ Kiến trúc ứng dụng
 
-### 🎟️ Hệ Thống Voucher
-- **SAVE10**: Giảm 10%
-- **SAVE20**: Giảm 20% (đơn tối thiểu 100,000₫)
-- **FLAT50K**: Giảm 50,000₫ (đơn tối thiểu 200,000₫)
-- **WELCOME**: Giảm 10,000₫
-- **FIRSTORDER**: Giảm 15% đơn đầu tiên
+### 📐 Sơ đồ tổng quan hệ thống
 
-### 📦 Quản Lý Đơn Hàng
-- **Lịch sử đơn hàng** trong Profile
-- **5 trạng thái** với màu sắc: Pending, Confirmed, Shipped, Delivered, Cancelled
-- **Chi tiết đơn hàng**: Sản phẩm, thông tin khách hàng, thanh toán
-- Theo dõi mã voucher đã sử dụng
-
-### 💳 Thanh Toán Đa Dạng
-- Cash on Delivery (COD)
-- Thẻ tín dụng/Ghi nợ
-- **Thanh toán online** với form nhập thẻ:
-  - Số thẻ (13-19 chữ số)
-  - Tên chủ thẻ
-  - Ngày hết hạn (MM/YY)
-  - CVV (3-4 chữ số)
-  - Validation đầy đủ
-
-- **Book Management**
-  - Browse 40+ books across multiple categories
-  - Detailed book information (title, author, price, rating)
-  - High-quality book cover images
-  - Category filtering (Fiction, Romance, Fantasy, Sci-Fi, Mystery, Non-Fiction, etc.)
-
-- **User Experience**
-  - Material Design 3 components
-  - Responsive layouts
-  - Smooth navigation with bottom tab bar
-  - Intuitive UI with Amber color scheme
-  - Error handling and user feedback with toast notifications
-
-### 🔐 Authentication Flow
 ```
-App Start
-   ↓
-Login Screen (if not logged in)
-   ├─ Demo credentials: demo@bookstore.com / demo123
-   ├─ Sign Up link → Register Screen
-   └─ Forgot Password link → Reset Screen
-   ↓
-Home Screen (if logged in)
-   └─ Bottom Navigation: Home, Catalog, Cart, Profile
+┌─────────────────────────────────────────────────────────────────┐
+│                     BOOKISH BLISS HAVEN                         │
+│                    Android Application                          │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              │
+        ┌─────────────────────┴─────────────────────┐
+        │                                             │
+        ▼                                             ▼
+┌──────────────┐                            ┌──────────────┐
+│  MainActivity│                            │AdminActivity │
+│              │                            │              │
+│  (Customer)  │                            │   (Admin)    │
+└──────┬───────┘                            └──────┬───────┘
+       │                                            │
+       │                                            │
+       ├─ Navigation Controller                    ├─ Navigation Controller
+       │                                            │
+       ├─ Bottom Navigation                        ├─ Navigation Graph
+       │                                            │
+       └─ Fragments:                                └─ Fragments:
+          • HomeFragment                               • AdminDashboardFragment
+          • CatalogFragment                            • AdminProductsFragment
+          • CartFragment                               • AdminCustomersFragment
+          • ProfileFragment                            • AdminOrdersFragment
+          • BookDetailFragment                         • AdminEditProductFragment
+          • CheckoutFragment
+          • OrdersFragment
+          • SearchFragment
+          • FavoritesFragment
+          etc...
 ```
 
-## 🛠️ Technical Stack
+### 🔄 Luồng hoạt động chính
 
-### Technologies & Libraries
-- **Language**: Java 11
-- **IDE**: Android Studio
-- **Min SDK**: Android 7.0 (API 24)
-- **Target SDK**: Android 16 (API 36)
+```
+┌──────────────┐
+│   App Start  │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────────────┐
+│  Database Init       │
+│  Load Sample Data    │
+└──────┬───────────────┘
+       │
+       ▼
+┌──────────────────────┐     YES    ┌──────────────────┐
+│  User Logged In?     ├──────────→ │  MainActivity    │
+└──────┬───────────────┘            │  (Customer View) │
+       │ NO                          └──────────────────┘
+       ▼
+┌──────────────────────┐
+│  LoginFragment       │
+└──────┬───────────────┘
+       │
+       ├─── Login Success ───→ Check Role
+       │                            │
+       │                            ├─ Customer → MainActivity
+       │                            └─ Admin → AdminActivity
+       │
+       └─── Register ────→ RegisterFragment
+```
 
-### Key Dependencies
-- **Navigation**: AndroidX Navigation (2.7.6)
-- **Image Loading**: Glide 4.16.0
-- **HTTP Client**: Retrofit 2.10.0 + OkHttp 4.11.0
-- **JSON Parsing**: Gson 2.10.1
-- **RecyclerView**: AndroidX RecyclerView 1.3.2
-- **Material Design**: Material Components 1.11.0+
-- **CardView**: AndroidX CardView 1.0.0
+---
 
-## 📦 Project Structure
+## 🗄️ Cấu trúc Database (Room)
+
+### 📊 Sơ đồ ERD (Entity Relationship Diagram)
+
+```
+┌─────────────────────┐
+│       USERS         │
+├─────────────────────┤
+│ PK  id             │◄────────────┐
+│     username (UK)  │             │
+│     password       │             │
+│     fullName       │             │
+│     email          │             │
+│     phone          │             │
+│     isAdmin        │             │
+│     isActive       │             │
+│     createdAt      │             │
+└─────────────────────┘             │
+         │                          │
+         │ 1                        │
+         │                          │
+         │                          │ N
+         │ N                ┌───────┴──────────┐
+         └──────────────────┤     ORDERS       │
+                            ├──────────────────┤
+┌─────────────────────┐     │ PK  id          │
+│      BOOKS          │     │ FK  userId      │
+├─────────────────────┤     │ FK  addressId   │
+│ PK  id             │◄──┐ │     orderNumber │
+│     title          │   │ │     totalAmount │
+│     author         │   │ │     status      │
+│     publisher      │   │ │     paymentMethod│
+│     publishYear    │   │ │     shippingAddr│
+│     category       │   │ │     recipientName│
+│     language       │   │ │     recipientPhone│
+│     description    │   │ │     note        │
+│     price          │   │ │     cancelReason│
+│     stock          │   │ │     createdAt   │
+│     imageUrl       │   │ │     updatedAt   │
+│     isbn           │   │ └─────────────────┘
+│     pages          │   │          │
+│     isActive       │   │          │ 1
+└─────────────────────┘   │          │
+         │                │          │
+         │ 1              │          │ N
+         │                │  ┌───────┴──────────┐
+         │ N              │  │   ORDER_ITEMS    │
+         └────────────────┼──┤──────────────────┤
+                          │  │ PK  id          │
+┌─────────────────────┐   │  │ FK  orderId     │
+│      CART           │   │  │ FK  bookId      │
+├─────────────────────┤   │  │     quantity    │
+│ PK  id             │   │  │     price       │
+│ FK  userId         │   │  │     subtotal    │
+│ FK  bookId         ├───┘  └─────────────────┘
+│     quantity       │
+│     addedAt        │
+└─────────────────────┘
+         ▲
+         │ N
+         │
+         │ 1
+┌─────────────────────┐
+│     ADDRESSES       │
+├─────────────────────┤
+│ PK  id             │
+│ FK  userId         │
+│     recipientName  │
+│     phone          │
+│     address        │
+│     district       │
+│     city           │
+│     isDefault      │
+│     createdAt      │
+└─────────────────────┘
+```
+
+### 📋 Chi tiết các bảng
+
+#### 1. **USERS** - Quản lý người dùng
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| username | TEXT (UNIQUE) | Tên đăng nhập |
+| password | TEXT | Mật khẩu đã mã hóa |
+| fullName | TEXT | Họ và tên |
+| email | TEXT | Email |
+| phone | TEXT | Số điện thoại |
+| isAdmin | BOOLEAN | Phân quyền admin |
+| isActive | BOOLEAN | Trạng thái hoạt động |
+| createdAt | LONG | Thời gian tạo |
+
+#### 2. **BOOKS** - Quản lý sách
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| title | TEXT | Tên sách |
+| author | TEXT | Tác giả |
+| publisher | TEXT | Nhà xuất bản |
+| publishYear | TEXT | Năm xuất bản |
+| category | TEXT | Danh mục |
+| language | TEXT | Ngôn ngữ |
+| description | TEXT | Mô tả |
+| price | REAL | Giá bán |
+| stock | INTEGER | Số lượng tồn kho |
+| imageUrl | TEXT | URL hình ảnh |
+| isbn | TEXT | Mã ISBN |
+| pages | INTEGER | Số trang |
+| isActive | BOOLEAN | Trạng thái |
+
+#### 3. **ORDERS** - Quản lý đơn hàng
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| userId | INTEGER (FK) | ID người dùng |
+| addressId | INTEGER (FK) | ID địa chỉ |
+| orderNumber | TEXT | Mã đơn hàng |
+| totalAmount | REAL | Tổng tiền |
+| status | TEXT | Trạng thái: PENDING, CONFIRMED, SHIPPING, DELIVERED, CANCELLED |
+| paymentMethod | TEXT | Phương thức thanh toán |
+| shippingAddress | TEXT | Địa chỉ giao hàng |
+| recipientName | TEXT | Tên người nhận |
+| recipientPhone | TEXT | SĐT người nhận |
+| note | TEXT | Ghi chú |
+| cancelReason | TEXT | Lý do hủy |
+| createdAt | LONG | Thời gian tạo |
+| updatedAt | LONG | Thời gian cập nhật |
+
+#### 4. **ORDER_ITEMS** - Chi tiết đơn hàng
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| orderId | INTEGER (FK) | ID đơn hàng |
+| bookId | INTEGER (FK) | ID sách |
+| quantity | INTEGER | Số lượng |
+| price | REAL | Giá |
+| subtotal | REAL | Thành tiền |
+
+#### 5. **CART** - Giỏ hàng
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| userId | INTEGER (FK) | ID người dùng |
+| bookId | INTEGER (FK) | ID sách |
+| quantity | INTEGER | Số lượng |
+| addedAt | LONG | Thời gian thêm |
+
+#### 6. **ADDRESSES** - Địa chỉ giao hàng
+| Cột | Kiểu | Mô tả |
+|-----|------|-------|
+| id | INTEGER (PK) | ID tự động tăng |
+| userId | INTEGER (FK) | ID người dùng |
+| recipientName | TEXT | Tên người nhận |
+| phone | TEXT | Số điện thoại |
+| address | TEXT | Địa chỉ |
+| district | TEXT | Quận/huyện |
+| city | TEXT | Thành phố |
+| isDefault | BOOLEAN | Địa chỉ mặc định |
+| createdAt | LONG | Thời gian tạo |
+
+---
+
+## 🔐 Luồng xác thực (Authentication Flow)
+
+```
+┌────────────────┐
+│  User Access   │
+└────────┬───────┘
+         │
+         ▼
+    ┌─────────┐      NO      ┌──────────────────┐
+    │ Logged? ├─────────────→│  LoginFragment   │
+    └────┬────┘               └────────┬─────────┘
+         │ YES                         │
+         │                             ▼
+         │                  ┌─────────────────────┐
+         │                  │  Check Credentials  │
+         │                  │  (DatabaseHelper)   │
+         │                  └──────────┬──────────┘
+         │                             │
+         │                    ┌────────┴────────┐
+         │                    │                 │
+         │                    ▼                 ▼
+         │            ┌──────────┐      ┌──────────┐
+         │            │  Valid   │      │ Invalid  │
+         │            └─────┬────┘      └─────┬────┘
+         │                  │                  │
+         │                  │                  ▼
+         │                  │          Show Error Message
+         │                  │
+         │                  ▼
+         │          ┌──────────────┐
+         │          │ Save Session │
+         │          │ SharedPrefs  │
+         │          └──────┬───────┘
+         │                 │
+         └─────────────────┘
+                 │
+                 ▼
+         ┌──────────────┐
+         │  Check Role  │
+         └──────┬───────┘
+                │
+        ┌───────┴────────┐
+        │                │
+        ▼                ▼
+  ┌──────────┐    ┌─────────────┐
+  │ Customer │    │    Admin    │
+  │  (Main)  │    │  (Admin)    │
+  └──────────┘    └─────────────┘
+```
+
+---
+
+## 🛒 Luồng mua hàng (Shopping Flow)
+
+```
+┌─────────────────┐
+│  Browse Books   │
+│  (Home/Catalog) │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Select Book     │
+│ (BookDetail)    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Add to Cart     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  CartFragment   │
+│  • View items   │
+│  • Update qty   │
+│  • Remove items │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Checkout        │
+└────────┬────────┘
+         │
+         ├─→ Select/Add Address
+         ├─→ Choose Payment Method
+         └─→ Add Notes (optional)
+         │
+         ▼
+┌─────────────────┐
+│ Confirm Order   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Create Order    │
+│ • Clear Cart    │
+│ • Update Stock  │
+│ • Save Order    │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Order Success   │
+│ (OrdersFragment)│
+└─────────────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Track Order     │
+│ • PENDING       │
+│ • CONFIRMED     │
+│ • SHIPPING      │
+│ • DELIVERED     │
+│ • CANCELLED     │
+└─────────────────┘
+```
+
+---
+
+## 📦 Cấu trúc thư mục dự án
 
 ```
 pj/
 ├── app/
 │   ├── src/
-│   │   └── main/
-│   │       ├── java/com/example/bookstore/
-│   │       │   ├── adapters/
-│   │       │   │   ├── BookAdapter.java
-│   │       │   │   └── CartAdapter.java
-│   │       │   ├── models/
-│   │       │   │   ├── Book.java
-│   │       │   │   ├── CartItem.java
-│   │       │   │   └── User.java
-│   │       │   ├── ui/fragments/
-│   │       │   │   ├── LoginFragment.java
-│   │       │   │   ├── RegisterFragment.java
-│   │       │   │   ├── ForgotPasswordFragment.java
-│   │       │   │   ├── HomeFragment.java
-│   │       │   │   ├── CatalogFragment.java
-│   │       │   │   ├── CartFragment.java
-│   │       │   │   └── ProfileFragment.java
-│   │       │   └── MainActivity.java
-│   │       └── res/
-│   │           ├── layout/ (10 layout files)
-│   │           ├── menu/
-│   │           ├── values/
-│   │           └── drawable/
-│   ├── build.gradle.kts
-│   └── proguard-rules.pro
+│   │   ├── main/
+│   │   │   ├── java/com/example/bookstore/
+│   │   │   │   ├── adapters/              # RecyclerView Adapters
+│   │   │   │   │   ├── BookAdapter.java
+│   │   │   │   │   ├── CartAdapter.java
+│   │   │   │   │   ├── OrderAdapter.java
+│   │   │   │   │   ├── AdminProductAdapter.java
+│   │   │   │   │   └── ...
+│   │   │   │   │
+│   │   │   │   ├── database/              # Room Database
+│   │   │   │   │   ├── AppDatabase.java   # Database instance
+│   │   │   │   │   ├── DatabaseHelper.java # Init & utilities
+│   │   │   │   │   ├── entities/          # Room Entities
+│   │   │   │   │   │   ├── User.java
+│   │   │   │   │   │   ├── Book.java
+│   │   │   │   │   │   ├── Order.java
+│   │   │   │   │   │   ├── OrderItem.java
+│   │   │   │   │   │   ├── Cart.java
+│   │   │   │   │   │   └── Address.java
+│   │   │   │   │   └── dao/               # Data Access Objects
+│   │   │   │   │       ├── UserDao.java
+│   │   │   │   │       ├── BookDao.java
+│   │   │   │   │       ├── OrderDao.java
+│   │   │   │   │       ├── OrderItemDao.java
+│   │   │   │   │       ├── CartDao.java
+│   │   │   │   │       └── AddressDao.java
+│   │   │   │   │
+│   │   │   │   ├── models/                # POJO Models
+│   │   │   │   │   ├── Book.java
+│   │   │   │   │   ├── User.java
+│   │   │   │   │   ├── Order.java
+│   │   │   │   │   ├── Cart.java
+│   │   │   │   │   └── ...
+│   │   │   │   │
+│   │   │   │   ├── ui/                    # UI Components
+│   │   │   │   │   ├── fragments/         # All Fragments
+│   │   │   │   │   │   ├── HomeFragment.java
+│   │   │   │   │   │   ├── CatalogFragment.java
+│   │   │   │   │   │   ├── CartFragment.java
+│   │   │   │   │   │   ├── ProfileFragment.java
+│   │   │   │   │   │   ├── LoginFragment.java
+│   │   │   │   │   │   ├── RegisterFragment.java
+│   │   │   │   │   │   ├── BookDetailFragment.java
+│   │   │   │   │   │   ├── CheckoutFragment.java
+│   │   │   │   │   │   ├── OrdersFragment.java
+│   │   │   │   │   │   ├── SearchFragment.java
+│   │   │   │   │   │   ├── AdminDashboardFragment.java
+│   │   │   │   │   │   ├── AdminProductsFragment.java
+│   │   │   │   │   │   ├── AdminCustomersFragment.java
+│   │   │   │   │   │   ├── AdminOrdersFragment.java
+│   │   │   │   │   │   └── ...
+│   │   │   │   │   └── adapters/          # UI-specific adapters
+│   │   │   │   │
+│   │   │   │   ├── utils/                 # Utility classes
+│   │   │   │   │   └── OrderManager.java
+│   │   │   │   │
+│   │   │   │   ├── MainActivity.java      # Customer main activity
+│   │   │   │   └── AdminActivity.java     # Admin main activity
+│   │   │   │
+│   │   │   ├── res/
+│   │   │   │   ├── layout/                # XML layouts
+│   │   │   │   ├── drawable/              # Images & icons
+│   │   │   │   ├── values/                # Strings, colors, styles
+│   │   │   │   ├── navigation/            # Navigation graphs
+│   │   │   │   └── menu/                  # Menu files
+│   │   │   │
+│   │   │   ├── assets/                    # Books CSV data
+│   │   │   │   └── books_full_9xx.csv
+│   │   │   │
+│   │   │   └── AndroidManifest.xml
+│   │   │
+│   │   ├── androidTest/                   # Android tests
+│   │   └── test/                          # Unit tests
+│   │
+│   ├── build.gradle.kts                   # App-level Gradle
+│   └── google-services.json               # Firebase config (if any)
+│
 ├── gradle/
-├── build.gradle.kts
-└── settings.gradle.kts
+│   ├── libs.versions.toml                 # Version catalog
+│   └── wrapper/
+│
+├── build.gradle.kts                       # Project-level Gradle
+├── settings.gradle.kts
+├── gradle.properties
+├── local.properties
+├── install_and_clear.bat                  # Installation script
+├── verify_database.bat                    # DB verification script
+└── README.md                              # This file
 ```
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Android Studio 2023.1 or later
-- JDK 11 or later
-### Tài Khoản Test
-- Minimum 2GB RAM
-- Internet connection (for image loading)
-
-### Installation & Setup
-
-## 📖 Hướng Dẫn Sử Dụng
-   ```bash
-### 1. Đăng Nhập
-- Mở app → Màn hình Login
-- Email: demo@bookstore.com
-- Password: demo123
-- Hoặc đăng ký tài khoản mới
-   - Android Studio will automatically detect and sync Gradle dependencies
-### 2. Duyệt Sách
-- **Tab Home**: 10 sách nổi bật (cuộn ngang)
-- **Tab Catalog**: 40 cuốn sách (lưới 2 cột)
-- Click vào sách để xem chi tiết
-4. **Run the App**
-### 3. Xem Chi Tiết Sách
-- Hình ảnh bìa sách lớn
-- Tên sách, tác giả, giá
-- Đánh giá (rating) và số reviews
-- Mô tả chi tiết
-- Chọn số lượng muốn mua
-- Click "Thêm vào giỏ hàng"
-### Default Test Credentials
-### 4. Quản Lý Giỏ Hàng
-- Vào **Tab Cart**
-- Xem danh sách sách đã chọn
-- Tăng/giảm số lượng bằng nút +/-
-- Xóa sách bằng nút "Remove"
-- Xem tổng tiền tự động cập nhật
-- Click "Checkout" để thanh toán
-
-### 5. Thanh Toán
-- Nhập thông tin giao hàng (Tên, Email, SĐT, Địa chỉ)
-- Nhập mã giảm giá (ví dụ: SAVE10)
-- Click "Apply" để áp dụng voucher
-- Chọn phương thức thanh toán
-- Click "Xác nhận đơn hàng"
-- Nhận Order ID
-3. On successful login, navigate to Home screen
-### 6. Quản Lý Profile
-- Vào **Tab Profile**
-- Xem/sửa thông tin cá nhân
-- Click "Edit" → Sửa → "Save"
-- Click "Logout" để đăng xuất
-4. Automatically logged in and redirected to Home
-
-### Password Recovery
-1. On Login screen, click "Forgot Password?"
-2. Enter your email address
-3. System will simulate sending reset link
-4. Automatically returns to Login screen
-
-### Browsing Books
-- **Home Tab**: Swipe left/right through featured books
-- **Catalog Tab**: Browse all 40+ books in grid format
-- Tap any book to view (expandable for future details)
-
-### Shopping Cart
-- Books can be added to cart (feature ready for enhancement)
-- View cart items and total price
-- Remove items from cart
-- Real-time total calculation
-
-### Profile Management
-- View and edit user information:
-  - Full Name
-  - Email (read-only)
-  - Phone Number
-  - Address
-- Click "Edit" to modify fields
-- Click "Save" to store changes
-- Click "Logout" to return to Login screen
-
-## 🎨 UI/UX Design
-
-### Color Scheme
-- **Primary**: Amber (FF9800)
-- **Accent**: Amber 600 (#FFA726)
-- **Background**: White
-- **Text Primary**: Dark Gray (#212121)
-- **Text Secondary**: Gray (#757575)
-
-### Icons
-- **Home**: House icon
-- **Catalog**: Book with bookmark icon
-- **Cart**: Shopping cart icon
-- **Profile**: User profile icon
-
-### Typography
-- Material Design typography scale
-- Clear hierarchy with different text sizes
-- Readable sans-serif font family
-
-## 📊 Data Model
-
-### Book Model
-```java
-class Book {
-    int id;
-    String title;
-    String author;
-    double price;
-    String description;
-    String imageUrl;
-    double rating;
-    int reviews;
-    String category;
-    boolean available;
-}
-```
-
-### CartItem Model
-```java
-class CartItem {
-    Book book;
-    int quantity;
-}
-```
-
-### User Model
-```java
-class User {
-    String name;
-    String email;
-    String phone;
-    String address;
-}
-```
-
-## 🔄 Navigation Flow
-
-```
-Login Screen
-├── Register Screen ←→ Login Screen
-├── Forgot Password Screen ← → Login Screen
-└── [Login Success]
-    └── Home Screen
-        ├── Featured Books (Horizontal)
-        ├── Navigation Drawer: Home, Catalog, Cart, Profile
-        │
-        ├── Home Tab
-        │   └── Featured books carousel
-        │
-        ├── Catalog Tab
-        │   └── Grid of 40+ books
-        │
-        ├── Cart Tab
-        │   └── Shopping cart items with totals
-        │
-        └── Profile Tab
-            ├── User information
-            ├── Edit mode
-            └── Logout
-```
-
-## 🐛 Error Handling
-
-- **Input Validation**: Email format, password length, required fields
-- **Network Errors**: Graceful fallback with placeholder images
-- **Null Safety**: Comprehensive null checks throughout
-- **Exception Handling**: Try-catch blocks in all critical sections
-- **User Feedback**: Toast notifications for all actions
-
-## 🎟️ Mã Giảm Giá (Vouchers)
-
-Các mã voucher có sẵn để test:
-
-| Mã | Mô Tả | Giảm | Điều Kiện | Số Lần |
-|----|-------|------|-----------|--------|
-| **SAVE10** | Giảm 10% | 10% | Không | 100 |
-| **SAVE20** | Giảm 20% | 20% | Tối thiểu 100,000₫ | 50 |
-| **FLAT50K** | Giảm cố định | 50,000₫ | Tối thiểu 200,000₫ | 100 |
-| **FLAT20K** | Giảm cố định | 20,000₫ | Tối thiểu 100,000₫ | 200 |
-| **WELCOME** | Chào mừng | 10,000₫ | Không | 500 |
-| **FIRSTORDER** | Đơn đầu | 15% | Không (1 lần) | 1 |
-| **SUMMER20** | Mùa hè | 20% | Không | 75 |
-| **READING** | Yêu sách | 5% | Không | 1000 |
-
-### Cách Sử Dụng:
-1. Thêm sách vào giỏ hàng
-2. Vào Checkout
-3. Nhập mã (ví dụ: **SAVE10**)
-4. Click "Apply"
-5. Giảm giá được áp dụng tự động
-
-## 📚 Danh Mục Sách (40 Cuốn)
-
-### Fiction (10 cuốn)
-The Great Gatsby • 1984 • To Kill a Mockingbird • The Catcher in the Rye • The Alchemist • Brave New World • Animal Farm • The Handmaid's Tale • Wuthering Heights • Jane Eyre
-
-### Romance (5 cuốn)
-Pride and Prejudice • Outlander • The Notebook • Twilight • The Seven Husbands of Evelyn Hugo
-
-### Fantasy (5 cuốn)
-The Hobbit • Harry Potter • The Name of the Wind • The Lord of the Rings • A Game of Thrones
-
-### Science Fiction (5 cuốn)
-Dune • Foundation • Neuromancer • The Expanse • Ender's Game
-
-### Mystery/Thriller (5 cuốn)
-The Girl with the Dragon Tattoo • Gone Girl • The Da Vinci Code • And Then There Were None • The Silence of the Lambs
-
-### Non-Fiction/Biography (10 cuốn)
-Sapiens • Educated • Atomic Habits • Becoming • Thinking Fast and Slow • Rich Dad Poor Dad • The Lean Startup • Zero to One • The Art of War • Những Người Khôn Ngoan
-
-## 🔐 Data Storage
-
-User information is stored locally using **SharedPreferences**:
-- Login status (`is_logged_in`)
-- User name (`user_name`)
-- User email (`user_email`)
-- User password (`user_password`) - Demo only, never store plaintext in production
-- User phone (`user_phone`)
-- User address (`user_address`)
-
-## 🚀 Build Information
-
-### Gradle Configuration
-- **Build Tool Version**: Latest stable
-- **Compile SDK**: 36
-- **Target SDK**: 36
-- **Min SDK**: 24
-- **Java Version**: 11
-
-### Build Command
-```bash
-# Development build (debug)
-./gradlew.bat clean build -x test
-
-# Release build (optimized)
-./gradlew.bat clean build -x test --release
-```
-
-### APK Information
-- **Package Name**: com.example.bookstore
-- **App Name**: Bookish Bliss Haven
-- **Size**: ~8-10 MB (debug), ~4-6 MB (release)
-
-## 📱 Supported Devices
-
-- **Minimum**: Android 7.0 (API 24)
-- **Target**: Android 15+ (API 35+)
-- **Tested On**:
-  - Pixel 6 Emulator (Android 12)
-  - Pixel 7 Emulator (Android 13+)
-  - Various physical devices
-
-## 🎯 Future Enhancements
-
-Potential features for future versions:
-
-1. **Backend Integration**
-   - REST API connection for books
-   - User authentication with server
-   - Real cart management and checkout
-
-2. **Advanced Features**
-   - Book search and filtering
-   - Favorites/Wishlist
-   - Book reviews and ratings
-   - Order history
-   - Payment integration (Stripe, PayPal)
-   - Push notifications
-
-3. **Performance**
-   - Local database (SQLite/Room)
-   - Offline mode support
-   - Image caching optimization
-   - App performance tuning
-
-4. **UI/UX**
-   - Dark mode support
-   - Animated transitions
-   - Book preview/reader
-   - Advanced filtering options
-
-## 🤝 Contributing
-
-This is a learning project for Android development. Feel free to fork and modify according to your needs.
-
-## 📄 License
-
-This project is open for educational and personal use.
-
-## 👨‍💻 Developer
-
-Created as a comprehensive Android development learning project demonstrating:
-- Fragment-based architecture
-- Navigation component usage
-- RecyclerView and adapters
-- Shared preferences for data persistence
-- Material Design implementation
-- Proper error handling and user feedback
-
-## 📧 Support
-
-For issues or questions, please refer to the code comments and Material Design documentation.
 
 ---
 
-**App Status**: ✅ Fully Functional
-- Build: ✅ SUCCESS
-- All Features: ✅ WORKING
-- Error Handling: ✅ COMPREHENSIVE
-- User Experience: ✅ POLISHED
+## 🛠️ Công nghệ sử dụng
 
-**Last Updated**: November 2025
+### 📱 Core Technologies
 
-Enjoy your bookstore shopping experience! 📚✨
+| Công nghệ | Phiên bản | Mô tả |
+|-----------|-----------|-------|
+| **Android SDK** | 24 - 36 | Nền tảng Android |
+| **Java** | 11 | Ngôn ngữ lập trình |
+| **Gradle** | 8.x | Build system |
+| **Material Design** | Latest | UI/UX components |
+
+### 📚 Thư viện chính
+
+#### Database
+- **Room** - ORM cho SQLite
+  ```kotlin
+  implementation("androidx.room:room-runtime:2.x.x")
+  annotationProcessor("androidx.room:room-compiler:2.x.x")
+  ```
+
+#### UI/Navigation
+- **Navigation Component** - Quản lý navigation
+  ```kotlin
+  implementation("androidx.navigation:navigation-fragment:2.7.6")
+  implementation("androidx.navigation:navigation-ui:2.7.6")
+  ```
+
+- **RecyclerView** - Hiển thị danh sách
+  ```kotlin
+  implementation("androidx.recyclerview:recyclerview:1.3.2")
+  ```
+
+- **CardView** - Card UI
+  ```kotlin
+  implementation("androidx.cardview:cardview:1.0.0")
+  ```
+
+#### Networking
+- **Retrofit** - REST API client
+  ```kotlin
+  implementation("com.squareup.retrofit2:retrofit:2.10.0")
+  implementation("com.squareup.retrofit2:converter-gson:2.10.0")
+  ```
+
+- **OkHttp** - HTTP client
+  ```kotlin
+  implementation("com.squareup.okhttp3:okhttp:4.11.0")
+  ```
+
+#### Image Loading
+- **Glide** - Image loading & caching
+  ```kotlin
+  implementation("com.github.bumptech.glide:glide:4.16.0")
+  annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+  ```
+
+#### Data Processing
+- **Gson** - JSON parser
+  ```kotlin
+  implementation("com.google.code.gson:gson:2.10.1")
+  ```
+
+#### Security
+- **Security-Crypto** - Encryption
+  ```kotlin
+  implementation("androidx.security:security-crypto:1.1.0-alpha06")
+  ```
+
+---
+
+## 🚀 Hướng dẫn cài đặt
+
+### 📋 Yêu cầu hệ thống
+
+- **Android Studio**: Flamingo (2022.2.1) trở lên
+- **JDK**: 11 trở lên
+- **Android SDK**: API 24 (Android 7.0) trở lên
+- **Gradle**: 8.0+
+
+### 📥 Cài đặt
+
+1. **Clone repository**
+   ```bash
+   git clone <repository-url>
+   cd bt_adr/pj
+   ```
+
+2. **Mở project trong Android Studio**
+   - File → Open → Chọn thư mục `pj`
+
+3. **Sync Gradle**
+   - Android Studio sẽ tự động sync Gradle files
+   - Nếu không, chọn: File → Sync Project with Gradle Files
+
+4. **Build project**
+   ```bash
+   # Windows
+   gradlew build
+   
+   # Mac/Linux
+   ./gradlew build
+   ```
+
+5. **Chạy ứng dụng**
+   - Kết nối thiết bị Android hoặc khởi động emulator
+   - Click nút Run (▶️) trong Android Studio
+   - Hoặc sử dụng script:
+   ```bash
+   # Windows
+   install_and_clear.bat
+   ```
+
+### 🔑 Tài khoản mặc định
+
+#### Admin
+- **Username**: `admin`
+- **Password**: `admin123`
+
+#### Khách hàng mẫu
+- **Username**: `customer1`
+- **Password**: `pass123`
+
+---
+
+## 📱 Hướng dẫn sử dụng
+
+### 👤 Dành cho Khách hàng
+
+1. **Đăng ký/Đăng nhập**
+   - Mở ứng dụng → Đăng nhập hoặc Đăng ký tài khoản mới
+
+2. **Duyệt sách**
+   - Tab Home: Xem sách nổi bật
+   - Tab Catalog: Xem tất cả sách, lọc theo danh mục
+   - Search: Tìm kiếm sách theo tên, tác giả
+
+3. **Mua sách**
+   - Chọn sách → Xem chi tiết → Thêm vào giỏ
+   - Tab Cart → Kiểm tra giỏ hàng → Thanh toán
+   - Nhập thông tin giao hàng → Đặt hàng
+
+4. **Quản lý đơn hàng**
+   - Tab Profile → My Orders
+   - Xem chi tiết, theo dõi trạng thái
+   - Hủy đơn hàng nếu cần
+
+### 👨‍💼 Dành cho Admin
+
+1. **Đăng nhập Admin**
+   - Đăng nhập với tài khoản admin
+   - Tự động chuyển sang AdminActivity
+
+2. **Quản lý sách**
+   - Products → Xem danh sách sách
+   - Thêm/Sửa/Xóa sách
+   - Quản lý tồn kho
+
+3. **Quản lý đơn hàng**
+   - Orders → Xem tất cả đơn hàng
+   - Xác nhận/Giao hàng/Hủy đơn
+   - Xem chi tiết đơn hàng
+
+4. **Quản lý khách hàng**
+   - Customers → Xem danh sách khách hàng
+   - Xem chi tiết thông tin
+   - Kích hoạt/Vô hiệu hóa tài khoản
+
+---
+
+## 🎨 Screenshots & UI Flow
+
+### Màn hình chính
+```
+┌─────────────────────────────────┐
+│  🏠 Home                         │
+│  ┌──────────────────────────┐   │
+│  │   Featured Books         │   │
+│  │  ┌────┐ ┌────┐ ┌────┐   │   │
+│  │  │📖  │ │📖  │ │📖  │   │   │
+│  │  └────┘ └────┘ └────┘   │   │
+│  └──────────────────────────┘   │
+│                                  │
+│  Categories: Fiction, Science... │
+└─────────────────────────────────┘
+│ 🏠 Home | 📚 Catalog | 🛒 Cart | 👤 Profile
+```
+
+### Flow tương tác
+```
+Home Screen
+    │
+    ├─→ Search Books
+    │       └─→ Search Results → Book Detail
+    │
+    ├─→ Browse Categories
+    │       └─→ Category Books → Book Detail
+    │
+    ├─→ Featured Books
+    │       └─→ Book Detail
+    │               ├─→ Add to Cart
+    │               ├─→ Add to Favorites
+    │               └─→ View Reviews
+    │
+    ├─→ Cart
+    │       └─→ Checkout
+    │               └─→ Order Success
+    │
+    └─→ Profile
+            ├─→ My Orders
+            ├─→ Addresses
+            ├─→ Favorites
+            └─→ Settings
+```
+
+---
+
+## 🧪 Testing
+
+### Unit Tests
+```bash
+# Windows
+gradlew test
+
+# Mac/Linux
+./gradlew test
+```
+
+### Android Tests
+```bash
+# Windows
+gradlew connectedAndroidTest
+
+# Mac/Linux
+./gradlew connectedAndroidTest
+```
+
+### Kiểm tra Database
+```bash
+# Windows
+verify_database.bat
+```
+
+---
+
+## 📊 Dữ liệu mẫu
+
+Ứng dụng đi kèm với:
+- 53+ sách tiếng Việt trong `books_full_9xx.csv`
+- 2 tài khoản người dùng (admin, customer)
+- Đơn hàng mẫu
+- Địa chỉ giao hàng mẫu
+
+Database sẽ được khởi tạo tự động khi lần đầu chạy app.
+
+---
+
+## 🔒 Bảo mật
+
+### Các biện pháp bảo mật
+1. **Mã hóa mật khẩu**: Sử dụng Security-Crypto
+2. **Session Management**: SharedPreferences an toàn
+3. **Input Validation**: Kiểm tra dữ liệu đầu vào
+4. **SQL Injection Prevention**: Sử dụng Room ORM
+5. **Permission Control**: Phân quyền Admin/User
+
+---
+
+## 🐛 Troubleshooting
+
+### Lỗi thường gặp
+
+1. **Gradle sync failed**
+   - Kiểm tra kết nối internet
+   - File → Invalidate Caches / Restart
+
+2. **Database version conflict**
+   - Xóa app và cài đặt lại
+   - Hoặc chạy `install_and_clear.bat`
+
+3. **Build error**
+   - Clean project: Build → Clean Project
+   - Rebuild: Build → Rebuild Project
+
+4. **Emulator not starting**
+   - Kiểm tra HAXM/Virtualization
+   - Tạo lại AVD mới
+
+---
+
+## 🚧 Roadmap
+
+### Version 1.1 (Planned)
+- [ ] Tích hợp thanh toán online
+- [ ] Thông báo push notifications
+- [ ] Chat hỗ trợ khách hàng
+- [ ] Wishlist nâng cao
+- [ ] Social sharing
+
+### Version 1.2 (Future)
+- [ ] Machine Learning recommendations
+- [ ] AR book preview
+- [ ] Multiple language support
+- [ ] Dark mode
+- [ ] Offline mode
+
+---
+
+## 👥 Đóng góp
+
+Chúng tôi hoan nghênh mọi đóng góp! Vui lòng:
+
+1. Fork repository
+2. Tạo branch mới (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Tạo Pull Request
+
+---
+
+## 📄 License
+
+Dự án này được cấp phép theo [MIT License](LICENSE).
+
+---
+
+## 📞 Liên hệ
+
+- **Email**: support@bookishbliss.com
+- **Website**: https://bookishbliss.com
+- **GitHub**: https://github.com/yourusername/bookish-bliss-haven
+
+---
+
+## 🙏 Acknowledgments
+
+- [Material Design Icons](https://material.io/icons)
+- [Android Architecture Components](https://developer.android.com/topic/architecture)
+- [Room Database](https://developer.android.com/training/data-storage/room)
+- [Glide](https://github.com/bumptech/glide)
+- [Retrofit](https://square.github.io/retrofit/)
+
+---
+
+## 📈 Statistics
+
+- **Total Lines of Code**: ~15,000+
+- **Total Classes**: 50+
+- **Fragments**: 25+
+- **Database Tables**: 6
+- **API Endpoints**: Ready for integration
+- **UI Screens**: 30+
+
+---
+
+<div align="center">
+
+### ⭐ Nếu bạn thấy dự án hữu ích, hãy cho chúng tôi một star!
+
+Made with ❤️ by Bookish Bliss Haven Team
+
+**Version 1.0.0** | **Last Updated: November 26, 2025**
+
+</div>
 
