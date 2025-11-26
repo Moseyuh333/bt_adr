@@ -100,64 +100,96 @@ public class BookDetailFragment extends Fragment {
             reviewsRecycler = view.findViewById(R.id.reviews_recycler);
             relatedBooksRecycler = view.findViewById(R.id.related_books_recycler);
 
-            // Set book details
-            titleText.setText(book.title);
-            authorText.setText("Tác giả: " + book.author);
-            priceText.setText(String.format("%,.0f₫", book.price));
+            // Set book details with null checks
+            if (titleText != null) {
+                titleText.setText(book.title != null ? book.title : "Sách");
+            }
+            if (authorText != null) {
+                authorText.setText("Tác giả: " + (book.author != null ? book.author : "Chưa rõ"));
+            }
+            if (priceText != null) {
+                priceText.setText(String.format("%,.0f₫", book.price));
+            }
 
             // Show original price and discount if applicable
-            if (book.originalPrice > book.price) {
-                originalPriceText.setVisibility(View.VISIBLE);
-                originalPriceText.setText(String.format("%,.0f₫", book.originalPrice));
-                originalPriceText.setPaintFlags(originalPriceText.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                originalPriceText.setVisibility(View.GONE);
+            if (originalPriceText != null) {
+                if (book.originalPrice > book.price) {
+                    originalPriceText.setVisibility(View.VISIBLE);
+                    originalPriceText.setText(String.format("%,.0f₫", book.originalPrice));
+                    originalPriceText.setPaintFlags(originalPriceText.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    originalPriceText.setVisibility(View.GONE);
+                }
             }
 
             // Show discount badge
-            if (book.discount > 0) {
-                discountBadgeText.setVisibility(View.VISIBLE);
-                discountBadgeText.setText("-" + book.discount + "%");
-            } else {
-                discountBadgeText.setVisibility(View.GONE);
+            if (discountBadgeText != null) {
+                if (book.discount > 0) {
+                    discountBadgeText.setVisibility(View.VISIBLE);
+                    discountBadgeText.setText("-" + book.discount + "%");
+                } else {
+                    discountBadgeText.setVisibility(View.GONE);
+                }
             }
 
-            ratingBar.setRating((float) book.rating);
-            ratingText.setText(String.format("%.1f", book.rating));
-            reviewsText.setText("(" + book.reviews + " đánh giá)");
+            if (ratingBar != null) {
+                ratingBar.setRating((float) book.rating);
+            }
+            if (ratingText != null) {
+                ratingText.setText(String.format("%.1f", book.rating));
+            }
+            if (reviewsText != null) {
+                reviewsText.setText("(" + book.reviews + " đánh giá)");
+            }
 
             // Show sold count
-            if (book.soldCount > 0) {
-                if (book.soldCount >= 1000) {
-                    soldCountText.setText("Đã bán " + String.format("%.1fk", book.soldCount / 1000.0));
+            if (soldCountText != null) {
+                if (book.soldCount > 0) {
+                    if (book.soldCount >= 1000) {
+                        soldCountText.setText("Đã bán " + String.format("%.1fk", book.soldCount / 1000.0));
+                    } else {
+                        soldCountText.setText("Đã bán " + book.soldCount);
+                    }
                 } else {
-                    soldCountText.setText("Đã bán " + book.soldCount);
+                    soldCountText.setText("");
                 }
-            } else {
-                soldCountText.setText("");
             }
 
             // Show shop name
-            if (book.shopName != null && !book.shopName.isEmpty()) {
-                shopNameText.setText("📚 " + book.shopName);
-            } else {
-                shopNameText.setText("📚 BookStore Official");
+            if (shopNameText != null) {
+                if (book.shopName != null && !book.shopName.isEmpty()) {
+                    shopNameText.setText("📚 " + book.shopName);
+                } else {
+                    shopNameText.setText("📚 BookStore Official");
+                }
             }
 
-            descriptionText.setText(book.description);
-            categoryText.setText("Thể loại: " + book.category);
+            if (descriptionText != null) {
+                descriptionText.setText(book.description != null ? book.description : "Mô tả sách");
+            }
+            if (categoryText != null) {
+                categoryText.setText("Thể loại: " + (book.category != null ? book.category : "Khác"));
+            }
 
             // Update stock status
             updateStockStatus();
 
-            // Load image
-            if (book.coverImage != null && !book.coverImage.isEmpty()) {
-                Glide.with(this)
-                    .load(book.coverImage)
-                    .placeholder(R.drawable.book_placeholder)
-                    .error(R.drawable.book_placeholder)
-                    .centerCrop()
-                    .into(bookImage);
+            // Load image with null check
+            if (bookImage != null) {
+                if (book.coverImage != null && !book.coverImage.isEmpty()) {
+                    try {
+                        Glide.with(this)
+                            .load(book.coverImage)
+                            .placeholder(R.drawable.book_placeholder)
+                            .error(R.drawable.book_placeholder)
+                            .centerCrop()
+                            .into(bookImage);
+                    } catch (Exception e) {
+                        bookImage.setImageResource(R.drawable.book_placeholder);
+                    }
+                } else {
+                    bookImage.setImageResource(R.drawable.book_placeholder);
+                }
             }
 
             // Set default quantity
@@ -189,14 +221,20 @@ public class BookDetailFragment extends Fragment {
             }
 
             // Add to cart button
-            addToCartBtn.setOnClickListener(v -> handleAddToCart(view));
+            if (addToCartBtn != null) {
+                addToCartBtn.setOnClickListener(v -> handleAddToCart(view));
+            }
 
             // Buy now button
-            buyNowBtn.setOnClickListener(v -> handleBuyNow(view));
+            if (buyNowBtn != null) {
+                buyNowBtn.setOnClickListener(v -> handleBuyNow(view));
+            }
 
             // Favorite button
-            updateFavoriteButton();
-            favoriteBtn.setOnClickListener(v -> handleToggleFavorite());
+            if (favoriteBtn != null) {
+                updateFavoriteButton();
+                favoriteBtn.setOnClickListener(v -> handleToggleFavorite());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -258,15 +296,21 @@ public class BookDetailFragment extends Fragment {
             }
         }
 
-        // Load reviews
-        loadReviews();
+        // Load reviews - with null check
+        if (reviewsRecycler != null) {
+            loadReviews();
+        }
 
-        // Load related books
-        loadRelatedBooks();
+        // Load related books - with null check
+        if (relatedBooksRecycler != null) {
+            loadRelatedBooks();
+        }
     }
 
     private void loadReviews() {
         try {
+            if (reviewsRecycler == null || getContext() == null) return;
+
             List<Review> reviews = generateSampleReviews();
             reviewsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             reviewsRecycler.setAdapter(new ReviewAdapter(reviews));
@@ -367,7 +411,7 @@ public class BookDetailFragment extends Fragment {
 
     private void loadRelatedBooks() {
         try {
-            if (getContext() == null) return;
+            if (getContext() == null || book == null) return;
 
             // Load related books from database in background
             new Thread(() -> {
@@ -375,18 +419,24 @@ public class BookDetailFragment extends Fragment {
                     com.example.bookstore.database.AppDatabase db =
                         com.example.bookstore.database.AppDatabase.getInstance(getContext());
 
-                    // Get books from same category
-                    List<com.example.bookstore.database.entities.Book> dbBooks =
-                        db.bookDao().getBooksByCategory(book.category);
-
-                    // Convert to old Book model and filter out current book
                     List<Book> relatedBooks = new ArrayList<>();
-                    for (com.example.bookstore.database.entities.Book dbBook : dbBooks) {
-                        if (!dbBook.getTitle().equals(book.title)) {
-                            Book relBook = com.example.bookstore.utils.BookConverter.convertToDisplayBook(dbBook);
-                            if (relBook != null) {
-                                relatedBooks.add(relBook);
-                                if (relatedBooks.size() >= 8) break; // Limit to 8 books
+
+                    // Get books from same category (with null check)
+                    if (book.category != null && !book.category.isEmpty()) {
+                        List<com.example.bookstore.database.entities.Book> dbBooks =
+                            db.bookDao().getBooksByCategory(book.category);
+
+                        // Convert to old Book model and filter out current book
+                        if (dbBooks != null) {
+                            for (com.example.bookstore.database.entities.Book dbBook : dbBooks) {
+                                if (dbBook != null && dbBook.getTitle() != null &&
+                                    book.title != null && !dbBook.getTitle().equals(book.title)) {
+                                    Book relBook = com.example.bookstore.utils.BookConverter.convertToDisplayBook(dbBook);
+                                    if (relBook != null) {
+                                        relatedBooks.add(relBook);
+                                        if (relatedBooks.size() >= 8) break; // Limit to 8 books
+                                    }
+                                }
                             }
                         }
                     }
@@ -395,12 +445,20 @@ public class BookDetailFragment extends Fragment {
                     if (relatedBooks.size() < 6) {
                         List<com.example.bookstore.database.entities.Book> allBooks =
                             db.bookDao().getAllActiveBooks();
-                        for (com.example.bookstore.database.entities.Book dbBook : allBooks) {
-                            if (!dbBook.getTitle().equals(book.title) && !dbBook.getCategory().equals(book.category)) {
-                                Book relBook = com.example.bookstore.utils.BookConverter.convertToDisplayBook(dbBook);
-                                if (relBook != null) {
-                                    relatedBooks.add(relBook);
-                                    if (relatedBooks.size() >= 8) break;
+                        if (allBooks != null) {
+                            for (com.example.bookstore.database.entities.Book dbBook : allBooks) {
+                                if (dbBook != null && dbBook.getTitle() != null &&
+                                    book.title != null && !dbBook.getTitle().equals(book.title)) {
+                                    // Check category is different
+                                    String dbCategory = dbBook.getCategory();
+                                    if (dbCategory == null || book.category == null ||
+                                        !dbCategory.equals(book.category)) {
+                                        Book relBook = com.example.bookstore.utils.BookConverter.convertToDisplayBook(dbBook);
+                                        if (relBook != null) {
+                                            relatedBooks.add(relBook);
+                                            if (relatedBooks.size() >= 8) break;
+                                        }
+                                    }
                                 }
                             }
                         }

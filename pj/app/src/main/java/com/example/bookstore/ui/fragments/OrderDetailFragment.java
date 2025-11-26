@@ -57,16 +57,38 @@ public class OrderDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
+            // Strict validation
             if (getContext() == null) {
+                android.util.Log.e("OrderDetail", "Context is null");
                 return;
             }
 
-            orderManager = OrderManager.getInstance(getContext());
+            if (view == null) {
+                android.util.Log.e("OrderDetail", "View is null");
+                return;
+            }
+
+            android.util.Log.d("OrderDetail", "Starting onViewCreated");
+
+            // Initialize OrderManager safely
+            try {
+                orderManager = OrderManager.getInstance(getContext());
+            } catch (Exception e) {
+                android.util.Log.e("OrderDetail", "Failed to get OrderManager", e);
+                Toast.makeText(getContext(), "Lỗi khởi tạo OrderManager", Toast.LENGTH_SHORT).show();
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+                return;
+            }
 
             // Get order ID from arguments
             int orderId = 0;
             if (getArguments() != null) {
                 orderId = getArguments().getInt("orderId", 0);
+                android.util.Log.d("OrderDetail", "Order ID: " + orderId);
+            } else {
+                android.util.Log.e("OrderDetail", "No arguments provided");
             }
 
             // Try to load order from OrderManager first
@@ -194,7 +216,15 @@ public class OrderDetailFragment extends Fragment {
             }
 
             // Setup action buttons based on order status
-            setupActionButtons();
+            try {
+                setupActionButtons();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Hide action buttons if error
+                if (actionButtonsLayout != null) {
+                    actionButtonsLayout.setVisibility(View.GONE);
+                }
+            }
 
             // Display cancel reason if exists
             if (cancelReasonLayout != null && cancelReasonText != null) {
@@ -251,73 +281,132 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private int getStatusColor(String status) {
-        switch (status) {
-            case "PENDING":
-                return getResources().getColor(android.R.color.holo_orange_dark);
-            case "CONFIRMED":
-                return getResources().getColor(android.R.color.holo_blue_dark);
-            case "SHIPPED":
-                return getResources().getColor(android.R.color.holo_purple);
-            case "DELIVERED":
-                return getResources().getColor(android.R.color.holo_green_dark);
-            case "CANCELLED":
-                return getResources().getColor(android.R.color.holo_red_dark);
-            case "RETURNED":
-                return getResources().getColor(android.R.color.holo_orange_light);
-            default:
-                return getResources().getColor(android.R.color.darker_gray);
+        try {
+            if (getResources() == null) return 0xFF000000; // Black as default
+
+            switch (status) {
+                case "PENDING":
+                    return getResources().getColor(android.R.color.holo_orange_dark);
+                case "CONFIRMED":
+                    return getResources().getColor(android.R.color.holo_blue_dark);
+                case "SHIPPED":
+                    return getResources().getColor(android.R.color.holo_purple);
+                case "DELIVERED":
+                    return getResources().getColor(android.R.color.holo_green_dark);
+                case "CANCELLED":
+                    return getResources().getColor(android.R.color.holo_red_dark);
+                case "RETURNED":
+                    return getResources().getColor(android.R.color.holo_orange_light);
+                default:
+                    return getResources().getColor(android.R.color.darker_gray);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0xFF000000; // Black as fallback
         }
     }
 
     private void setupActionButtons() {
-        if (orderManager == null || order == null) return;
+        try {
+            if (orderManager == null || order == null) return;
 
-        // Show/hide buttons based on order status and permissions
-        if (cancelOrderBtn != null) {
-            if (orderManager.canCancelOrder(order)) {
-                cancelOrderBtn.setVisibility(View.VISIBLE);
-                cancelOrderBtn.setOnClickListener(v -> showCancelDialog());
-            } else {
-                cancelOrderBtn.setVisibility(View.GONE);
+            // Show/hide buttons based on order status and permissions
+            if (cancelOrderBtn != null) {
+                try {
+                    if (orderManager.canCancelOrder(order)) {
+                        cancelOrderBtn.setVisibility(View.VISIBLE);
+                        cancelOrderBtn.setOnClickListener(v -> {
+                            try {
+                                showCancelDialog();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        cancelOrderBtn.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    cancelOrderBtn.setVisibility(View.GONE);
+                }
             }
-        }
 
-        if (confirmReceiptBtn != null) {
-            if (orderManager.canConfirmReceipt(order)) {
-                confirmReceiptBtn.setVisibility(View.VISIBLE);
-                confirmReceiptBtn.setOnClickListener(v -> confirmReceipt());
-            } else {
-                confirmReceiptBtn.setVisibility(View.GONE);
+            if (confirmReceiptBtn != null) {
+                try {
+                    if (orderManager.canConfirmReceipt(order)) {
+                        confirmReceiptBtn.setVisibility(View.VISIBLE);
+                        confirmReceiptBtn.setOnClickListener(v -> {
+                            try {
+                                confirmReceipt();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        confirmReceiptBtn.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    confirmReceiptBtn.setVisibility(View.GONE);
+                }
             }
-        }
 
-        if (returnOrderBtn != null) {
-            if (orderManager.canReturnOrder(order)) {
-                returnOrderBtn.setVisibility(View.VISIBLE);
-                returnOrderBtn.setOnClickListener(v -> showReturnDialog());
-            } else {
-                returnOrderBtn.setVisibility(View.GONE);
+            if (returnOrderBtn != null) {
+                try {
+                    if (orderManager.canReturnOrder(order)) {
+                        returnOrderBtn.setVisibility(View.VISIBLE);
+                        returnOrderBtn.setOnClickListener(v -> {
+                            try {
+                                showReturnDialog();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        returnOrderBtn.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    returnOrderBtn.setVisibility(View.GONE);
+                }
             }
-        }
 
-        if (reviewOrderBtn != null) {
-            if (orderManager.canReview(order)) {
-                reviewOrderBtn.setVisibility(View.VISIBLE);
-                reviewOrderBtn.setOnClickListener(v -> showReviewDialog());
-            } else {
-                reviewOrderBtn.setVisibility(View.GONE);
+            if (reviewOrderBtn != null) {
+                try {
+                    if (orderManager.canReview(order)) {
+                        reviewOrderBtn.setVisibility(View.VISIBLE);
+                        reviewOrderBtn.setOnClickListener(v -> {
+                            try {
+                                showReviewDialog();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        reviewOrderBtn.setVisibility(View.GONE);
+                    }
+                } catch (Exception e) {
+                    reviewOrderBtn.setVisibility(View.GONE);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // Hide action buttons layout if no buttons are visible
-        if (actionButtonsLayout != null) {
-            boolean hasVisibleButton = false;
-            if (cancelOrderBtn != null && cancelOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
-            if (confirmReceiptBtn != null && confirmReceiptBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
-            if (returnOrderBtn != null && returnOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
-            if (reviewOrderBtn != null && reviewOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+        try {
+            if (actionButtonsLayout != null) {
+                boolean hasVisibleButton = false;
+                if (cancelOrderBtn != null && cancelOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+                if (confirmReceiptBtn != null && confirmReceiptBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+                if (returnOrderBtn != null && returnOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
+                if (reviewOrderBtn != null && reviewOrderBtn.getVisibility() == View.VISIBLE) hasVisibleButton = true;
 
-            actionButtonsLayout.setVisibility(hasVisibleButton ? View.VISIBLE : View.GONE);
+                actionButtonsLayout.setVisibility(hasVisibleButton ? View.VISIBLE : View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

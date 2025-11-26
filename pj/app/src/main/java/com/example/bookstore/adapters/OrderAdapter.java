@@ -33,23 +33,88 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Order order = orders.get(position);
+        try {
+            if (orders == null || position >= orders.size()) return;
 
-        holder.orderIdText.setText("Đơn hàng: #" + order.id);
-        holder.orderDateText.setText("Ngày đặt: " + order.orderDate);
-        holder.orderStatusText.setText(getStatusText(order.status));
-        holder.orderTotalText.setText(String.format("Tổng: %,.0f₫", order.total));
+            Order order = orders.get(position);
+            if (order == null) return;
 
-        // Set status color
-        int statusColor = getStatusColor(holder.itemView, order.status);
-        holder.orderStatusText.setTextColor(statusColor);
+            // Set order ID with null check
+            if (holder.orderIdText != null) {
+                String orderId = order.id != null ? order.id : "N/A";
+                holder.orderIdText.setText("Đơn hàng: #" + orderId);
+            }
 
-        holder.itemView.setOnClickListener(v -> {
-            // Navigate to order detail
-            Bundle bundle = new Bundle();
-            bundle.putInt("orderId", Integer.parseInt(order.id.replace("ORD", "")));
-            Navigation.findNavController(v).navigate(R.id.orderDetailFragment, bundle);
-        });
+            // Set order date with null check
+            if (holder.orderDateText != null) {
+                String orderDate = order.orderDate != null ? order.orderDate : "N/A";
+                holder.orderDateText.setText("Ngày đặt: " + orderDate);
+            }
+
+            // Set status with null check
+            if (holder.orderStatusText != null) {
+                String status = order.status != null ? order.status : "PENDING";
+                holder.orderStatusText.setText(getStatusText(status));
+
+                // Set status color safely
+                try {
+                    int statusColor = getStatusColor(holder.itemView, status);
+                    holder.orderStatusText.setTextColor(statusColor);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Set total with null check
+            if (holder.orderTotalText != null) {
+                double total = order.total > 0 ? order.total : (order.totalAmount > 0 ? order.totalAmount : 0);
+                holder.orderTotalText.setText(String.format("Tổng: %,.0f₫", total));
+            }
+
+            // Set click listener with try-catch
+            if (holder.itemView != null) {
+                holder.itemView.setOnClickListener(v -> {
+                    try {
+                        // Navigate to order detail
+                        Bundle bundle = new Bundle();
+
+                        // Parse orderId safely
+                        int orderId = 0;
+                        if (order.id != null) {
+                            try {
+                                String idStr = order.id.replace("ORD", "").trim();
+                                orderId = Integer.parseInt(idStr);
+                            } catch (NumberFormatException e) {
+                                // If parsing fails, use position as ID
+                                orderId = position + 1;
+                            }
+                        } else {
+                            orderId = position + 1;
+                        }
+
+                        bundle.putInt("orderId", orderId);
+
+                        // Navigate safely
+                        try {
+                            Navigation.findNavController(v).navigate(R.id.orderDetailFragment, bundle);
+                        } catch (Exception navEx) {
+                            navEx.printStackTrace();
+                            // Show toast if navigation fails
+                            android.widget.Toast.makeText(v.getContext(),
+                                "Không thể mở chi tiết đơn hàng",
+                                android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        android.widget.Toast.makeText(v.getContext(),
+                            "Lỗi: " + e.getMessage(),
+                            android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -70,20 +135,31 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     private int getStatusColor(View view, String status) {
-        switch (status) {
-            case "PENDING":
-                return view.getContext().getResources().getColor(android.R.color.holo_orange_dark);
-            case "CONFIRMED":
-                return view.getContext().getResources().getColor(android.R.color.holo_blue_dark);
-            case "SHIPPED":
-                return view.getContext().getResources().getColor(android.R.color.holo_purple);
-            case "DELIVERED":
-                return view.getContext().getResources().getColor(android.R.color.holo_green_dark);
-            case "CANCELLED":
-            case "RETURNED":
-                return view.getContext().getResources().getColor(android.R.color.holo_red_dark);
-            default:
-                return view.getContext().getResources().getColor(android.R.color.black);
+        try {
+            if (view == null || view.getContext() == null || view.getContext().getResources() == null) {
+                return 0xFF000000; // Black as default
+            }
+
+            if (status == null) status = "PENDING";
+
+            switch (status) {
+                case "PENDING":
+                    return view.getContext().getResources().getColor(android.R.color.holo_orange_dark);
+                case "CONFIRMED":
+                    return view.getContext().getResources().getColor(android.R.color.holo_blue_dark);
+                case "SHIPPED":
+                    return view.getContext().getResources().getColor(android.R.color.holo_purple);
+                case "DELIVERED":
+                    return view.getContext().getResources().getColor(android.R.color.holo_green_dark);
+                case "CANCELLED":
+                case "RETURNED":
+                    return view.getContext().getResources().getColor(android.R.color.holo_red_dark);
+                default:
+                    return view.getContext().getResources().getColor(android.R.color.black);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0xFF000000; // Black as fallback
         }
     }
 
