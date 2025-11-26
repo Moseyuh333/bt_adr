@@ -30,7 +30,7 @@ public interface BookDao {
     @Query("SELECT * FROM books ORDER BY id DESC")
     List<Book> getAllBooks();
 
-    @Query("SELECT * FROM books WHERE isActive = 1 AND title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM books WHERE (isActive = 1 AND title LIKE '%' || :query || '%') OR (isActive = 1 AND author LIKE '%' || :query || '%')")
     List<Book> searchBooks(String query);
 
     @Query("SELECT * FROM books WHERE isActive = 1 AND category = :category ORDER BY id DESC")

@@ -122,17 +122,35 @@ public class HomeFragment extends Fragment {
             // Categories RecyclerView
             RecyclerView categoriesRecycler = view.findViewById(R.id.categories_recycler);
             if (categoriesRecycler != null) {
-                categoriesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
-                List<String> categories = Arrays.asList("Fiction", "Fantasy", "Science Fiction", "Romance", "Mystery", "Thriller");
-                categoriesRecycler.setAdapter(new CategoryAdapter(categories, category -> {
-                    try {
-                        Bundle args = new Bundle();
-                        args.putString("category", category);
-                        Navigation.findNavController(view).navigate(R.id.categoryFragment, args);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                // Load categories from database
+                AppDatabase database = AppDatabase.getInstance(requireContext());
+                ExecutorService categoryExecutor = Executors.newSingleThreadExecutor();
+                categoryExecutor.execute(() -> {
+                    List<String> dbCategories = database.bookDao().getAllCategories();
+                    List<String> categories = new ArrayList<>();
+                    if (dbCategories != null && !dbCategories.isEmpty()) {
+                        // Limit to first 6 categories for display
+                        int limit = Math.min(6, dbCategories.size());
+                        categories.addAll(dbCategories.subList(0, limit));
+                    } else {
+                        // Fallback to hardcoded categories if database is empty
+                        categories = Arrays.asList("Fiction", "Fantasy", "Science Fiction", "Romance", "Mystery", "Thriller");
                     }
-                }));
+                    
+                    final List<String> finalCategories = categories;
+                    requireActivity().runOnUiThread(() -> {
+                        categoriesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2, GridLayoutManager.HORIZONTAL, false));
+                        categoriesRecycler.setAdapter(new CategoryAdapter(finalCategories, category -> {
+                            try {
+                                Bundle args = new Bundle();
+                                args.putString("category", category);
+                                Navigation.findNavController(view).navigate(R.id.categoryFragment, args);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }));
+                    });
+                });
             }
 
             // Featured Books
