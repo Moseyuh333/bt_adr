@@ -157,5 +157,56 @@ public class OrderManager {
     public boolean canReview(Order order) {
         return order.status.equals("DELIVERED") && order.review == null;
     }
+
+    /**
+     * Create sample orders for testing - ensures we have data to display
+     */
+    public void createSampleOrdersIfNeeded(Context context) {
+        List<Order> existingOrders = getAllOrders();
+        if (existingOrders.isEmpty()) {
+            // Create 3 sample orders for demo
+            createSampleOrder(1, "PENDING");
+            createSampleOrder(2, "SHIPPED");
+            createSampleOrder(3, "DELIVERED");
+        }
+    }
+
+    private void createSampleOrder(int orderId, String status) {
+        Order order = new Order();
+        order.id = "ORD" + orderId;
+        order.orderDate = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(new java.util.Date());
+        order.status = status;
+        order.customerName = "Khách hàng " + orderId;
+        order.customerPhone = "090000000" + orderId;
+        order.customerEmail = "customer" + orderId + "@example.com";
+        order.deliveryAddress = "123 Nguyễn Huệ, Q1, TP.HCM";
+        order.shippingAddress = order.deliveryAddress;
+        order.paymentMethod = "COD";
+        order.subtotal = 200000;
+        order.tax = 20000;
+        order.discount = 10000;
+        order.shippingFee = 25000;
+        order.total = 235000;
+        order.totalAmount = 235000;
+        order.items = new ArrayList<>();
+        order.voucherCode = "";
+
+        // Add sample item with proper constructor
+        com.example.bookstore.models.Book book = new com.example.bookstore.models.Book(
+            String.valueOf(orderId),
+            "Sách mẫu " + orderId,
+            "Tác giả " + orderId,
+            200000,
+            "https://picsum.photos/seed/book" + orderId + "/300/450",
+            "Mô tả sách mẫu",
+            "Văn học",
+            4.5,
+            10
+        );
+        com.example.bookstore.models.CartItem item = new com.example.bookstore.models.CartItem(book, 1);
+        order.items.add(item);
+
+        saveOrder(order);
+    }
 }
 

@@ -12,6 +12,7 @@ public class BookConverter {
 
     /**
      * Convert a single database Book entity to display Book model
+     * Ensures all fields are properly initialized and never null
      */
     public static Book convertToDisplayBook(com.example.bookstore.database.entities.Book dbBook) {
         if (dbBook == null) return null;
@@ -20,23 +21,23 @@ public class BookConverter {
         double rating = 4.0 + (Math.random() * 1.0); // 4.0 - 5.0
         int reviews = (int)(100 + Math.random() * 900); // 100 - 1000
 
-        // Ensure we have valid data before creating Book object
-        String title = (dbBook.getTitle() != null && !dbBook.getTitle().isEmpty())
-            ? dbBook.getTitle() : "Untitled Book";
-        String author = (dbBook.getAuthor() != null && !dbBook.getAuthor().isEmpty())
-            ? dbBook.getAuthor() : "Unknown Author";
-        String description = (dbBook.getDescription() != null && !dbBook.getDescription().isEmpty())
-            ? dbBook.getDescription() : "No description available";
-        String category = (dbBook.getCategory() != null && !dbBook.getCategory().isEmpty())
-            ? dbBook.getCategory() : "General";
-        String imageUrl = (dbBook.getImageUrl() != null && !dbBook.getImageUrl().isEmpty())
-            ? dbBook.getImageUrl() : "https://picsum.photos/seed/book" + dbBook.getId() + "/200/300";
+        // Ensure we have valid data before creating Book object - STRICT NULL CHECKS
+        String title = (dbBook.getTitle() != null && !dbBook.getTitle().trim().isEmpty())
+            ? dbBook.getTitle().trim() : "Sách " + dbBook.getId();
+        String author = (dbBook.getAuthor() != null && !dbBook.getAuthor().trim().isEmpty())
+            ? dbBook.getAuthor().trim() : "Tác giả";
+        String description = (dbBook.getDescription() != null && !dbBook.getDescription().trim().isEmpty())
+            ? dbBook.getDescription().trim() : "Mô tả sách";
+        String category = (dbBook.getCategory() != null && !dbBook.getCategory().trim().isEmpty())
+            ? dbBook.getCategory().trim() : "Sách";
+        String imageUrl = (dbBook.getImageUrl() != null && !dbBook.getImageUrl().trim().isEmpty())
+            ? dbBook.getImageUrl().trim() : "https://picsum.photos/seed/book" + dbBook.getId() + "/300/450";
 
         Book book = new Book(
             String.valueOf(dbBook.getId()),
             title,
             author,
-            dbBook.getPrice(),
+            dbBook.getPrice() > 0 ? dbBook.getPrice() : 50000,
             imageUrl,
             description,
             category,
@@ -44,15 +45,21 @@ public class BookConverter {
             dbBook.getStock()
         );
 
-        // Initialize all display fields
+        // Initialize all display fields - ensure nothing is null
+        book.id = dbBook.getId();
+        book.title = title; // EXPLICIT: title = tên sách
+        book.author = author;
+        book.category = category; // EXPLICIT: category = danh mục
+        book.description = description;
+        book.coverImage = imageUrl;
         book.rating = rating;
         book.reviews = reviews;
         book.soldCount = (int)(50 + Math.random() * 950); // 50 - 1000
         book.discount = (int)(10 + Math.random() * 20); // 10-30%
-        book.originalPrice = dbBook.getPrice() * (1 + book.discount / 100.0);
+        book.originalPrice = book.price * (1 + book.discount / 100.0);
         book.shopName = "BookStore Official";
-        book.publisher = (dbBook.getPublisher() != null && !dbBook.getPublisher().isEmpty())
-            ? dbBook.getPublisher() : getPublisherByCategory(category);
+        book.publisher = (dbBook.getPublisher() != null && !dbBook.getPublisher().trim().isEmpty())
+            ? dbBook.getPublisher().trim() : getPublisherByCategory(category);
         book.inStock = dbBook.getStock() > 0;
         book.quantity = dbBook.getStock();
 

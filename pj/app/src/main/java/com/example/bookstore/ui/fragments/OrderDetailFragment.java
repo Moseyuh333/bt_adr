@@ -75,29 +75,49 @@ public class OrderDetailFragment extends Fragment {
             }
 
             if (order == null) {
-                // If not found, create a placeholder to prevent crash
+                // If not found, create a safe placeholder to prevent crash
                 order = new Order();
                 order.id = "ORD" + orderId;
-                order.orderDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                order.orderDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
                 order.status = "PENDING";
                 order.customerName = "Khách hàng";
-                order.customerPhone = "Đang cập nhật";
-                order.deliveryAddress = "Đang cập nhật";
+                order.customerPhone = "0900000000";
+                order.customerEmail = "customer@example.com";
+                order.deliveryAddress = "Địa chỉ đang cập nhật";
+                order.shippingAddress = "Địa chỉ đang cập nhật";
                 order.paymentMethod = "COD";
                 order.subtotal = 0;
                 order.tax = 0;
                 order.discount = 0;
-                order.shippingFee = 0;
-                order.total = 0;
+                order.shippingFee = 25000;
+                order.total = 25000;
+                order.totalAmount = 25000;
                 order.items = new ArrayList<>();
+                order.voucherCode = "";
+                order.cancelReason = "";
+                order.returnReason = "";
+                order.review = null;
 
-                Toast.makeText(getContext(), "Không tìm thấy thông tin đơn hàng", Toast.LENGTH_SHORT).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Không tìm thấy thông tin đơn hàng #" + orderId, Toast.LENGTH_SHORT).show();
+                }
             }
 
-            // Ensure items is never null
+            // Ensure ALL nullable fields are initialized to prevent any NPE
             if (order.items == null) {
                 order.items = new ArrayList<>();
             }
+            if (order.customerName == null) order.customerName = "Khách hàng";
+            if (order.customerPhone == null) order.customerPhone = "N/A";
+            if (order.customerEmail == null) order.customerEmail = "N/A";
+            if (order.deliveryAddress == null) order.deliveryAddress = "N/A";
+            if (order.shippingAddress == null) order.shippingAddress = order.deliveryAddress;
+            if (order.paymentMethod == null) order.paymentMethod = "COD";
+            if (order.status == null) order.status = "PENDING";
+            if (order.orderDate == null) order.orderDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+            if (order.voucherCode == null) order.voucherCode = "";
+            if (order.cancelReason == null) order.cancelReason = "";
+            if (order.returnReason == null) order.returnReason = "";
 
             // Initialize views with null checks
             orderIdText = view.findViewById(R.id.order_detail_id);

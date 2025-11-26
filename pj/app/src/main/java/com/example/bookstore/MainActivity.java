@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (success) {
                     Toast.makeText(this, "Database ready!", Toast.LENGTH_SHORT).show();
+                    // Ensure sample orders exist for testing
+                    com.example.bookstore.utils.OrderManager.getInstance(MainActivity.this)
+                        .createSampleOrdersIfNeeded(MainActivity.this);
                 }
             });
         });
