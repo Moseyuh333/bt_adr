@@ -47,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         // Highlight selected category
         if (position == selectedPosition) {
             holder.itemView.setBackgroundResource(R.color.amber_600);
-            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.white));
+            holder.categoryName.setTextColor(holder.itemView.getContext().getResources().getColor(android.R.color.black));
             holder.categoryIcon.setAlpha(1.0f);
         } else {
             holder.itemView.setBackgroundResource(R.color.amber_50);

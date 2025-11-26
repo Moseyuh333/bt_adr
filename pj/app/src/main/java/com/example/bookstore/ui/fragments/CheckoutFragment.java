@@ -306,15 +306,59 @@ public class CheckoutFragment extends Fragment {
 
     private void saveOrder(Order order) {
         try {
-            // Save order using OrderManager
+            // Save to database
+            com.example.bookstore.database.AppDatabase database = com.example.bookstore.database.AppDatabase.getInstance(requireContext());
+            java.util.concurrent.ExecutorService executor = java.util.concurrent.Executors.newSingleThreadExecutor();
+
+            executor.execute(() -> {
+                try {
+                    // Get current user ID from SharedPreferences
+                    int userId = sharedPreferences.getInt("user_id", 1);
+
+                    // Create database order
+                    com.example.bookstore.database.entities.Order dbOrder = new com.example.bookstore.database.entities.Order();
+                    dbOrder.setUserId(userId);
+                    dbOrder.setStatus("PENDING");
+                    dbOrder.setShippingAddress(order.deliveryAddress);
+                    dbOrder.setRecipientName(order.customerName);
+                    dbOrder.setRecipientPhone(order.customerPhone);
+                    dbOrder.setPaymentMethod(order.paymentMethod);
+                    dbOrder.setTotalAmount(order.total);
+                    dbOrder.setCreatedAt(System.currentTimeMillis());
+                    dbOrder.setUpdatedAt(System.currentTimeMillis());
+
+                    // Insert order and get ID
+                    long orderId = database.orderDao().insert(dbOrder);
+
+                    // Insert order items
+                    for (com.example.bookstore.models.CartItem item : order.items) {
+                        com.example.bookstore.database.entities.OrderItem orderItem = new com.example.bookstore.database.entities.OrderItem();
+                        orderItem.setOrderId((int)orderId);
+                        orderItem.setBookId(item.book.id);
+                        orderItem.setBookTitle(item.book.title);
+                        orderItem.setBookAuthor(item.book.author);
+                        orderItem.setBookImageUrl(item.book.coverImage);
+                        orderItem.setPrice(item.book.price);
+                        orderItem.setQuantity(item.quantity);
+                        orderItem.setSubtotal(item.book.price * item.quantity);
+
+                        database.orderItemDao().insert(orderItem);
+
+                        // Update book stock
+                        database.bookDao().decreaseStock(item.book.id, item.quantity);
+                    }
+
+                    // Clear cart in database
+                    database.cartDao().clearCart(userId);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            // Also save using OrderManager for backward compatibility
             com.example.bookstore.utils.OrderManager.getInstance(getContext()).saveOrder(order);
 
-            // Also save to SharedPreferences for backward compatibility
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("last_order_date", order.orderDate);
-            editor.putString("last_order_total", String.valueOf(order.total));
-            editor.putString("last_order_status", order.status);
-            editor.apply();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -372,15 +416,27 @@ public class CheckoutFragment extends Fragment {
                 addressArray[i] = addr.description + ": " + addr.address;
             }
 
-            // Show dialog with address options
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
-            builder.setTitle("Chọn địa chỉ giao hàng");
-            builder.setItems(addressArray, (dialog, which) -> {
+            // Show custom address selection dialog
+            View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_address_selection, null);
+            androidx.appcompat.app.AlertDialog dialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create();
+
+            androidx.recyclerview.widget.RecyclerView addressesRecycler = dialogView.findViewById(R.id.addresses_recycler);
+            Button addNewAddressButton = dialogView.findViewById(R.id.add_new_address_button);
+            Button closeButton = dialogView.findViewById(R.id.close_button);
+
+            // Simple adapter for addresses
+            addressesRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+            // For now, use simple list
+            androidx.appcompat.app.AlertDialog.Builder simpleBuilder = new androidx.appcompat.app.AlertDialog.Builder(requireContext());
+            simpleBuilder.setTitle("📍 Chọn Địa Chỉ Giao Hàng");
+            simpleBuilder.setItems(addressArray, (d, which) -> {
                 addressInput.setText(addresses.get(which).address);
-                Toast.makeText(getContext(), "Địa chỉ đã được chọn", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "✅ Địa chỉ đã được chọn", Toast.LENGTH_SHORT).show();
             });
-            builder.setNegativeButton("Hủy", null);
-            builder.show();
+            simpleBuilder.setNegativeButton("Hủy", null);
+            simpleBuilder.show();
 
         } catch (Exception e) {
             e.printStackTrace();

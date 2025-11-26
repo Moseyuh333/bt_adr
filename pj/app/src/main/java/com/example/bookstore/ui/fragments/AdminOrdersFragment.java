@@ -13,14 +13,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookstore.R;
 import com.example.bookstore.adapters.AdminOrderAdapter;
+import com.example.bookstore.database.AppDatabase;
 import com.example.bookstore.models.Order;
-import com.example.bookstore.utils.DataManager;
 import com.google.android.material.tabs.TabLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminOrdersFragment extends Fragment {
 
-    private DataManager dataManager;
+    private AppDatabase database;
+    private ExecutorService executorService;
     private AdminOrderAdapter adapter;
     private TabLayout tabLayout;
     private String currentStatusFilter = "All";
@@ -30,9 +38,9 @@ public class AdminOrdersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_orders, container, false);
 
-        dataManager = DataManager.getInstance(requireContext());
+        database = AppDatabase.getInstance(requireContext());
+        executorService = Executors.newSingleThreadExecutor();
 
-        // Setup Tabs
         tabLayout = view.findViewById(R.id.order_status_tabs);
         tabLayout.addTab(tabLayout.newTab().setText("Tất cả"));
         tabLayout.addTab(tabLayout.newTab().setText("Chờ xử lý"));
@@ -41,7 +49,6 @@ public class AdminOrdersFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Đã giao"));
         tabLayout.addTab(tabLayout.newTab().setText("Đã hủy"));
 
-        // Setup RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.admin_orders_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -60,7 +67,6 @@ public class AdminOrdersFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         loadOrders("All");
 
-        // Tab change listener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -86,10 +92,63 @@ public class AdminOrdersFragment extends Fragment {
 
     private void loadOrders(String status) {
         currentStatusFilter = status;
-        List<Order> orders = status.equals("All") ?
-            dataManager.getAllOrders() :
-            dataManager.getOrdersByStatus(status);
-        adapter.setOrders(orders);
+        executorService.execute(() -> {
+            List<com.example.bookstore.database.entities.Order> dbOrders;
+
+            if (status.equals("All")) {
+                dbOrders = database.orderDao().getAllOrders();
+            } else {
+                dbOrders = database.orderDao().getOrdersByStatus(mapStatusToDb(status));
+            }
+
+            final List<com.example.bookstore.database.entities.Order> finalOrders = dbOrders;
+            requireActivity().runOnUiThread(() -> {
+                List<Order> orders = convertToOldOrders(finalOrders != null ? finalOrders : new java.util.ArrayList<>());
+                adapter.setOrders(orders);
+            });
+        });
+    }
+
+    private String mapStatusToDb(String displayStatus) {
+        switch (displayStatus) {
+            case "Pending": return "PENDING";
+            case "Processing": return "CONFIRMED";
+            case "Shipped": return "SHIPPING";
+            case "Delivered": return "DELIVERED";
+            case "Cancelled": return "CANCELLED";
+            default: return displayStatus;
+        }
+    }
+
+    private List<Order> convertToOldOrders(List<com.example.bookstore.database.entities.Order> dbOrders) {
+        List<Order> orders = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+        for (com.example.bookstore.database.entities.Order db : dbOrders) {
+            Order order = new Order();
+            order.id = db.getOrderNumber();
+            order.orderDate = sdf.format(new Date(db.getCreatedAt()));
+            order.status = mapDbStatusToDisplay(db.getStatus());
+            order.total = db.getTotalAmount();
+            order.customerName = db.getRecipientName();
+            order.customerPhone = db.getRecipientPhone();
+            order.deliveryAddress = db.getShippingAddress();
+            order.paymentMethod = db.getPaymentMethod();
+            orders.add(order);
+        }
+
+        return orders;
+    }
+
+    private String mapDbStatusToDisplay(String dbStatus) {
+        switch (dbStatus) {
+            case "PENDING": return "Pending";
+            case "CONFIRMED": return "Processing";
+            case "SHIPPING": return "Shipped";
+            case "DELIVERED": return "Delivered";
+            case "CANCELLED": return "Cancelled";
+            default: return dbStatus;
+        }
     }
 
     private void showChangeStatusDialog(Order order) {
@@ -97,29 +156,30 @@ public class AdminOrdersFragment extends Fragment {
         String[] displayStatuses = {"⏳ Chờ xử lý", "📦 Đang xử lý", "🚚 Đang giao", "✅ Đã giao", "❌ Đã hủy"};
 
         new AlertDialog.Builder(requireContext())
-            .setTitle("🔄 Thay Đổi Trạng Thái Đơn: " + order.getId())
+            .setTitle("🔄 Thay Đổi Trạng Thái Đơn: " + order.id)
             .setItems(displayStatuses, (dialog, which) -> {
-                String newStatus = statuses[which];
-                dataManager.updateOrderStatus(order.getId(), newStatus);
-                loadOrders(currentStatusFilter);
-                Toast.makeText(getContext(), "✅ Đã cập nhật trạng thái: " + displayStatuses[which], Toast.LENGTH_SHORT).show();
+                order.status = statuses[which];
+                adapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "✅ Đã cập nhật trạng thái!", Toast.LENGTH_SHORT).show();
             })
             .setNegativeButton("Hủy", null)
             .show();
     }
 
     private void showOrderDetailsDialog(Order order) {
-        String details = "📦 Mã đơn: " + order.getId() + "\n" +
-                        "👤 Khách hàng: " + order.getCustomerName() + "\n" +
-                        "📍 Địa chỉ: " + order.getShippingAddress() + "\n" +
-                        "📅 Ngày đặt: " + order.getOrderDate() + "\n" +
-                        "💰 Tổng tiền: " + String.format("%,.0f₫", order.getTotalAmount()) + "\n" +
-                        "📊 Trạng thái: " + order.getStatus();
+        String details = "📦 Đơn hàng: " + order.id + "\n\n" +
+                "👤 Khách hàng: " + order.customerName + "\n" +
+                "📞 SĐT: " + order.customerPhone + "\n" +
+                "📍 Địa chỉ: " + order.deliveryAddress + "\n" +
+                "💰 Tổng tiền: " + String.format("%,.0f₫", order.total) + "\n" +
+                "💳 Thanh toán: " + order.paymentMethod + "\n" +
+                "📅 Ngày đặt: " + order.orderDate + "\n" +
+                "📊 Trạng thái: " + order.status;
 
         new AlertDialog.Builder(requireContext())
             .setTitle("Chi Tiết Đơn Hàng")
             .setMessage(details)
-            .setPositiveButton("OK", null)
+            .setPositiveButton("Đóng", null)
             .show();
     }
 }

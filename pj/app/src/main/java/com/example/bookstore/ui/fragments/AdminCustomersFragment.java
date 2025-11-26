@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,13 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.bookstore.R;
 import com.example.bookstore.adapters.AdminCustomerAdapter;
+import com.example.bookstore.database.AppDatabase;
 import com.example.bookstore.models.User;
-import com.example.bookstore.utils.DataManager;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminCustomersFragment extends Fragment {
-
-    private DataManager dataManager;
+    private AppDatabase database;
+    private ExecutorService executorService;
     private AdminCustomerAdapter adapter;
     private List<User> allUsers;
 
@@ -28,100 +30,66 @@ public class AdminCustomersFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_admin_customers, container, false);
+        database = AppDatabase.getInstance(requireContext());
+        executorService = Executors.newSingleThreadExecutor();
+        allUsers = new ArrayList<>();
 
-        dataManager = DataManager.getInstance(requireContext());
-        allUsers = dataManager.getAllUsers();
-
-        // Setup RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.admin_customers_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new AdminCustomerAdapter(new AdminCustomerAdapter.OnCustomerActionListener() {
             @Override
             public void onViewProfile(User user) {
-                showUserProfileDialog(user);
+                String profile = "👤 Tên: " + user.name + "\n📧 Email: " + user.email + "\n📱 SĐT: " + (user.phone != null ? user.phone : "Chưa cập nhật");
+                new AlertDialog.Builder(requireContext()).setTitle("Thông Tin Khách Hàng").setMessage(profile).setPositiveButton("OK", null).show();
             }
 
             @Override
             public void onToggleBan(User user) {
-                toggleBanUser(user);
+                executorService.execute(() -> {
+                    int userId = Integer.parseInt(user.address);
+                    database.userDao().updateUserStatus(userId, user.isBanned);
+                    requireActivity().runOnUiThread(() -> {
+                        user.isBanned = !user.isBanned;
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getContext(), "✅ Đã cập nhật!", Toast.LENGTH_SHORT).show();
+                    });
+                });
             }
 
             @Override
             public void onEdit(User user) {
-                showEditUserDialog(user);
+                Toast.makeText(getContext(), "Chức năng đang phát triển", Toast.LENGTH_SHORT).show();
             }
         });
 
         recyclerView.setAdapter(adapter);
-        adapter.setUsers(allUsers);
+
+        executorService.execute(() -> {
+            List<com.example.bookstore.database.entities.User> dbUsers = database.userDao().getAllUsers();
+            List<User> users = new ArrayList<>();
+
+            for (com.example.bookstore.database.entities.User db : dbUsers) {
+                if (!db.isAdmin()) {
+                    User user = new User();
+                    user.name = db.getFullName();
+                    user.email = db.getEmail();
+                    user.phone = db.getPhone();
+                    user.role = "Customer";
+                    user.isBanned = !db.isActive();
+                    user.address = String.valueOf(db.getId());
+                    users.add(user);
+                }
+            }
+
+            requireActivity().runOnUiThread(() -> {
+                allUsers.clear();
+                allUsers.addAll(users);
+                adapter.setUsers(allUsers);
+            });
+        });
 
         return view;
     }
-
-    private void showUserProfileDialog(User user) {
-        String profile = "👤 Tên: " + user.name + "\n" +
-                        "📧 Email: " + user.email + "\n" +
-                        "📱 SĐT: " + (user.phone != null ? user.phone : "Chưa cập nhật") + "\n" +
-                        "📍 Địa chỉ: " + (user.address != null ? user.address : "Chưa cập nhật") + "\n" +
-                        "👑 Vai trò: " + user.role + "\n" +
-                        "📊 Trạng thái: " + (user.isBanned ? "🚫 Đã khóa" : "✅ Hoạt động");
-
-        new AlertDialog.Builder(requireContext())
-            .setTitle("Thông Tin Khách Hàng")
-            .setMessage(profile)
-            .setPositiveButton("OK", null)
-            .show();
-    }
-
-    private void toggleBanUser(User user) {
-        String action = user.isBanned ? "mở khóa" : "khóa";
-        String message = user.isBanned ?
-            "Bạn có chắc muốn mở khóa tài khoản \"" + user.name + "\"?" :
-            "Bạn có chắc muốn khóa tài khoản \"" + user.name + "\"?\n\nNgười dùng sẽ không thể đăng nhập và mua hàng.";
-
-        new AlertDialog.Builder(requireContext())
-            .setTitle((user.isBanned ? "🔓 " : "🚫 ") + "Xác nhận " + action)
-            .setMessage(message)
-            .setPositiveButton(action.toUpperCase(), (dialog, which) -> {
-                dataManager.toggleUserBan(user.id);
-                allUsers = dataManager.getAllUsers();
-                adapter.setUsers(allUsers);
-                Toast.makeText(getContext(), "✅ Đã " + action + " tài khoản: " + user.name, Toast.LENGTH_SHORT).show();
-            })
-            .setNegativeButton("Hủy", null)
-            .show();
-    }
-
-    private void showEditUserDialog(User user) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_customer, null);
-        EditText nameInput = dialogView.findViewById(R.id.input_customer_name);
-        EditText emailInput = dialogView.findViewById(R.id.input_customer_email);
-        EditText phoneInput = dialogView.findViewById(R.id.input_customer_phone);
-        EditText addressInput = dialogView.findViewById(R.id.input_customer_address);
-
-        // Pre-fill current values
-        nameInput.setText(user.name);
-        emailInput.setText(user.email);
-        phoneInput.setText(user.phone != null ? user.phone : "");
-        addressInput.setText(user.address != null ? user.address : "");
-
-        new AlertDialog.Builder(requireContext())
-            .setTitle("✏️ Chỉnh Sửa Khách Hàng")
-            .setView(dialogView)
-            .setPositiveButton("Lưu", (dialog, which) -> {
-                user.name = nameInput.getText().toString().trim();
-                user.email = emailInput.getText().toString().trim();
-                user.phone = phoneInput.getText().toString().trim();
-                user.address = addressInput.getText().toString().trim();
-
-                dataManager.updateUser(user);
-                allUsers = dataManager.getAllUsers();
-                adapter.setUsers(allUsers);
-
-                Toast.makeText(getContext(), "✅ Đã cập nhật thông tin: " + user.name, Toast.LENGTH_SHORT).show();
-            })
-            .setNegativeButton("Hủy", null)
-            .show();
-    }
 }
+

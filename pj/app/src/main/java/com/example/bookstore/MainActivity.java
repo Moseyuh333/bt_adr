@@ -3,11 +3,13 @@ package com.example.bookstore;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import com.example.bookstore.database.DatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences("BookstorePrefs", MODE_PRIVATE);
+
+        // Initialize database
+        DatabaseHelper.initializeDatabase(this, success -> {
+            runOnUiThread(() -> {
+                if (success) {
+                    Toast.makeText(this, "Database ready!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
         try {
             NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);

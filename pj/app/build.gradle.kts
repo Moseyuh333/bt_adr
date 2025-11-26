@@ -62,6 +62,13 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
     testImplementation(libs.junit)
+    // Room Database
+    implementation(libs.room.runtime)
+    annotationProcessor(libs.room.compiler)
+
+    // Security for password encryption
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

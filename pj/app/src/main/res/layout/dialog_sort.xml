@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⚡ Sắp Xếp Theo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
+
+    <RadioGroup
+        android:id="@+id/sort_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/sort_default"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📋 Mặc định"
+            android:textSize="16sp"
+            android:paddingStart="8dp"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/sort_price_asc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="💰 Giá: Thấp đến cao"
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
+
+        <RadioButton
+            android:id="@+id/sort_price_desc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="💎 Giá: Cao đến thấp"
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
+
+        <RadioButton
+            android:id="@+id/sort_name_asc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🔤 Tên: A-Z"
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
+
+        <RadioButton
+            android:id="@+id/sort_name_desc"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🔤 Tên: Z-A"
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
+
+        <RadioButton
+            android:id="@+id/sort_newest"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🆕 Mới nhất"
+            android:textSize="16sp"
+            android:paddingStart="8dp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Hủy"
+            android:textColor="#757575"
+            android:backgroundTint="#E0E0E0"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Áp dụng"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/amber_600"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -15,12 +15,16 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.example.bookstore.MainActivity;
 import com.example.bookstore.R;
-import com.example.bookstore.utils.DataManager;
+import com.example.bookstore.database.AppDatabase;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdminDashboardFragment extends Fragment {
 
     private SharedPreferences sharedPreferences;
-    private DataManager dataManager;
+    private AppDatabase database;
+    private ExecutorService executorService;
 
     @Nullable
     @Override
@@ -28,28 +32,31 @@ public class AdminDashboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_admin_dashboard, container, false);
 
         sharedPreferences = requireActivity().getSharedPreferences("BookstorePrefs", requireContext().MODE_PRIVATE);
-        dataManager = DataManager.getInstance(requireContext());
+        database = AppDatabase.getInstance(requireContext());
+        executorService = Executors.newSingleThreadExecutor();
 
-        // Thống kê (thực tế từ DataManager)
+        // Thống kê từ database thật
         TextView totalOrdersText = view.findViewById(R.id.total_orders_text);
         TextView totalUsersText = view.findViewById(R.id.total_users_text);
         TextView totalProductsText = view.findViewById(R.id.total_products_text);
         TextView totalRevenueText = view.findViewById(R.id.total_revenue_text);
 
-        if (totalOrdersText != null) totalOrdersText.setText(String.valueOf(dataManager.getAllOrders().size()));
-        if (totalUsersText != null) totalUsersText.setText(String.valueOf(dataManager.getAllUsers().size()));
-        if (totalProductsText != null) totalProductsText.setText(String.valueOf(dataManager.getAllBooks().size()));
+        executorService.execute(() -> {
+            int totalOrders = database.orderDao().getTotalOrderCount();
+            int totalUsers = database.userDao().getAllUsers().size();
+            int totalProducts = database.bookDao().getAllBooks().size();
+            Double revenue = database.orderDao().getTotalRevenue();
+            double totalRevenue = revenue != null ? revenue : 0.0;
 
-        // Tính tổng doanh thu
-        double totalRevenue = 0;
-        for (var order : dataManager.getAllOrders()) {
-            if (!order.getStatus().equals("Cancelled")) {
-                totalRevenue += order.getTotalAmount();
-            }
-        }
-        if (totalRevenueText != null) {
-            totalRevenueText.setText(String.format("%.1fM₫", totalRevenue / 1000000));
-        }
+            requireActivity().runOnUiThread(() -> {
+                if (totalOrdersText != null) totalOrdersText.setText(String.valueOf(totalOrders));
+                if (totalUsersText != null) totalUsersText.setText(String.valueOf(totalUsers));
+                if (totalProductsText != null) totalProductsText.setText(String.valueOf(totalProducts));
+                if (totalRevenueText != null) {
+                    totalRevenueText.setText(String.format("%.1fM₫", totalRevenue / 1000000));
+                }
+            });
+        });
 
         // Card quản lý sản phẩm
         View manageProductsCard = view.findViewById(R.id.manage_products_card);
