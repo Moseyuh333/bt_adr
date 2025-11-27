@@ -599,11 +599,11 @@ pj/
 
 #### Admin
 - **Username**: `admin`
-- **Password**: `admin123`
+- **Password**: `admin`
 
 #### Khách hàng mẫu
-- **Username**: `customer1`
-- **Password**: `pass123`
+- **Username**: `demo@bookstore.com`
+- **Password**: `demo123`
 
 ---
 
