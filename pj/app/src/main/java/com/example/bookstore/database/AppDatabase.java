@@ -20,7 +20,7 @@ import com.example.bookstore.database.entities.OrderItem;
 import com.example.bookstore.database.entities.User;
 
 @Database(entities = {User.class, Book.class, Address.class, Order.class, OrderItem.class, Cart.class},
-          version = 2,
+          version = 3,
           exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 

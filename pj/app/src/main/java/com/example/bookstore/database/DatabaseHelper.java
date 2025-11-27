@@ -232,16 +232,144 @@ public class DatabaseHelper {
         book.setPrice(price > 0 ? price : 50000);
         // Ensure description is never null
         book.setDescription(description != null && !description.trim().isEmpty() ? description.trim() : "Mô tả sách");
+
+        // Tạo mô tả dài chi tiết hơn
+        String longDesc = generateLongDescription(title, author, description, category);
+        book.setLongDescription(longDesc);
+
         // Ensure category is never null or empty
         book.setCategory(category != null && !category.trim().isEmpty() ? category.trim() : "Khác");
         book.setLanguage("Tiếng Việt");
         book.setStock((int)(Math.random() * 100) + 10);
         book.setPages(200 + (int)(Math.random() * 400));
-        book.setImageUrl("https://picsum.photos/seed/" + title.replace(" ", "").replace("–", "").replace("á", "a") + id + "/300/450");
+
+        // Tạo nhiều ảnh cho mỗi cuốn sách (2-4 ảnh)
+        String baseUrl = "https://picsum.photos/seed/" + title.replace(" ", "").replace("–", "").replace("á", "a") + id;
+        book.setImageUrl(baseUrl + "/300/450");
+
+        // Tạo danh sách 2-4 URLs ảnh
+        int numImages = 2 + (int)(Math.random() * 3); // 2-4 ảnh
+        StringBuilder imageUrls = new StringBuilder();
+        for (int i = 1; i <= numImages; i++) {
+            if (i > 1) imageUrls.append(",");
+            imageUrls.append(baseUrl).append("v").append(i).append("/300/450");
+        }
+        book.setImageUrls(imageUrls.toString());
+
         book.setPublisher("NXB Trẻ");
         book.setPublishYear("2024");
         book.setActive(true);
         return book;
+    }
+
+    // Tạo mô tả dài chi tiết hơn
+    private static String generateLongDescription(String title, String author, String shortDesc, String category) {
+        StringBuilder longDesc = new StringBuilder();
+
+        // Phần giới thiệu
+        longDesc.append("📖 GIỚI THIỆU SÁCH\n\n");
+        longDesc.append(shortDesc).append("\n\n");
+
+        // Nội dung chi tiết theo từng thể loại
+        longDesc.append("📚 NỘI DUNG CHI TIẾT\n\n");
+
+        switch (category) {
+            case "Văn học":
+                longDesc.append("Tác phẩm \"").append(title).append("\" của tác giả ").append(author)
+                    .append(" là một trong những kiệt tác văn học Việt Nam, đã để lại dấu ấn sâu đậm trong lòng độc giả qua nhiều thế hệ. ")
+                    .append("Với ngòi bút tinh tế và sắc sảo, tác giả đã khắc họa sinh động những con người, những số phận, ")
+                    .append("phản ánh chân thực những mâu thuẫn xã hội và tâm tư tình cảm con người. ")
+                    .append("Tác phẩm không chỉ có giá trị nghệ thuật cao mà còn mang ý nghĩa nhân văn sâu sắc, ")
+                    .append("giúp người đọc suy ngẫm về cuộc sống, về con người và xã hội.\n\n");
+                break;
+            case "Kỹ năng":
+                longDesc.append("\"").append(title).append("\" của ").append(author)
+                    .append(" là cuốn sách self-help được đánh giá cao, giúp người đọc phát triển kỹ năng sống và tư duy tích cực. ")
+                    .append("Cuốn sách cung cấp những phương pháp thực tiễn, dễ áp dụng vào cuộc sống hàng ngày. ")
+                    .append("Qua từng trang sách, bạn sẽ học được cách quản lý thời gian hiệu quả, ")
+                    .append("xây dựng mối quan hệ tốt đẹp, vượt qua khó khăn và đạt được thành công trong sự nghiệp. ")
+                    .append("Đây là cuốn sách không thể thiếu cho những ai muốn hoàn thiện bản thân và đạt được mục tiêu cuộc sống.\n\n");
+                break;
+            case "Thiếu nhi":
+                longDesc.append("Cuốn sách \"").append(title).append("\" là một tác phẩm thiếu nhi tuyệt vời, ")
+                    .append("mang đến cho các em nhỏ những giây phút giải trí bổ ích và ý nghĩa. ")
+                    .append("Với ngôn ngữ giản dị, gần gũi, câu chuyện dễ hiểu và hấp dẫn, ")
+                    .append("cuốn sách không chỉ giúp trẻ em phát triển trí tưởng tượng, óc sáng tạo ")
+                    .append("mà còn rèn luyện kỹ năng đọc hiểu, tư duy logic. ")
+                    .append("Các bài học đạo đức, tình bạn, lòng dũng cảm được khéo léo lồng ghép vào câu chuyện, ")
+                    .append("giúp trẻ em học hỏi và trưởng thành qua mỗi trang sách.\n\n");
+                break;
+            case "Kinh tế":
+                longDesc.append("\"").append(title).append("\" là tác phẩm kinh tế - kinh doanh nổi tiếng của ").append(author).append(", ")
+                    .append("cung cấp kiến thức chuyên sâu về quản trị, tài chính, marketing và khởi nghiệp. ")
+                    .append("Cuốn sách phân tích chi tiết các chiến lược kinh doanh thành công, ")
+                    .append("các mô hình kinh doanh hiện đại và xu hướng thị trường toàn cầu. ")
+                    .append("Với nhiều case study thực tế từ các doanh nghiệp lớn, ")
+                    .append("cuốn sách giúp người đọc hiểu rõ bản chất kinh doanh, ")
+                    .append("đưa ra những quyết định đúng đắn và đạt được thành công bền vững.\n\n");
+                break;
+            case "Tâm lý":
+                longDesc.append("Cuốn sách \"").append(title).append("\" của ").append(author)
+                    .append(" là một tác phẩm tâm lý học sâu sắc, giúp người đọc hiểu rõ hơn về bản thân và người khác. ")
+                    .append("Tác giả phân tích tâm lý con người một cách khoa học nhưng dễ hiểu, ")
+                    .append("giúp bạn nhận ra những rào cản tâm lý, vượt qua stress, lo âu ")
+                    .append("và xây dựng lối sống tích cực, hạnh phúc. ")
+                    .append("Cuốn sách cung cấp nhiều bài tập thực hành, kỹ thuật tự điều chỉnh tâm lý, ")
+                    .append("giúp bạn kiểm soát cảm xúc và sống một cuộc đời ý nghĩa hơn.\n\n");
+                break;
+            case "Lịch sử":
+                longDesc.append("\"").append(title).append("\" là một công trình nghiên cứu lịch sử công phu, ")
+                    .append("tái hiện sinh động các sự kiện lịch sử quan trọng của dân tộc. ")
+                    .append("Với phong cách viết hấp dẫn, dựa trên tư liệu lịch sử chính xác, ")
+                    .append("cuốn sách giúp người đọc hiểu sâu sắc về quá khứ, ")
+                    .append("về những anh hùng dân tộc, những cuộc chiến tranh bảo vệ Tổ quốc. ")
+                    .append("Đây là cuốn sách quý giá cho những ai yêu thích lịch sử, ")
+                    .append("muốn tìm hiểu về nguồn gốc, truyền thống và văn hóa Việt Nam.\n\n");
+                break;
+            case "Khoa học":
+                longDesc.append("Tác phẩm \"").append(title).append("\" của ").append(author)
+                    .append(" là một cuốn sách khoa học phổ thông xuất sắc, ")
+                    .append("giúp người đọc khám phá những bí ẩn của vũ trụ, tự nhiên và con người. ")
+                    .append("Với cách trình bày dễ hiểu, sinh động, đi kèm nhiều hình ảnh minh họa, ")
+                    .append("cuốn sách làm sáng tỏ những hiện tượng khoa học phức tạp, ")
+                    .append("kích thích trí tò mò và niềm đam mê khám phá. ")
+                    .append("Đây là tài liệu tham khảo tuyệt vời cho học sinh, sinh viên ")
+                    .append("cũng như những người yêu thích khoa học.\n\n");
+                break;
+            case "Công nghệ":
+                longDesc.append("\"").append(title).append("\" là cuốn sách công nghệ thiết thực, ")
+                    .append("hướng dẫn chi tiết các kiến thức lập trình, công nghệ thông tin hiện đại. ")
+                    .append("Với lối viết rõ ràng, các ví dụ code cụ thể, bài tập thực hành phong phú, ")
+                    .append("cuốn sách giúp người đọc nắm vững kiến thức từ cơ bản đến nâng cao. ")
+                    .append("Đây là tài liệu học tập không thể thiếu cho lập trình viên, ")
+                    .append("sinh viên công nghệ thông tin và những ai đam mê công nghệ.\n\n");
+                break;
+            default:
+                longDesc.append("Cuốn sách \"").append(title).append("\" của ").append(author)
+                    .append(" là một tác phẩm đáng đọc, mang lại nhiều kiến thức bổ ích và giá trị cho người đọc. ")
+                    .append("Với nội dung phong phú, cách trình bày hấp dẫn, cuốn sách sẽ là người bạn đồng hành tuyệt vời, ")
+                    .append("giúp bạn mở rộng tầm hiểu biết và trải nghiệm những điều thú vị mới mẻ.\n\n");
+        }
+
+        // Thêm phần đặc điểm nổi bật
+        longDesc.append("✨ ĐẶC ĐIỂM NỔI BẬT\n\n");
+        longDesc.append("• Nội dung chất lượng, được biên soạn công phu\n");
+        longDesc.append("• Ngôn ngữ dễ hiểu, phù hợp với nhiều độc giả\n");
+        longDesc.append("• Bìa đẹp, in ấn chất lượng cao\n");
+        longDesc.append("• Giấy in đạt chuẩn, bảo vệ thị lực\n");
+        longDesc.append("• Giá cả hợp lý, đáng đồng tiền bát gạo\n\n");
+
+        // Thêm thông tin khuyến mại
+        longDesc.append("🎁 ƯU ĐÃI ĐẶC BIỆT\n\n");
+        longDesc.append("• Giao hàng toàn quốc - Thanh toán khi nhận hàng\n");
+        longDesc.append("• Kiểm tra hàng trước khi thanh toán\n");
+        longDesc.append("• Đổi trả trong 7 ngày nếu có lỗi từ nhà xuất bản\n");
+        longDesc.append("• Tặng kèm bookmark độc quyền (nếu còn)\n");
+        longDesc.append("• Giảm giá cho đơn hàng từ 2 cuốn trở lên\n\n");
+
+        longDesc.append("Hãy đặt mua ngay hôm nay để không bỏ lỡ cơ hội sở hữu cuốn sách tuyệt vời này!");
+
+        return longDesc.toString();
     }
 
     private static void importBooksFromCSVOld(Context context, AppDatabase db) {

@@ -15,6 +15,8 @@ public class Book {
     private String category;
     private String language;
     private String description;
+    private String longDescription; // Mô tả dài chi tiết
+    private String imageUrls; // Danh sách URLs ảnh, cách nhau bởi dấu ","
     private double price;
     private int stock;
     private String imageUrl;
@@ -69,5 +71,11 @@ public class Book {
 
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
+
+    public String getLongDescription() { return longDescription; }
+    public void setLongDescription(String longDescription) { this.longDescription = longDescription; }
+
+    public String getImageUrls() { return imageUrls; }
+    public void setImageUrls(String imageUrls) { this.imageUrls = imageUrls; }
 }
 

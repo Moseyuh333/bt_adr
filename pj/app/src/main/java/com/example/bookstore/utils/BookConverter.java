@@ -63,6 +63,12 @@ public class BookConverter {
         book.inStock = dbBook.getStock() > 0;
         book.quantity = dbBook.getStock();
 
+        // Set longDescription and imageUrls if available
+        book.longDescription = (dbBook.getLongDescription() != null && !dbBook.getLongDescription().trim().isEmpty())
+            ? dbBook.getLongDescription().trim() : description;
+        book.imageUrls = (dbBook.getImageUrls() != null && !dbBook.getImageUrls().trim().isEmpty())
+            ? dbBook.getImageUrls().trim() : imageUrl;
+
         return book;
     }
 

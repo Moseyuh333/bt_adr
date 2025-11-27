@@ -16,15 +16,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Book Image -->
-            <ImageView
-                android:id="@+id/detail_book_image"
-                android:layout_width="200dp"
-                android:layout_height="300dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="Book Cover" />
+            <!-- Book Images ViewPager -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginBottom="16dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/detail_book_images_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!-- Indicator -->
+                <LinearLayout
+                    android:id="@+id/image_indicator_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:background="#88000000"
+                    android:gravity="center" />
+
+            </FrameLayout>
 
             <!-- Book Title -->
             <TextView
@@ -183,10 +198,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="16sp"
+                android:text="📝 MÔ TẢ SÁCH"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:textColor="#212121"
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:id="@+id/detail_book_description"
@@ -196,7 +212,8 @@
                 android:textSize="14sp"
                 android:textColor="#424242"
                 android:layout_marginBottom="16dp"
-                android:lineSpacingExtra="4dp" />
+                android:lineSpacingExtra="6dp"
+                android:lineSpacingMultiplier="1.2" />
 
             <!-- Stock Availability -->
             <LinearLayout

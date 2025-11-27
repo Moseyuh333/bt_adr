@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,10 +18,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.bookstore.R;
 import com.example.bookstore.adapters.BookAdapter;
+import com.example.bookstore.adapters.BookImageAdapter;
 import com.example.bookstore.adapters.ReviewAdapter;
 import com.example.bookstore.models.Book;
 import com.example.bookstore.models.Cart;
@@ -39,7 +42,8 @@ public class BookDetailFragment extends Fragment {
     private TextView quantityText, stockStatusText;
     private TextView priceText, ratingText, reviewsText, descriptionText, authorText, categoryText;
     private TextView shopNameText, soldCountText, originalPriceText, discountBadgeText;
-    private ImageView bookImage;
+    private ViewPager2 bookImagesPager;
+    private LinearLayout imageIndicatorLayout;
     private RatingBar ratingBar;
     private Button addToCartBtn, decreaseBtn, increaseBtn, buyNowBtn, favoriteBtn;
     private RecyclerView reviewsRecycler, relatedBooksRecycler;
@@ -77,7 +81,8 @@ public class BookDetailFragment extends Fragment {
             recentlyViewedManager.addRecentlyViewed(book);
 
             // Initialize views
-            bookImage = view.findViewById(R.id.detail_book_image);
+            bookImagesPager = view.findViewById(R.id.detail_book_images_pager);
+            imageIndicatorLayout = view.findViewById(R.id.image_indicator_layout);
             TextView titleText = view.findViewById(R.id.detail_book_title);
             authorText = view.findViewById(R.id.detail_book_author);
             priceText = view.findViewById(R.id.detail_book_price);
@@ -165,7 +170,11 @@ public class BookDetailFragment extends Fragment {
             }
 
             if (descriptionText != null) {
-                descriptionText.setText(book.description != null ? book.description : "Mô tả sách");
+                // Hiển thị longDescription nếu có, nếu không thì dùng description thông thường
+                String desc = (book.longDescription != null && !book.longDescription.isEmpty())
+                    ? book.longDescription
+                    : (book.description != null ? book.description : "Mô tả sách");
+                descriptionText.setText(desc);
             }
             if (categoryText != null) {
                 categoryText.setText("Thể loại: " + (book.category != null ? book.category : "Khác"));
@@ -174,23 +183,8 @@ public class BookDetailFragment extends Fragment {
             // Update stock status
             updateStockStatus();
 
-            // Load image with null check
-            if (bookImage != null) {
-                if (book.coverImage != null && !book.coverImage.isEmpty()) {
-                    try {
-                        Glide.with(this)
-                            .load(book.coverImage)
-                            .placeholder(R.drawable.book_placeholder)
-                            .error(R.drawable.book_placeholder)
-                            .centerCrop()
-                            .into(bookImage);
-                    } catch (Exception e) {
-                        bookImage.setImageResource(R.drawable.book_placeholder);
-                    }
-                } else {
-                    bookImage.setImageResource(R.drawable.book_placeholder);
-                }
-            }
+            // Setup images ViewPager2
+            setupImagesPager();
 
             // Set default quantity
             currentQuantity = 1;
@@ -625,5 +619,101 @@ public class BookDetailFragment extends Fragment {
             e.printStackTrace();
         }
     }
-}
 
+    private void setupImagesPager() {
+        try {
+            if (bookImagesPager == null || book == null) return;
+
+            List<String> imageUrls = new ArrayList<>();
+
+            // Lấy danh sách URLs từ imageUrls field (cách nhau bởi dấu phẩy)
+            if (book.imageUrls != null && !book.imageUrls.isEmpty()) {
+                String[] urls = book.imageUrls.split(",");
+                for (String url : urls) {
+                    if (url != null && !url.trim().isEmpty()) {
+                        imageUrls.add(url.trim());
+                    }
+                }
+            }
+
+            // Nếu không có imageUrls hoặc rỗng, dùng coverImage
+            if (imageUrls.isEmpty() && book.coverImage != null && !book.coverImage.isEmpty()) {
+                imageUrls.add(book.coverImage);
+            }
+
+            // Nếu vẫn không có ảnh, dùng placeholder
+            if (imageUrls.isEmpty()) {
+                imageUrls.add("placeholder");
+            }
+
+            // Setup ViewPager2 với adapter
+            BookImageAdapter adapter = new BookImageAdapter(imageUrls);
+            bookImagesPager.setAdapter(adapter);
+
+            // Setup indicator dots
+            setupImageIndicators(imageUrls.size());
+
+            // Update indicator khi slide ảnh
+            bookImagesPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    updateImageIndicator(position);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupImageIndicators(int count) {
+        try {
+            if (imageIndicatorLayout == null || count <= 1) {
+                if (imageIndicatorLayout != null) {
+                    imageIndicatorLayout.setVisibility(View.GONE);
+                }
+                return;
+            }
+
+            imageIndicatorLayout.removeAllViews();
+            imageIndicatorLayout.setVisibility(View.VISIBLE);
+
+            // Tạo dots cho mỗi ảnh
+            for (int i = 0; i < count; i++) {
+                View dot = new View(getContext());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    dpToPx(8), dpToPx(8)
+                );
+                params.setMargins(dpToPx(4), 0, dpToPx(4), 0);
+                dot.setLayoutParams(params);
+                dot.setBackgroundResource(R.drawable.indicator_dot);
+                dot.setAlpha(i == 0 ? 1.0f : 0.5f);
+                dot.setTag(i);
+                imageIndicatorLayout.addView(dot);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateImageIndicator(int position) {
+        try {
+            if (imageIndicatorLayout == null) return;
+
+            for (int i = 0; i < imageIndicatorLayout.getChildCount(); i++) {
+                View dot = imageIndicatorLayout.getChildAt(i);
+                if (dot != null) {
+                    dot.setAlpha(i == position ? 1.0f : 0.5f);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+}

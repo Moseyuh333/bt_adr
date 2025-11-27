@@ -24,6 +24,8 @@ public class Book implements Serializable {
     public String url; // URL sản phẩm
     public String highlights; // Điểm nổi bật
     public String specifications; // Thông số kỹ thuật
+    public String longDescription; // Mô tả dài chi tiết
+    public String imageUrls; // Danh sách URLs ảnh, cách nhau bởi dấu ","
 
     // Constructor cho admin (với String id)
     public Book(String id, String title, String author, double price, String coverImage, String description, String category, double rating, int stock) {
@@ -106,4 +108,6 @@ public class Book implements Serializable {
     public String getUrl() { return url; }
     public String getHighlights() { return highlights; }
     public String getSpecifications() { return specifications; }
+    public String getLongDescription() { return longDescription; }
+    public String getImageUrls() { return imageUrls; }
 }
